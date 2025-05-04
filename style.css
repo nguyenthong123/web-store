@@ -92,7 +92,7 @@ button {
     margin-left: 250px; /* Space for fixed sidebar */
     flex-grow: 1; /* Take remaining space */
     padding: 20px;
-    padding-right: 350px; /* Space for fixed cart */
+    padding-right: 350px; /* Tăng padding để chừa chỗ cho cart (320px + 30px spacing) */
 }
 
 /* Header */
@@ -395,27 +395,20 @@ button {
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
     position: fixed;
     top: 0;
-    right: 0; /* Initially visible on desktop */
+    right: 0; /* <-- Đã sửa thành 0 */
     height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease-in-out; /* Animation for mobile */
-    padding-bottom: 200px; /* Đủ space cho cart summary */
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
 }
 
-/* Cart Sidebar cơ bản */
-.cart-sidebar {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    right: 0;
-    padding: 15px;
+/* Thêm class để hiện cart khi click vào icon giỏ hàng */
+.cart-sidebar.visible {
+    transform: translateX(-320px); /* Di chuyển cart vào màn hình */
 }
+
+
 
 .cart-header {
     display: flex;
@@ -627,35 +620,11 @@ button {
     }
     .main-content {
         margin-left: 220px;
-        padding-right: 300px; /* Adjust for smaller cart */
+        padding-right: 300px; /* Phù hợp với cart width 300px ở breakpoint này */
     }
     .cart-sidebar {
         width: 300px;
     }
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 items per row on medium screens? Let's stick to 3 as requested */
-        /* grid-template-columns: repeat(3, 1fr); */ /* Keep 3 as per requirement */
-    }
-     .featured-sections {
-        flex-direction: column; /* Stack featured cards on medium screens */
-        align-items: center;
-     }
-     .best-offers-card, .flash-sale-card {
-         width: 80%; /* Make them take more width */
-         min-width: unset; /* Remove min-width constraint */
-     }
-     .flash-sale-card {
-         flex-direction: row-reverse; /* Image on the left */
-     }
-      .flash-sale-card .flash-sale-img {
-          position: static; /* Remove absolute positioning */
-          height: auto; /* Adjust height */
-          width: 40%; /* Make image smaller */
-          margin-left: 15px;
-      }
-       .flash-sale-card .card-content {
-           flex-basis: 60%; /* Give content space */
-       }
 }
 
 @media (max-width: 768px) {
@@ -726,7 +695,7 @@ button {
     .main-content {
         margin-left: 0; /* No fixed sidebar space needed */
         padding: 15px; /* Adjust padding */
-        padding-right: 15px; /* Remove space for cart */
+        padding-right: 15px; /* Reset padding trên mobile vì cart sẽ fullscreen */
     }
 
     .header {
