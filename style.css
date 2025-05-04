@@ -774,7 +774,7 @@ button {
         padding: 20px; /* Adjust padding */
         z-index: 100; /* Ensure it's on top of other content */
         box-shadow: none; /* Remove box shadow */
-        padding-bottom: 180px; /* Đủ space cho cart summary */
+        padding-bottom: 0; /* Bỏ padding-bottom */
     }
 
     .cart-sidebar.visible {
@@ -796,6 +796,30 @@ button {
          display: none; /* Already handled above, but good to double check */
      }
 
+    .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 150px; /* Thêm padding để tránh nội dung bị che khuất */
+    }
+
+    .cart-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Tăng z-index để đảm bảo hiển thị trên cùng */
+        border-top: 1px solid #eee;
+    }
+
+    .checkout-btn {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
     .cart-summary {
         position: fixed;
         bottom: 0;
@@ -807,21 +831,45 @@ button {
         z-index: 101; /* Đảm bảo hiển thị trên cùng */
     }
 
-    /* Điều chỉnh padding cho màn hình nhỏ hơn */
-    @media (max-width: 480px) {
-        .cart-sidebar {
-            padding: 15px;
-            padding-bottom: 160px;
-        }
+    /* Điều chỉnh cart sidebar cho mobile */
+    .cart-sidebar {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        padding-bottom: 120px; /* Giảm padding bottom */
+    }
 
-        .cart-summary {
-            padding: 12px 15px;
-        }
-        
-        .cart-items {
-            padding-right: 10px;
-            padding-bottom: 180px;
-        }
+    .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 10px;
+        padding-bottom: 100px; /* Giảm padding để không bị che khuất */
+    }
+
+    .cart-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: white;
+        padding: 15px 20px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1001; /* Tăng z-index cao hơn */
+    }
+
+    .summary-row {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 0;
     }
 }
 
@@ -965,8 +1013,33 @@ button {
          font-size: 1.1em;
      }
 
+    .cart-items {
+        padding-bottom: 120px; /* Giảm padding cho màn hình nhỏ hơn */
+    }
+
+    .cart-summary {
+        padding: 12px;
+    }
+
+    .summary-row {
+        margin-bottom: 8px;
+    }
+
     .cart-summary {
         padding: 10px;
+    }
+
+    .cart-sidebar {
+        padding: 15px;
+        padding-bottom: 100px;
+    }
+
+    .cart-items {
+        padding-bottom: 80px;
+    }
+
+    .cart-summary {
+        padding: 12px 15px;
     }
 }
 
