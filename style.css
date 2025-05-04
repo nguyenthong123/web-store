@@ -395,6 +395,7 @@ button {
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease-in-out; /* Animation for mobile */
+    padding-bottom: 200px; /* Đủ space cho cart summary */
 }
 
 .cart-header {
@@ -425,6 +426,7 @@ button {
     overflow-y: auto; /* Enable scrolling for items */
     padding-right: 10px; /* Add padding for scrollbar space */
     margin-bottom: 20px;
+    padding-bottom: 200px; /* Thêm padding bottom để tránh bị che khuất */
 }
 
 /* Style for scrollbar */
@@ -767,6 +769,7 @@ button {
         padding: 15px; /* Adjust padding */
         z-index: 100; /* Ensure it's on top of other content */
         box-shadow: none; /* Remove box shadow */
+        padding-bottom: 200px; /* Đủ space cho cart summary */
     }
 
     .cart-sidebar.visible {
@@ -787,6 +790,17 @@ button {
      .sidebar-nav li .open-cart-mobile {
          display: none; /* Already handled above, but good to double check */
      }
+
+    .cart-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 101; /* Đảm bảo hiển thị trên cùng */
+    }
 }
 
 @media (max-width: 480px) {
@@ -886,6 +900,7 @@ button {
 
     .cart-sidebar {
         padding: 10px;
+        padding-bottom: 180px; /* Điều chỉnh padding nhỏ hơn cho màn hình nhỏ */
     }
     .cart-header h3 {
         font-size: 1.3em;
@@ -927,6 +942,10 @@ button {
          padding: 12px;
          font-size: 1.1em;
      }
+
+    .cart-summary {
+        padding: 10px;
+    }
 }
 
 /* Style for hiding mobile-only elements on desktop */
