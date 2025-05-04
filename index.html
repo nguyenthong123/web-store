@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DunVex & VLXD</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Using Remixicon for icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            DUNVEX & VLXD
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active"><a href="#"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="#"><i class="ri-user-line"></i> Profile</a></li>
+                <li><a href="#"><i class="ri-settings-5-line"></i> Settings</a></li>
+                <li><a href="#"><i class="ri-message-3-line"></i> Message</a></li>
+                <li><a href="#" class="open-cart-mobile"><i class="ri-shopping-bag-3-line"></i> My Cart</a></li>
+                <li><a href="#" class="logout"><i class="ri-logout-box-line"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="greeting">
+                <h2>Hi, customer!</h2>
+                <p>👋 Welcome Back</p>
+            </div>
+            <div class="search-bar">
+                <i class="ri-search-line"></i>
+                <input type="text" placeholder="Search destination">
+            </div>
+            <div class="header-icons">
+                <div class="notification" id="notification-icon">
+                    <i class="ri-notification-line"></i>
+                    <span class="notification-badge" id="cart-notification-badge">0</span>
+                </div>
+                <div class="user-avatar">
+                    <img src="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3" alt="User Avatar">
+                </div>
+            </div>
+        </header>
+
+        <section class="featured-sections">
+            <div class="best-offers-card">
+                <div class="card-content">
+                    <span class="tag">BEST OFFERS</span>
+                    <h3>Tote Bag Collection</h3>
+                    <p>Join and discover the best product according to your passion</p>
+                    <button class="btn primary-btn">See More</button>
+                </div>
+            </div>
+            <div class="flash-sale-card">
+                 <img src="https://via.placeholder.com/200x300/e0e0e0?text=Flash+Sale+Img" alt="Flash Sale" class="flash-sale-img">
+                 <div class="card-content">
+                    <span class="tag">Flash Sale ✨</span>
+                    <h2>75% OFF</h2>
+                    <button class="btn secondary-btn">Buy Now!</button>
+                 </div>
+            </div>
+        </section>
+
+        <section class="popular-collection">
+            <div class="section-header">
+                <h2>SẢN PHẨM THÔNG DỤNG</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="product-grid" id="popular-products-grid">
+                <!-- Product cards will be loaded here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <i class="ri-arrow-left-line close-cart" id="close-cart-button"></i>
+            <h3>My Cart</h3>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Cart items will be loaded here by JavaScript -->
+            <div class="empty-cart-message">Your cart is empty.</div>
+        </div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Sub Total</span>
+                <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span class="shipping">FREE</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn checkout-btn">Checkout</button>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+</html>
