@@ -16,7 +16,7 @@ body {
     width: 100%;
     max-width: 1200px; /* Consistent max-width */
     margin: 0 auto;
-    padding: 0 15px; /* Consistent padding */
+    padding: 0 20px; /* Consistent padding */
 }
 
 /* --- Header Top --- */
@@ -25,6 +25,7 @@ body {
     color: white;
     padding: 10px 0;
     font-size: 0.9em;
+    display: none; /* Hidden on mobile */
 }
 
 .header-top .container {
@@ -819,6 +820,126 @@ footer {
     text-align: center;
 }
 
+.main-footer {
+    background-color: #f8f9fa;
+    padding: 60px 0 0;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.footer-section {
+    margin-bottom: 30px;
+}
+
+.footer-logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+.company-slogan {
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #4CAF50;
+}
+
+.contact-info .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.contact-info .contact-item i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    color: #666;
+    font-size: 1.5em;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #4CAF50;
+}
+
+.footer-bottom {
+    background-color: #f1f1f1;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.footer-bottom .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-bottom p {
+    color: #666;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #4CAF50;
+}
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
@@ -905,6 +1026,9 @@ footer {
          height: 30px;
     }
 
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 .product-gallery {
     flex: 1;
@@ -1486,6 +1610,16 @@ footer {
   .video-container iframe {
     height: 200px;
   }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    
+    .footer-bottom .container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+  }
 }
 
 /* Sidebar Styles */
@@ -1499,6 +1633,7 @@ footer {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px 0;
     z-index: 1000;
+    display: none; /* Hidden on mobile */
 }
 
 .sidebar .logo {
@@ -1576,6 +1711,7 @@ footer {
 .main-content {
     margin-left: 250px;
     padding: 20px;
+    padding-top: 60px; /* Space for mobile header */
 }
 
 /* Responsive Design */
@@ -2160,10 +2296,9 @@ footer {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    background: #4a8c2b;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+    background: #fff;
+    z-index: 100;
 }
 
 .mobile-menu {
@@ -2261,9 +2396,9 @@ footer {
 
 /* 1. Base Styles */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -2278,7 +2413,7 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 /* 3. Desktop Sidebar */
@@ -2292,6 +2427,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px 0;
     z-index: 1000;
+    display: none; /* Hidden on mobile */
 }
 
 /* 4. Mobile Header */
@@ -2300,16 +2436,16 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    background: #4a8c2b;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+    background: #fff;
+    z-index: 100;
 }
 
 /* 5. Main Content */
 .main-content {
     margin-left: 250px;
     padding: 20px;
+    padding-top: 60px; /* Space for mobile header */
 }
 
 /* 6. Footer */
@@ -2318,6 +2454,116 @@ body {
     color: white;
     padding: 40px 0 0;
     margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.company-info p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.footer-section h3 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 40px;
+    height: 2px;
+    background: white;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    opacity: 0.8;
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    opacity: 0.8;
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
 }
 
 /* 7. Contact Buttons */
@@ -2334,7 +2580,25 @@ body {
 /* 8. Media Queries */
 @media (max-width: 1024px) {
     .sidebar {
-        display: none;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    /* Hamburger Menu for Mobile */
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
     }
 
     .mobile-header {
@@ -2344,6 +2608,11 @@ body {
     .main-content {
         margin-left: 0;
         padding-top: 80px;
+    }
+
+    /* Layout */
+    .container {
+        padding: 0 15px;
     }
 }
 
@@ -2361,6 +2630,16 @@ body {
     .contact-buttons {
         bottom: 80px;
     }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 60px;
+    }
+
+    .product-main-content {
+        gap: 15px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2372,5 +2651,74 @@ body {
         font-size: 11px;
         padding: 6px;
         min-width: 50px;
+    }
+
+    .mobile-nav .nav-icon {
+        font-size: 18px;
+    }
+
+    .main-content {
+        padding: 10px;
+        padding-top: 50px;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) {
+    .mobile-header {
+        display: none;
+    }
+
+    .header-top,
+    .sidebar {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 250px;
+        padding-right: 350px;
+        padding-top: 20px;
+    }
+
+    .product-main-content {
+        flex-direction: row;
+        gap: 32px;
+    }
+
+    .product-gallery {
+        flex: 1;
+    }
+
+    .product-config-form {
+        flex: 2;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .main-content {
+        margin-left: 220px;
+        padding-right: 300px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 60px;
+    }
+
+    .product-main-content {
+        gap: 15px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+        padding-top: 50px;
     }
 }
