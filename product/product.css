@@ -2722,3 +2722,141 @@ body {
         padding-top: 50px;
     }
 }
+
+/* Mobile Header Styles */
+.mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 8px 0;
+}
+
+.mobile-menu {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.mobile-nav {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+}
+
+.mobile-nav::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.mobile-nav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 10px 15px;
+    gap: 20px;
+    min-width: min-content;
+}
+
+.mobile-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #555;
+    padding: 8px 12px;
+    min-width: 70px;
+    white-space: nowrap;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav .nav-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.mobile-nav span {
+    font-size: 12px;
+    line-height: 1.2;
+    color: #555;
+    font-weight: 500;
+}
+
+.mobile-nav .nav-item:hover {
+    background-color: rgba(74, 140, 43, 0.08);
+    color: #4a8c2b;
+}
+
+.mobile-nav .nav-item.active {
+    background-color: rgba(74, 140, 43, 0.12);
+    color: #4a8c2b;
+}
+
+.mobile-nav .nav-item:hover .nav-icon,
+.mobile-nav .nav-item.active .nav-icon {
+    color: #4a8c2b;
+}
+
+/* Main Content Adjustment */
+.main-content {
+    padding-top: 70px;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 1025px) {
+    .mobile-header {
+        display: none;
+    }
+    
+    .sidebar {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 250px;
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-header {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-nav .nav-item {
+        min-width: 60px;
+        padding: 6px 10px;
+    }
+
+    .mobile-nav .nav-icon {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .mobile-nav span {
+        font-size: 11px;
+    }
+
+    .mobile-nav ul {
+        padding: 8px 12px;
+        gap: 15px;
+    }
+}
