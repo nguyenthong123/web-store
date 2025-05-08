@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const popularProductsGrid = document.getElementById('popular-products-grid');
@@ -11,13 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body; // To add/remove class for overflow control
     const searchInput = document.querySelector('.search-bar input');
 
-    // --- Product Data ---
+    // --- Product Data (Static info) ---
+    // GIỮ NGUYÊN mảng này chứa thông tin tĩnh của sản phẩm (tên, ảnh, size, url, rating)
+    // Giá (price) trong mảng này chỉ dùng làm giá mặc định/fallback nếu không fetch được giá từ json
     const popularProducts = [
         { 
             id: '03affeb3', 
             name: 'DURAflex 6mm', 
             size: '1m22x2m44', 
-            price: 196347, 
+            price: 196347, // Giá mặc định
             rating: 4.5, 
             imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0',
             productUrl: 'product/sanpham1.html'
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: '330d280a', 
             name: 'DURAflex 8mm', 
             size: '1m22x2m44', 
-            price: 289649, 
+            price: 289649, // Giá mặc định
             rating: 4.9, 
             imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0',
             productUrl: 'product/sanpham1.html'
@@ -51,28 +55,139 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'ef492bf0', name: 'DURAflex 9mm', size: '1m22x2m44', price: 331807, rating: 3.1, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0', productUrl: 'product/sanpham1.html' },
 
         { id: 'bf823a06', name: 'DURAflex 10mm', size: '1m22x2m44', price: 395044, rating: 3.2, imageUrl: 'https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM', productUrl: 'product/sanpham1.html' },
-
     
         { id: 'fcf76fc8', name: ' DURAflex  15mm nhỏ', size: '1mx2m', price: 346680, rating: 3.2, imageUrl: 'https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM', productUrl: 'product/sanpham1.html' }
     ];
 
+    // Biến để lưu giá được lấy từ file prices.json (hoặc cache)
+    // Ban đầu có thể rỗng, sẽ được điền khi tải cache hoặc fetch data mới
+    let productPrices = {}; 
+
+    // --- Caching Constants ---
+    const CACHE_KEY = 'productPricesCache';
+    const CACHE_TIMESTAMP_KEY = 'productPricesTimestamp';
+    // Thời gian cache: 24 giờ (24 * 60 phút * 60 giây * 1000 mili giây)
+    const CACHE_DURATION = 24 * 60 * 60 * 1000; 
+
+    // URL của file JSON giá trên hosting của bạn
+    // <--- BƯỚC QUAN TRỌNG: THAY THẾ 'YOUR_JSON_FILE_URL_HERE' BẰNG ĐƯỜNG DẪN THỰC TẾ TỚI FILE prices.json TRÊN HOSTING CỦA BẠN -->
+    // Ví dụ: '/prices.json', '/data/product/prices.json', hoặc 'https://yourwebsite.com/prices.json'
+    const PRICES_JSON_URL = 'prices.json'; // Đường dẫn tới file JSON chứa giá sản phẩm
+
+
     // Thêm hàm định dạng tiền tệ VNĐ
     function formatVND(amount) {
+        if (typeof amount !== 'number') {
+             return '0 ₫'; 
+        }
         return amount.toLocaleString('vi-VN') + ' ₫';
     }
 
-    // --- Cart State ---
-    let cart = []; // Array to hold cart items: [{ id: '...', quantity: N, price: X, ... }]
+    // --- Cache Functions ---
 
-    // --- Functions ---
+    // Hàm đọc dữ liệu giá từ localStorage
+    function loadPricesFromCache() {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        const cachedTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+
+        if (cachedData && cachedTimestamp) {
+            const now = Date.now();
+            const timestamp = parseInt(cachedTimestamp, 10); // Chuyển timestamp từ string sang number
+
+            // Kiểm tra xem cache còn hợp lệ không (chưa quá CACHE_DURATION)
+            if (now - timestamp < CACHE_DURATION) {
+                console.log('Loading prices from cache...');
+                try {
+                    // Parse JSON từ string đã lưu
+                    return JSON.parse(cachedData);
+                } catch (e) {
+                    console.error('Failed to parse cached data:', e);
+                    // Nếu lỗi parse, coi như cache không hợp lệ
+                    return null; 
+                }
+            } else {
+                console.log('Cached prices expired.');
+                // Nếu cache hết hạn
+                return null; 
+            }
+        }
+        console.log('No valid cache found.');
+        // Nếu không có cache hoặc cache không hợp lệ/hết hạn
+        return null; 
+    }
+
+    // Hàm lưu dữ liệu giá vào localStorage
+    function savePricesToCache(data) {
+        try {
+            // Lưu dữ liệu dưới dạng string JSON
+            localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+            // Lưu timestamp hiện tại
+            localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+            console.log('Prices saved to cache.');
+        } catch (e) {
+            console.error('Failed to save prices to cache:', e);
+            // Xử lý lỗi nếu localStorage đầy hoặc có vấn đề khác
+        }
+    }
+
+    // --- Fetch Data from Static JSON File (Async) ---
+
+    // Hàm fetch giá từ file prices.json và lưu vào cache
+    // Hàm này chạy bất đồng bộ
+    async function fetchPricesFromJsonAndCache() {
+         // Chỉ fetch nếu PRICES_JSON_URL đã được cấu hình
+        if (PRICES_JSON_URL === 'YOUR_JSON_FILE_URL_HERE' || !PRICES_JSON_URL) {
+            console.warn('PRICES_JSON_URL is not configured. Skipping price fetch.');
+            return null; // Thoát khỏi hàm nếu URL chưa cấu hình
+        }
+
+        console.log(`Attempting to fetch fresh prices from ${PRICES_JSON_URL}...`);
+        try {
+            // --- THAY ĐỔI: Fetch từ PRICES_JSON_URL thay vì Apps Script URL ---
+            const response = await fetch(PRICES_JSON_URL); 
+            if (!response.ok) {
+                // Ném lỗi nếu response không thành công (status code >= 400)
+                throw new Error(`HTTP error! status: ${response.status} while fetching ${PRICES_JSON_URL}`);
+            }
+            // Parse response thành JSON
+            const fetchedData = await response.json();
+            console.log("Prices fetched successfully from JSON:", fetchedData);
+            
+            // Lưu dữ liệu vừa fetch được vào cache
+            savePricesToCache(fetchedData); 
+            
+            // Trả về dữ liệu đã fetch
+            return fetchedData;
+
+        } catch (error) {
+            console.error(`Error fetching prices from ${PRICES_JSON_URL}:`, error);
+            throw error; 
+        }
+    }
+
+    // --- Functions to Update UI (Sử dụng biến productPrices đã được load từ cache hoặc fetch) ---
 
     // Render popular products into the grid
     function renderPopularProducts() {
         popularProductsGrid.innerHTML = ''; // Clear existing content
+        
+         if (!popularProducts || popularProducts.length === 0) {
+            popularProductsGrid.innerHTML = '<div class="no-results"><p>Không có sản phẩm nào để hiển thị.</p></div>';
+            return;
+        }
+
         popularProducts.forEach(product => {
             const productCard = document.createElement('div');
             productCard.classList.add('product-card');
             productCard.dataset.productId = product.id;
+
+            // --- LẤY GIÁ HIỂN THỊ: Ưu tiên giá từ productPrices (đã load từ cache hoặc fetch mới), 
+            // nếu không có hoặc productPrices chưa được tải, dùng giá mặc định từ mảng popularProducts ---
+            // Kiểm tra cả productPrices có tồn tại (không phải null/undefined) và ID có trong productPrices
+            const displayPrice = productPrices && productPrices[product.id] !== undefined 
+                                 ? productPrices[product.id] 
+                                 : product.price; 
+
 
             const starRatingHTML = Array(5).fill(0).map((_, i) =>
                 `<i class="ri-star-fill" style="color: ${i < Math.floor(product.rating) ? '#ffb300' : '#e0e0e0'};"></i>`
@@ -83,10 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${product.imageUrl}" alt="${product.name}">
                 </a>
                 <h4>${product.name}</h4>
+                <div class="size">${product.size ? `Size: ${product.size}` : ''}</div> 
                 <div class="rating">
                     ${starRatingHTML} (${product.rating})
                 </div>
-                <div class="price">${formatVND(product.price)}</div>
+                <div class="price">${formatVND(displayPrice)}</div> <!-- HIỂN THỊ GIÁ LẤY TỪ productPrices hoặc mặc định -->
                 <button class="add-to-cart-btn" data-product-id="${product.id}">Add to cart</button>
             `;
             popularProductsGrid.appendChild(productCard);
@@ -104,7 +220,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const productToAdd = popularProducts.find(p => p.id === productId);
 
         if (productToAdd) {
-            addToCart(productToAdd);
+            const existingItem = cart.find(item => item.id === productToAdd.id);
+
+            // Lấy giá hiện tại của sản phẩm khi thêm vào giỏ
+            // Ưu tiên giá từ productPrices, nếu không có thì dùng giá mặc định từ mảng hardcoded
+             const priceAtAddToCart = productPrices && productPrices[productToAdd.id] !== undefined 
+                                     ? productPrices[productToAdd.id] 
+                                     : productToAdd.price;
+
+            if (existingItem) {
+                existingItem.quantity++;
+                 // Cập nhật lại giá của item trong giỏ hàng với giá mới nhất (tùy chọn, nhưng nên làm)
+                 // Điều này đảm bảo nếu giá thay đổi trong khi item đang trong giỏ,
+                 // giá hiển thị và tính toán trong giỏ sẽ cập nhật khi render lại giỏ hàng.
+                 existingItem.priceAtAddToCart = priceAtAddToCart; 
+            } else {
+                 // Thêm item mới vào giỏ, lưu thông tin và giá tại thời điểm thêm
+                cart.push({ 
+                    id: productToAdd.id,
+                    name: productToAdd.name,
+                    size: productToAdd.size, 
+                    imageUrl: productToAdd.imageUrl, 
+                    quantity: 1,
+                    priceAtAddToCart: priceAtAddToCart // Lưu giá lúc thêm vào giỏ
+                }); 
+            }
+
+            updateCartDisplay();
+            updateNotificationBadge();
+
             // On mobile, open the cart sidebar when an item is added
             if (window.innerWidth <= 768) {
                 toggleCart(true);
@@ -112,27 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Add a product to the cart or increment quantity if it exists
-    function addToCart(product) {
-        const existingItem = cart.find(item => item.id === product.id);
-
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({ ...product, quantity: 1 }); // Add new item with quantity 1
-        }
-
-        updateCartDisplay();
-        updateNotificationBadge();
-    }
-
     // Update quantity of an item in the cart
     function updateQuantity(productId, change) {
-        const item = cart.find(item => item.id === productId);
-        if (item) {
-            item.quantity += change;
-            if (item.quantity <= 0) {
-                cart = cart.filter(item => item.id !== productId); // Remove if quantity is 0 or less
+        const itemIndex = cart.findIndex(item => item.id === productId);
+        if (itemIndex > -1) {
+            cart[itemIndex].quantity += change;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1); // Xóa item nếu số lượng <= 0
             }
             updateCartDisplay();
             updateNotificationBadge();
@@ -149,16 +279,22 @@ document.addEventListener('DOMContentLoaded', () => {
             cartTotalElement.textContent = formatVND(0);
         } else {
             cart.forEach(item => {
+                // Lấy giá cho item trong giỏ: Ưu tiên giá từ productPrices mới nhất, 
+                // nếu không có, dùng giá đã lưu lúc thêm vào giỏ làm fallback
+                const itemDisplayPrice = productPrices && productPrices[item.id] !== undefined 
+                                       ? productPrices[item.id] 
+                                       : item.priceAtAddToCart; 
+
                 const cartItemElement = document.createElement('div');
                 cartItemElement.classList.add('cart-item');
-                cartItemElement.dataset.productId = item.id; // Add data attribute
+                cartItemElement.dataset.productId = item.id; 
 
                 cartItemElement.innerHTML = `
                     <img src="${item.imageUrl}" alt="${item.name}">
                     <div class="item-details">
                         <h5>${item.name}</h5>
-                        <div class="size">${item.size ? `Size: ${item.size}` : ''}</div>
-                        <div class="price">${formatVND(item.price)}</div>
+                        <div class="size">${item.size ? `Size: ${item.size}` : ''}</div> 
+                        <div class="price">${formatVND(itemDisplayPrice)}</div> 
                     </div>
                     <div class="quantity-controls">
                         <button class="decrease-quantity">-</button>
@@ -188,8 +324,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculate and update subtotal and total
     function updateTotals() {
-        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-        const total = subtotal;
+        const subtotal = cart.reduce((sum, item) => {
+             // Lấy giá để tính toán: Ưu tiên giá từ productPrices mới nhất, 
+             // nếu không có, dùng giá đã lưu lúc thêm vào giỏ làm fallback
+            const itemCalculationPrice = productPrices && productPrices[item.id] !== undefined 
+                                         ? productPrices[item.id] 
+                                         : item.priceAtAddToCart; 
+
+            // Đảm bảo itemCalculationPrice là số trước khi tính
+            const safePrice = typeof itemCalculationPrice === 'number' ? itemCalculationPrice : 0;
+
+            return sum + safePrice * item.quantity; 
+        }, 0);
+        
+        const total = subtotal; // Giả định shipping FREE
 
         cartSubtotalElement.textContent = formatVND(subtotal);
         cartTotalElement.textContent = formatVND(total);
@@ -227,16 +375,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return window.innerWidth <= 768; // Match the media query breakpoint
     }
 
-    // --- Event Listeners ---
+    // --- Event Listeners for Cart Toggle ---
 
     // Listen for clicks on the notification icon (mobile only behavior)
     notificationIcon.addEventListener('click', () => {
          if (isMobile()) {
             toggleCart(true); // Open cart on mobile
-         } else {
-             // On desktop, maybe just scroll to the cart? Or do nothing as it's fixed?
-             // For this example, we'll do nothing on desktop as it's always visible
          }
+         // On desktop, the cart is static, no toggle needed here.
     });
 
     // Listen for clicks on the close cart button (mobile only behavior)
@@ -248,33 +394,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Handle initial state and window resizing
     function handleResize() {
-        // On desktop, ensure cart is visible and notification doesn't toggle it
+        // On desktop, ensure mobile-specific classes are off
         if (!isMobile()) {
-            cartSidebar.classList.remove('visible'); // Ensure mobile class is off
+            cartSidebar.classList.remove('visible'); 
             body.classList.remove('cart-open');
-            // The cart CSS handles visibility via position/width on desktop
         }
-         // Note: The notification icon *always* has the click listener, but
-         // the toggleCart function checks isMobile() internally before acting.
+         // The cart CSS handles visibility via position/width on desktop.
     }
 
     window.addEventListener('resize', handleResize);
 
-    // Hàm tìm kiếm sản phẩm
+    // Hàm tìm kiếm sản phẩm (vẫn tìm kiếm trong mảng hardcoded, hiển thị giá từ productPrices)
     function searchProducts(searchTerm) {
         const normalizedSearch = searchTerm.toLowerCase().trim();
         
         if (normalizedSearch === '') {
-            renderPopularProducts(); // Hiển thị lại tất cả sản phẩm nếu ô tìm kiếm trống
+            renderPopularProducts(); // Hiển thị lại tất cả sản phẩm (với giá từ cache/json)
             return;
         }
 
         const filteredProducts = popularProducts.filter(product => 
+            // Tìm kiếm trong Tên và Size của mảng hardcoded
             product.name.toLowerCase().includes(normalizedSearch) ||
-            product.size.toLowerCase().includes(normalizedSearch)
+            (product.size && product.size.toLowerCase().includes(normalizedSearch)) 
         );
 
-        // Render các sản phẩm đã lọc
+        // Render các sản phẩm đã lọc (vẫn dùng giá từ productPrices nếu có)
         popularProductsGrid.innerHTML = '';
         
         if (filteredProducts.length === 0) {
@@ -291,19 +436,25 @@ document.addEventListener('DOMContentLoaded', () => {
             productCard.classList.add('product-card');
             productCard.dataset.productId = product.id;
 
+            // Lấy giá hiển thị cho kết quả tìm kiếm
+             const displayPrice = productPrices && productPrices[product.id] !== undefined 
+                                 ? productPrices[product.id] 
+                                 : product.price;
+
             const starRatingHTML = Array(5).fill(0).map((_, i) =>
                 `<i class="ri-star-fill" style="color: ${i < Math.floor(product.rating) ? '#ffb300' : '#e0e0e0'};"></i>`
             ).join('');
 
             productCard.innerHTML = `
-                <a href="${product.productUrl}" class="product-link">
+                 <a href="${product.productUrl}" class="product-link">
                     <img src="${product.imageUrl}" alt="${product.name}">
                 </a>
                 <h4>${product.name}</h4>
+                 <div class="size">${product.size ? `Size: ${product.size}` : ''}</div>
                 <div class="rating">
                     ${starRatingHTML} (${product.rating})
                 </div>
-                <div class="price">${formatVND(product.price)}</div>
+                <div class="price">${formatVND(displayPrice)}</div> 
                 <button class="add-to-cart-btn" data-product-id="${product.id}">Add to cart</button>
             `;
             popularProductsGrid.appendChild(productCard);
@@ -315,18 +466,64 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     // Thêm event listener cho thanh tìm kiếm với debounce
     let searchTimeout;
     searchInput.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
             searchProducts(e.target.value);
-        }, 300); // Đợi 300ms sau khi người dùng ngừng gõ
+        }, 300); 
     });
 
-    // --- Initial Load ---
-    renderPopularProducts(); // Display the products
+
+    // --- Initial Load Logic ---
+
+    // 1. Thử tải giá từ cache ngay lập tức
+    const cachedPrices = loadPricesFromCache();
+
+    if (cachedPrices) {
+        // Nếu có dữ liệu cache hợp lệ, sử dụng nó ngay
+        productPrices = cachedPrices; 
+        console.log("Using cached prices from localStorage.");
+        // Render giao diện và cập nhật giỏ hàng với giá từ cache
+        renderPopularProducts();
+        updateCartDisplay(); 
+    } else {
+        // Nếu không có cache hoặc cache hết hạn, render ban đầu với giá mặc định
+        console.log("No valid cache, rendering with default prices from JS array.");
+        // Biến productPrices vẫn là {}, nên render sẽ dùng giá mặc định
+        renderPopularProducts(); 
+        updateCartDisplay(); 
+    }
+
+    // 2. Bất đồng bộ fetch giá mới từ file prices.json (không chờ kết quả này)
+    // Hàm này sẽ chạy ở background. Khi fetch xong và thành công, 
+    // nó sẽ tự động lưu cache và gọi render/update UI lại với giá mới.
+    fetchPricesFromJsonAndCache()
+        .then(fetchedData => {
+            // fetchedData có thể là null nếu URL chưa cấu hình trong fetchPricesFromJsonAndCache
+            if (fetchedData) {
+                 console.log('Fetch from JSON complete. Updating UI with fresh prices.');
+                 // Cập nhật biến toàn cục productPrices với dữ liệu mới fetch
+                 productPrices = fetchedData; 
+                 renderPopularProducts(); 
+                 updateCartDisplay(); 
+            }
+        })
+        .catch(error => {
+            // Lỗi đã được log bên trong fetchPricesFromJsonAndCache.
+            // Nếu có lỗi, trang web sẽ tiếp tục hiển thị giá mà nó đang có 
+            // (cache cũ hoặc giá mặc định).
+            console.warn('Failed to fetch fresh prices from JSON, using current data.', error);
+        });
+
+
+    // --- Các lệnh khởi tạo khác ---
     updateNotificationBadge(); // Initialize the badge (will be 0)
-    updateCartDisplay(); // Initialize the cart display (will show empty message)
     handleResize(); // Set initial state based on screen size
-});
+
+    // Các event listeners khác (notificationIcon, closeCartButton, searchInput)
+    // đã được thêm ở trên.
+
+}); // End DOMContentLoaded
