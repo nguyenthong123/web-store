@@ -311,10 +311,14 @@ button {
     font-weight: bold;
 }
 
+/* Product Grid Layout */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row */
-    gap: 20px; /* Space between items */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Thay đổi cách chia cột */
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* Ngăn scroll ngang */
 }
 
 .product-card {
@@ -325,12 +329,13 @@ button {
     display: flex;
     flex-direction: column;
     text-align: center;
+    max-width: 100%; /* Giới hạn chiều rộng tối đa */
 }
 
 .product-card img {
     width: 100%;
-    height: 180px; /* Fixed height for images */
-    object-fit: cover; /* Cover the area without distortion */
+    height: 200px;
+    object-fit: contain; /* Thay đổi cover thành contain */
     border-radius: 10px;
     margin-bottom: 15px;
 }
@@ -618,6 +623,10 @@ button {
     .cart-sidebar {
         width: 300px;
     }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
@@ -748,13 +757,12 @@ button {
 
 
     .product-grid {
-        grid-template-columns: repeat(3, 1fr); /* Keep 3 items per row as requested */
-        gap: 15px; /* Adjust gap */
+        grid-template-columns: repeat(2, 1fr); /* 2 cột trên tablet */
+        gap: 15px;
     }
 
     .product-card img {
-        height: 120px; /* Smaller image height */
-        margin-bottom: 10px;
+        height: 150px;
     }
 
     .product-card h4 {
@@ -770,12 +778,7 @@ button {
 
     /* Cart Sidebar - Mobile Specific */
     .cart-sidebar {
-        width: 100%;
-        height: 100%;
-        height: -webkit-fill-available; /* Cho iOS Safari */
-        max-height: 100vh;
-        max-height: -webkit-fill-available; /* Cho iOS Safari */
-        padding-bottom: env(safe-area-inset-bottom); /* Thêm padding cho notch phones */
+        width: 100%; /* Full width on mobile */
         left: 0; /* Position from left edge */
         right: auto; /* Reset right position */
         transform: translateX(100%); /* Start off-screen to the right */
@@ -807,13 +810,12 @@ button {
     .cart-items {
         flex: 1;
         overflow-y: auto;
-        padding-bottom: calc(180px + env(safe-area-inset-bottom));
-        -webkit-overflow-scrolling: touch; /* Cuộn mượt trên iOS */
+        padding-bottom: 150px; /* Thêm padding để tránh nội dung bị che khuất */
     }
 
     .cart-items {
         max-height: calc(100vh - 180px);
-        padding-bottom: 150px; /* Giảm padding để không bị che khuất */
+        padding-bottom: 150px;
     }
 
     .cart-summary {
@@ -822,10 +824,9 @@ button {
         left: 0;
         right: 0;
         background: white;
-        padding: 15px 20px;
-        padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Thêm padding cho notch phones */
+        padding: 15px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1001; /* Tăng z-index để đảm bảo hiển thị trên cùng */
+        z-index: 1000; /* Tăng z-index để đảm bảo hiển thị trên cùng */
         border-top: 1px solid #eee;
     }
 
@@ -833,9 +834,6 @@ button {
         margin-top: 10px;
         margin-bottom: 10px;
         width: 100%;
-        margin-top: 10px;
-        margin-bottom: env(safe-area-inset-bottom); /* Thêm margin cho notch phones */
-        height: 50px; /* Chiều cao cố định */
     }
 
     .cart-summary {
@@ -896,17 +894,18 @@ button {
         left: 0;
         right: 0;
         background: white;
-        padding: 15px 20px;
-        padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Thêm padding cho notch phones */
+        padding: 15px;
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         z-index: 1001;
     }
 
+    .summary-row {
+        margin-bottom: 10px;
+    }
+
     .checkout-btn {
-        width: 100%;
         margin-top: 10px;
-        margin-bottom: env(safe-area-inset-bottom); /* Thêm margin cho notch phones */
-        height: 50px; /* Chiều cao cố định */
+        width: 100%;
     }
 }
 
@@ -979,16 +978,17 @@ button {
     }
 
     .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* On very small mobile, 2 items per row might be better */
-        gap: 10px;
+        grid-template-columns: repeat(2, 1fr); /* Changed from 1 to 2 columns on mobile */
+        gap: 15px; /* Adjusted gap to be consistent with tablet 2-column layout */
     }
-     /* But sticking to the requirement of 3: */
-     /* grid-template-columns: repeat(3, 1fr); */
-     /* gap: 8px; */ /* Even smaller gap if sticking to 3 */
 
-     .product-card img {
+    .product-card img {
+        height: 120px; /* Kept this, might need adjustment if items look too cramped */
+    }
+
+     /* .product-card img {  This was a duplicate rule, commenting out the less specific one
          height: 100px;
-     }
+     } */
       .product-card h4 {
           font-size: 0.9em;
            margin-bottom: 3px;
@@ -1049,15 +1049,6 @@ button {
          padding: 12px;
          font-size: 1.1em;
      }
-
-    .cart-items {
-        padding-bottom: calc(150px + env(safe-area-inset-bottom));
-    }
-
-    .cart-summary {
-        padding: 12px 15px;
-        padding-bottom: calc(12px + env(safe-area-inset-bottom));
-    }
 
     .cart-items {
         padding-bottom: 120px; /* Giảm padding cho màn hình nhỏ hơn */
