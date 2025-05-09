@@ -770,7 +770,12 @@ button {
 
     /* Cart Sidebar - Mobile Specific */
     .cart-sidebar {
-        width: 100%; /* Full width on mobile */
+        width: 100%;
+        height: 100%;
+        height: -webkit-fill-available; /* Cho iOS Safari */
+        max-height: 100vh;
+        max-height: -webkit-fill-available; /* Cho iOS Safari */
+        padding-bottom: env(safe-area-inset-bottom); /* Thêm padding cho notch phones */
         left: 0; /* Position from left edge */
         right: auto; /* Reset right position */
         transform: translateX(100%); /* Start off-screen to the right */
@@ -802,12 +807,13 @@ button {
     .cart-items {
         flex: 1;
         overflow-y: auto;
-        padding-bottom: 150px; /* Thêm padding để tránh nội dung bị che khuất */
+        padding-bottom: calc(180px + env(safe-area-inset-bottom));
+        -webkit-overflow-scrolling: touch; /* Cuộn mượt trên iOS */
     }
 
     .cart-items {
         max-height: calc(100vh - 180px);
-        padding-bottom: 150px;
+        padding-bottom: 150px; /* Giảm padding để không bị che khuất */
     }
 
     .cart-summary {
@@ -816,9 +822,10 @@ button {
         left: 0;
         right: 0;
         background: white;
-        padding: 15px;
+        padding: 15px 20px;
+        padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Thêm padding cho notch phones */
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000; /* Tăng z-index để đảm bảo hiển thị trên cùng */
+        z-index: 1001; /* Tăng z-index để đảm bảo hiển thị trên cùng */
         border-top: 1px solid #eee;
     }
 
@@ -826,6 +833,9 @@ button {
         margin-top: 10px;
         margin-bottom: 10px;
         width: 100%;
+        margin-top: 10px;
+        margin-bottom: env(safe-area-inset-bottom); /* Thêm margin cho notch phones */
+        height: 50px; /* Chiều cao cố định */
     }
 
     .cart-summary {
@@ -878,6 +888,25 @@ button {
         width: 100%;
         margin-top: 10px;
         margin-bottom: 0;
+    }
+
+    .cart-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px 20px;
+        padding-bottom: calc(15px + env(safe-area-inset-bottom)); /* Thêm padding cho notch phones */
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+    }
+
+    .checkout-btn {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: env(safe-area-inset-bottom); /* Thêm margin cho notch phones */
+        height: 50px; /* Chiều cao cố định */
     }
 }
 
@@ -1020,6 +1049,15 @@ button {
          padding: 12px;
          font-size: 1.1em;
      }
+
+    .cart-items {
+        padding-bottom: calc(150px + env(safe-area-inset-bottom));
+    }
+
+    .cart-summary {
+        padding: 12px 15px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
 
     .cart-items {
         padding-bottom: 120px; /* Giảm padding cho màn hình nhỏ hơn */
