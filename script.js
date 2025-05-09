@@ -1,22 +1,42 @@
 // --- GLOBAL/FILE SCOPE VARIABLES AND FUNCTIONS ---
 
 // --- Cart State ---
-let cart = []; // Array to hold cart items: [{ id: '...', quantity: N, priceAtAddToCart: X, ... }]
+// Variable to hold items currently in the cart. Each item stores ID, name, size, image URL, quantity, and price at the time it was added.
+let cart = []; 
 
-// Biến để lưu giá được lấy từ file prices.json (hoặc cache)
-let productPrices = {}; 
+// Variable to hold all product data fetched from products.json (or cache).
+// This will be the single source of truth for product information displayed on the page.
+// It's initialized as an empty array and will be populated by the fetch/cache logic.
+let allProductsData = []; 
+
+// Thêm biến cho dữ liệu sản phẩm mặc định
+const defaultProducts = [
+    {
+        id: "0ca12c6c",
+        name: "DURAflex 6mm",
+        size: "1m22x2m51",
+        price: 118000,
+        rating: 4.16,
+        imageUrl: "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0", // Sửa lại URL ảnh
+        productUrl: "product/sanpham1.html"
+    },
+    // ...thêm các sản phẩm khác từ JSON của bạn
+];
 
 // --- Caching Constants ---
-const CACHE_KEY = 'productPricesCache';
-const CACHE_TIMESTAMP_KEY = 'productPricesTimestamp';
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 giờ
+// Keys used for storing data and timestamp in localStorage
+const CACHE_KEY = 'allProductsDataCache'; 
+const CACHE_TIMESTAMP_KEY = 'allProductsDataTimestamp'; 
+// Duration for cache validity: 24 hours (24 hours * 60 min/hour * 60 sec/min * 1000 ms/sec)
+const CACHE_DURATION = 24 * 60 * 60 * 1000; 
 
-// URL của file JSON giá trên hosting của bạn
-// <--- BƯỚC QUAN TRỌNG: THAY THẾ 'prices.json' BẰNG ĐƯỜNG DẪN THỰC TẾ TỚI FILE prices.json TRÊN HOSTING CỦA BẠN -->
-const PRICES_JSON_URL = 'prices.json'; // <-- Đảm bảo URL này đúng với vị trí file trên hosting
+// URL of the JSON file containing ALL product data on your hosting (or GitHub Pages)
+// <--- IMPORTANT: REPLACE 'products.json' WITH THE ACTUAL PUBLICLY ACCESSIBLE PATH TO products.json -->
+// This path should be relative to your index.html or an absolute URL (e.g., '/products.json', '/data/products.json', 'https://yourusername.github.io/yourrepo/products.json')
+const PRODUCTS_JSON_URL = './prices.json'; // Đảm bảo file prices.json nằm cùng thư mục với index.html
 
 
-// Thêm hàm định dạng tiền tệ VNĐ
+// Add VNĐ currency formatter function (Remains unchanged)
 function formatVND(amount) {
     if (typeof amount !== 'number') {
          return '0 ₫'; 
@@ -26,149 +46,113 @@ function formatVND(amount) {
 
 // --- Cache Functions ---
 
-// Hàm đọc dữ liệu giá từ localStorage
-function loadPricesFromCache() {
+// Function to load all product data from localStorage cache
+function loadProductsFromCache() {
     const cachedData = localStorage.getItem(CACHE_KEY);
     const cachedTimestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
 
     if (cachedData && cachedTimestamp) {
         const now = Date.now();
-        const timestamp = parseInt(cachedTimestamp, 10); // Chuyển timestamp từ string sang number
+        const timestamp = parseInt(cachedTimestamp, 10); // Convert timestamp string to number
 
-        // Kiểm tra xem cache còn hợp lệ không (chưa quá CACHE_DURATION)
+        // Check if the cache is still valid (not older than CACHE_DURATION)
         if (now - timestamp < CACHE_DURATION) {
-            console.log('Loading prices from cache...');
+            console.log('Loading product data from cache...');
             try {
-                // Parse JSON từ string đã lưu
-                return JSON.parse(cachedData);
+                // Parse the JSON string stored in cache back into a JS object/array
+                const parsedData = JSON.parse(cachedData);
+                 // Validate that the parsed data is indeed an array, as expected
+                 if (Array.isArray(parsedData)) {
+                     return parsedData; // Return the cached array
+                 } else {
+                     console.error('Cached data structure is invalid: Expected an array.', parsedData);
+                     // If data is not the expected format, treat as no valid cache
+                     return null; 
+                 }
             } catch (e) {
-                console.error('Failed to parse cached data:', e);
-                // Nếu lỗi parse, coi như cache không hợp lệ
+                console.error('Failed to parse cached product data:', e);
+                // If JSON parsing fails, treat as no valid cache
                 return null; 
             }
         } else {
-            console.log('Cached prices expired.');
-            // Nếu cache hết hạn
+            console.log('Cached product data expired.');
+            // If cache timestamp is too old, treat as no valid cache
             return null; 
         }
     }
-    console.log('No valid cache found.');
-    // Nếu không có cache hoặc cache không hợp lệ/hết hạn
+    console.log('No valid product data cache found.');
+    // If no cache data or timestamp exists, or any check failed, return null
     return null; 
 }
 
-// Hàm lưu dữ liệu giá vào localStorage
-function savePricesToCache(data) {
+// Function to save all product data to localStorage cache
+function saveProductsToCache(data) {
+     // Only save if the data is a valid non-empty array
+     if (!Array.isArray(data) || data.length === 0) {
+         console.warn('Attempted to save invalid or empty data to cache. Skipping save.');
+         return; // Do not save invalid data
+     }
     try {
-        // Lưu dữ liệu dưới dạng string JSON
+        // Convert the data array to a JSON string and save to localStorage
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-        // Lưu timestamp hiện tại
+        // Save the current timestamp
         localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
-        console.log('Prices saved to cache.');
+        console.log('Product data saved to cache.');
     } catch (e) {
-        console.error('Failed to save prices to cache:', e);
-        // Xử lý lỗi nếu localStorage đầy hoặc có vấn đề khác
+        console.error('Failed to save product data to cache:', e);
+        // Log a more specific error if localStorage is full
+        if (e instanceof DOMException && e.name === 'QuotaExceededError') {
+             console.error('localStorage is full! Cannot save cache.');
+        }
     }
 }
 
 // --- Fetch Data from Static JSON File (Async) ---
 
-// Hàm fetch giá từ file prices.json và lưu vào cache
-async function fetchPricesFromJsonAndCache() {
-     // Chỉ fetch nếu PRICES_JSON_URL đã được cấu hình và không phải giá trị placeholder
-    if (PRICES_JSON_URL === 'YOUR_JSON_FILE_URL_HERE' || !PRICES_JSON_URL) {
-        console.warn('PRICES_JSON_URL is not configured. Skipping price fetch.');
-        return null; // Thoát khỏi hàm nếu URL chưa cấu hình
-    }
-
-    console.log(`Attempting to fetch fresh prices from ${PRICES_JSON_URL}...`);
+// Function to fetch all product data (array of objects) from products.json and save to cache
+async function fetchProductsFromJsonAndCache() {
+    console.log('Attempting to fetch from:', PRODUCTS_JSON_URL);
     try {
-        const response = await fetch(PRICES_JSON_URL); 
+        const response = await fetch(PRODUCTS_JSON_URL);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} while fetching ${PRICES_JSON_URL}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const fetchedData = await response.json();
-        console.log("Prices fetched successfully from JSON:", fetchedData);
+        const data = await response.json();
+        console.log('Fetched data:', data);
         
-        savePricesToCache(fetchedData); 
+        if (!Array.isArray(data)) {
+            throw new Error('Data is not an array');
+        }
         
-        return fetchedData;
-
+        saveProductsToCache(data);
+        return data;
     } catch (error) {
-        console.error(`Error fetching prices from ${PRICES_JSON_URL}:`, error);
-        throw error; 
+        console.error('Fetch error:', error);
+        return [];
     }
 }
 
-// --- Functions to Update UI (Sử dụng biến productPrices và cart đã được định nghĩa ở trên) ---
+// --- Functions to Update UI (Now using allProductsData and cart) ---
 
-// Move popularProducts array outside DOMContentLoaded to global scope
-const popularProducts = [
-    { 
-        id: '03affeb3', 
-        name: 'DURAflex 6mm', 
-        size: '1m22x2m44', 
-        price: 196347,
-        rating: 4.5, 
-        imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0',
-        productUrl: 'product/sanpham1.html'
-    },
-    { 
-        id: '330d280a', 
-        name: 'DURAflex 8mm', 
-        size: '1m22x2m44', 
-        price: 289649, // Giá mặc định
-        rating: 4.9, 
-        imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0',
-        productUrl: 'product/sanpham1.html'
-    },
-    { id: '5498355b', name: 'DURAflex 12mm', size: '1m22x2m44', price: 449828, rating: 3.9, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0',
-     productUrl: 'product/sanpham1.html'
-     },
-
-    { id: '68a4ff7c', name: 'DURAflex 15mm', size: '1m22x2m44', price: 479146, rating: 3.5, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0'
-    , productUrl: 'product/sanpham1.html'
-
-     },
-
-    { id: '0d00e5a0', name: 'DURAflex 16mm', size: '1m22x2m44', price: 520127, rating: 4.9, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0', productUrl: 'product/sanpham1.html' },
-
-    { id: 'a52e4b51', name: 'DURAflex 18mm', size: '1m22x2m44', price: 612682, rating: 4.9, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0', productUrl: 'product/sanpham1.html' },
-
-    { id: 'ffb5e8b3', name: ' DURA vis bắn vách', size: '26mm', price: 115000, rating: 4.8, imageUrl: 'https://lh3.googleusercontent.com/d/1c7uX73pN-pFWtU28S6mx0sMtyOa7SOLG', productUrl: 'product/sanpham2.html' },
-
-    { id: '0ca12c6c', name: 'DURA vis bắn Sàn', size: '35mm', price: 115000, rating: 4.8, imageUrl: 'https://lh3.googleusercontent.com/d/1CrHuh05opsLhcnufGgWxw9Rv93DjWQLC', productUrl: 'product/sanpham2.html' },
-
-    { id: 'ef492bf0', name: 'DURAflex 9mm', size: '1m22x2m44', price: 331807, rating: 3.1, imageUrl: 'https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0', productUrl: 'product/sanpham1.html' },
-
-    { id: 'bf823a06', name: 'DURAflex 10mm', size: '1m22x2m44', price: 395044, rating: 3.2, imageUrl: 'https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM', productUrl: 'product/sanpham1.html' },
-
-    { id: 'fcf76fc8', name: ' DURAflex  15mm nhỏ', size: '1mx2m', price: 346680, rating: 3.2, imageUrl: 'https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM', productUrl: 'product/sanpham1.html' }
-];
-
-// Render popular products into the grid
-function renderPopularProducts() {
-    // Lấy các phần tử DOM bên trong DOMContentLoaded
+// Sửa lại hàm renderProducts để hiển thị sản phẩm mặc định nếu không có dữ liệu
+function renderProducts() {
     const popularProductsGrid = document.getElementById('popular-products-grid');
-    if (!popularProductsGrid) return; // Đảm bảo phần tử tồn tại
+    if (!popularProductsGrid) return;
 
-    popularProductsGrid.innerHTML = ''; // Clear existing content
-    
-     if (!popularProducts || popularProducts.length === 0) {
+    popularProductsGrid.innerHTML = '';
+
+    // Sử dụng dữ liệu từ allProductsData hoặc defaultProducts
+    const productsToRender = allProductsData.length > 0 ? allProductsData : defaultProducts;
+
+    if (!productsToRender || productsToRender.length === 0) {
         popularProductsGrid.innerHTML = '<div class="no-results"><p>Không có sản phẩm nào để hiển thị.</p></div>';
         return;
     }
 
-    popularProducts.forEach(product => {
+    productsToRender.forEach(product => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         productCard.dataset.productId = product.id;
-
-        // --- LẤY GIÁ HIỂN THỊ: Ưu tiên giá từ productPrices, nếu không có dùng giá mặc định ---
-        const displayPrice = productPrices && productPrices[product.id] !== undefined 
-                             ? productPrices[product.id] 
-                             : product.price; 
-
 
         const starRatingHTML = Array(5).fill(0).map((_, i) =>
             `<i class="ri-star-fill" style="color: ${i < Math.floor(product.rating) ? '#ffb300' : '#e0e0e0'};"></i>`
@@ -179,71 +163,86 @@ function renderPopularProducts() {
                 <img src="${product.imageUrl}" alt="${product.name}">
             </a>
             <h4>${product.name}</h4>
-            <div class="size">${product.size ? `Size: ${product.size}` : ''}</div> 
+            <div class="size">${product.size ? `Size: ${product.size}` : ''}</div>
             <div class="rating">
-                ${starRatingHTML} (${product.rating})
+                ${starRatingHTML} (${product.rating || 0})
             </div>
-            <div class="price">${formatVND(displayPrice)}</div> 
-            <button class="add-to-cart-btn" data-product-id="${product.id}">Add to cart</button>
+            <div class="price">${formatVND(product.price)}</div>
+            <button class="add-to-cart-btn" data-product-id="${product.id}">Thêm vào giỏ</button>
         `;
+
         popularProductsGrid.appendChild(productCard);
     });
 
-    // Add event listeners to Add to Cart buttons after they are rendered
+    // Thêm event listeners cho nút "Thêm vào giỏ"
     popularProductsGrid.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        // Gắn listener trực tiếp gọi hàm handleAddToCartClick đã định nghĩa ở ngoài
         button.addEventListener('click', handleAddToCartClick);
     });
 }
 
-// Handle click on Add to Cart button
+// Handle click events for the "Add to cart" buttons
 function handleAddToCartClick(event) {
+    // Get the product ID from the data attribute of the clicked button
     const productId = event.target.dataset.productId;
-    // Sử dụng mảng popularProducts đã được định nghĩa
-    const productToAdd = popularProducts.find(p => p.id === productId); 
+    // Find the corresponding product object in the allProductsData array using the ID
+    const productToAdd = allProductsData.find(p => p.id === productId);
 
+    // Proceed only if the product was successfully found in the data
     if (productToAdd) {
+        // Check if the selected product is already present in the cart array
         const existingItem = cart.find(item => item.id === productToAdd.id);
 
-        // Lấy giá hiện tại của sản phẩm khi thêm vào giỏ
-        const priceAtAddToCart = productPrices && productPrices[productToAdd.id] !== undefined 
-                                 ? productPrices[productToAdd.id] 
-                                 : productToAdd.price;
+        // The price for the cart item comes directly from the fetched productToAdd object
+        const priceAtAddToCart = productToAdd.price;
 
         if (existingItem) {
+            // If the item is already in the cart, just increase its quantity
             existingItem.quantity++;
+            // Optionally update the priceAtAddToCart with the latest price from productToAdd.
+            // This ensures that if the product's price in the JSON changed since it was first added,
+            // the price used for display and calculation in the cart is updated the next time the cart is rendered.
             existingItem.priceAtAddToCart = priceAtAddToCart; 
         } else {
-            cart.push({ 
+            // If the item is not in the cart, add it as a new item
+            cart.push({
                 id: productToAdd.id,
-                name: productToAdd.name,
-                size: productToAdd.size, 
-                imageUrl: productToAdd.imageUrl, 
-                quantity: 1,
-                priceAtAddToCart: priceAtAddToCart 
+                name: productToAdd.name, // Store name in cart item
+                size: productToAdd.size, // Store size in cart item
+                imageUrl: productToAdd.imageUrl, // Store image URL in cart item
+                quantity: 1, // Start with a quantity of 1
+                priceAtAddToCart: priceAtAddToCart // Store the price at the moment the item was added
             }); 
         }
 
+        // Update the visual display of the cart and the notification badge
         updateCartDisplay();
         updateNotificationBadge();
 
-        // Kiểm tra và gọi toggleCart
+        // On mobile screens, automatically open the cart sidebar (using helper functions)
+        // Check if the helper functions exist before calling them
         if (typeof isMobile === 'function' && typeof toggleCart === 'function' && isMobile()) {
             toggleCart(true);
-        } else if (window.innerWidth <= 768) { // Fallback nếu isMobile hoặc toggleCart chưa sẵn sàng
-             // Logic toggle cart mobile nếu không dùng hàm helper
         }
+        // Optional: Add logic here for desktop, e.g., briefly highlighting the cart icon.
+    } else {
+         // Log a warning if the product ID from the button didn't match any product in the data
+         console.warn(`Attempted to add product with ID "${productId}" to cart, but product not found in allProductsData.`);
     }
 }
 
-// Update quantity of an item in the cart
+// Update the quantity of a specific item in the cart by a given change amount
 function updateQuantity(productId, change) {
+    // Find the index of the item in the cart array by its ID
     const itemIndex = cart.findIndex(item => item.id === productId);
+    // If the item is found (index is not -1)
     if (itemIndex > -1) {
+        // Update the quantity of the item
         cart[itemIndex].quantity += change;
+        // If the quantity is now 0 or less, remove the item from the cart
         if (cart[itemIndex].quantity <= 0) {
-            cart.splice(itemIndex, 1); 
+            cart.splice(itemIndex, 1); // Remove 1 element at itemIndex
         }
+        // Update the display of the cart and the notification badge after quantity change
         updateCartDisplay();
         updateNotificationBadge();
     }
@@ -251,36 +250,46 @@ function updateQuantity(productId, change) {
 
 // Render the cart items in the cart sidebar
 function updateCartDisplay() {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+    // Get the required DOM elements for the cart display inside the function
     const cartItemsContainer = document.getElementById('cart-items-container');
-     const cartSubtotalElement = document.getElementById('cart-subtotal');
-     const cartTotalElement = document.getElementById('cart-total');
+    const cartSubtotalElement = document.getElementById('cart-subtotal');
+    const cartTotalElement = document.getElementById('cart-total');
 
+    // Exit the function if critical cart elements are not found
     if (!cartItemsContainer || !cartSubtotalElement || !cartTotalElement) return;
 
+    cartItemsContainer.innerHTML = ''; // Clear the current list of cart items in the UI
 
-    cartItemsContainer.innerHTML = ''; // Clear existing items
-
+    // If the cart is empty, display the "Your cart is empty" message
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="empty-cart-message">Your cart is empty.</div>';
+        // Reset subtotal and total display to zero
         cartSubtotalElement.textContent = formatVND(0);
         cartTotalElement.textContent = formatVND(0);
     } else {
+        // If the cart is not empty, iterate through each item in the cart
         cart.forEach(item => {
-            const itemDisplayPrice = productPrices && productPrices[item.id] !== undefined 
-                                   ? productPrices[item.id] 
-                                   : item.priceAtAddToCart; 
+            // Get the latest product info from allProductsData if available.
+            // This is primarily to get the absolute latest price if it changed in the source JSON
+            // since the item was added to the cart.
+            const latestProductInfo = allProductsData.find(p => p.id === item.id);
+            const itemDisplayPrice = latestProductInfo && latestProductInfo.price !== undefined
+                                       ? latestProductInfo.price // Use the latest price from the data source
+                                       : item.priceAtAddToCart; // Fallback to the price recorded when added
 
+            // Create a div element for the cart item display
             const cartItemElement = document.createElement('div');
             cartItemElement.classList.add('cart-item');
+            // Store the product ID in a data attribute on the cart item element
             cartItemElement.dataset.productId = item.id; 
 
+            // Build the inner HTML for the cart item using details stored in the cart item object
             cartItemElement.innerHTML = `
                 <img src="${item.imageUrl}" alt="${item.name}">
                 <div class="item-details">
                     <h5>${item.name}</h5>
                     <div class="size">${item.size ? `Size: ${item.size}` : ''}</div> 
-                    <div class="price">${formatVND(itemDisplayPrice)}</div> 
+                    <div class="price">${formatVND(itemDisplayPrice)}</div> <!-- Display the calculated display price -->
                 </div>
                 <div class="quantity-controls">
                     <button class="decrease-quantity">-</button>
@@ -288,258 +297,280 @@ function updateCartDisplay() {
                     <button class="increase-quantity">+</button>
                 </div>
             `;
+            // Add the created cart item element to the cart items container in the UI
             cartItemsContainer.appendChild(cartItemElement);
         });
-         // Add event listeners for quantity controls after items are rendered
+         // After all cart items are added to the DOM, attach event listeners to the quantity controls
         cartItemsContainer.querySelectorAll('.decrease-quantity').forEach(button => {
             button.addEventListener('click', (event) => {
+                // Get the product ID from the parent cart item element
                 const productId = event.target.closest('.cart-item').dataset.productId;
+                // Call updateQuantity to decrease the item's quantity
                 updateQuantity(productId, -1);
             });
         });
          cartItemsContainer.querySelectorAll('.increase-quantity').forEach(button => {
             button.addEventListener('click', (event) => {
+                // Get the product ID from the parent cart item element
                 const productId = event.target.closest('.cart-item').dataset.productId;
+                // Call updateQuantity to increase the item's quantity
                 updateQuantity(productId, 1);
             });
         });
 
-        updateTotals(); // Recalculate and display totals
+        // Recalculate and update the subtotal and total display
+        updateTotals(); 
     }
 }
 
-// Calculate and update subtotal and total
+// Calculate and update the subtotal and total displayed in the cart summary
 function updateTotals() {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+     // Get the required DOM elements for the total display inside the function
      const cartSubtotalElement = document.getElementById('cart-subtotal');
      const cartTotalElement = document.getElementById('cart-total');
+     // Exit the function if critical elements are not found
      if (!cartSubtotalElement || !cartTotalElement) return;
 
-
+    // Calculate the subtotal by reducing the cart array
     const subtotal = cart.reduce((sum, item) => {
-        const itemCalculationPrice = productPrices && productPrices[item.id] !== undefined 
-                                     ? productPrices[item.id] 
-                                     : item.priceAtAddToCart; 
+         // Use the latest product price from allProductsData if available for calculation.
+         // Fallback to the price stored when the item was added if latest data is not available.
+        const latestProductInfo = allProductsData.find(p => p.id === item.id);
+        const itemCalculationPrice = latestProductInfo && latestProductInfo.price !== undefined
+                                     ? latestProductInfo.price
+                                     : item.priceAtAddToCart;
 
+        // Ensure the price used for calculation is a valid number, default to 0 if not.
         const safePrice = typeof itemCalculationPrice === 'number' ? itemCalculationPrice : 0;
 
+        // Add the price of the current item (price * quantity) to the running sum
         return sum + safePrice * item.quantity; 
-    }, 0);
+    }, 0); // Start sum at 0
     
-    const total = subtotal; // Giả định shipping FREE
+    // Assuming shipping is FREE, the total is equal to the subtotal
+    const total = subtotal; 
 
+    // Update the text content of the subtotal and total elements with formatted VNĐ currency
     cartSubtotalElement.textContent = formatVND(subtotal);
     cartTotalElement.textContent = formatVND(total);
 }
 
-// Update the notification badge count
+// Update the number displayed on the notification badge icon
 function updateNotificationBadge() {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+     // Get the notification badge DOM element inside the function
      const cartNotificationBadge = document.getElementById('cart-notification-badge');
+     // Exit if the element is not found
      if (!cartNotificationBadge) return;
 
-
+    // Calculate the total number of items in the cart (sum of quantities)
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    // Update the text content of the badge with the total item count
     cartNotificationBadge.textContent = totalItems;
 
+    // Show the badge if there is at least one item, hide it otherwise
     if (totalItems > 0) {
-        cartNotificationBadge.style.display = 'block'; // Show badge
+        cartNotificationBadge.style.display = 'block'; 
     } else {
-        cartNotificationBadge.style.display = 'none'; // Hide badge
+        cartNotificationBadge.style.display = 'none'; 
     }
 }
 
-// Toggle cart sidebar visibility (used for mobile)
+// Toggle the visibility and state of the cart sidebar (primarily for mobile view)
 function toggleCart(show) {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+     // Get required DOM elements inside the function
      const cartSidebar = document.getElementById('cart-sidebar');
-     const body = document.body;
-     if (!cartSidebar || !body) return;
+     const body = document.body; // body element is globally available
+     // Exit if the cart sidebar element is not found
+     if (!cartSidebar) return;
 
+    // Determine whether to show or hide the cart based on the 'show' parameter
     if (show === true) {
-        cartSidebar.classList.add('visible');
-        body.classList.add('cart-open'); // Add class to body if needed for overflow/layout
+        cartSidebar.classList.add('visible'); // Add 'visible' class to show the sidebar
+        body.classList.add('cart-open'); // Add 'cart-open' class to body (useful for controlling main content overflow/layout)
     } else if (show === false) {
-        cartSidebar.classList.remove('visible');
-        body.classList.remove('cart-open'); // Remove class from body
+        cartSidebar.classList.remove('visible'); // Remove 'visible' class to hide the sidebar
+        body.classList.remove('cart-open'); // Remove 'cart-open' class from body
     } else {
-        // Toggle based on current state
+        // If 'show' is not specified, toggle the current visibility state
         cartSidebar.classList.toggle('visible');
         body.classList.toggle('cart-open');
     }
 }
 
-// Check if currently on a mobile screen size
+// Check if the current window width corresponds to a mobile screen size
 function isMobile() {
-    return window.innerWidth <= 768; // Match the media query breakpoint
+    // Uses the same breakpoint (768px) as typically defined in CSS media queries
+    return window.innerWidth <= 768; 
 }
 
-// Handle initial state and window resizing
+// Handle layout adjustments and sidebar visibility based on window resizing
 function handleResize() {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+     // Get required DOM elements inside the function
      const cartSidebar = document.getElementById('cart-sidebar');
-     const body = document.body;
-     if (!cartSidebar || !body) return;
+     const body = document.body; // body element is globally available
+      // Exit if the cart sidebar element is not found
+     if (!cartSidebar) return;
 
-    // On desktop, ensure mobile-specific classes are off
+
+    // On desktop screens (not mobile), ensure mobile-specific classes are removed
+    // This prevents the cart from being hidden or body overflow being restricted on larger screens
     if (!isMobile()) {
         cartSidebar.classList.remove('visible'); 
         body.classList.remove('cart-open');
     }
-     // The cart CSS handles visibility via position/width on desktop.
+     // Note: The desktop visibility/positioning of the cart sidebar is typically controlled by CSS rules
+     // that apply based on screen width, not these JavaScript classes.
 }
 
 
-// Hàm tìm kiếm sản phẩm
+// Function to search for products within the allProductsData array
 function searchProducts(searchTerm) {
-     // Lấy các phần tử DOM bên trong DOMContentLoaded
+     // Get the product grid element inside the function
      const popularProductsGrid = document.getElementById('popular-products-grid');
      if (!popularProductsGrid) return;
 
+    // Normalize the search term for case-insensitive comparison
     const normalizedSearch = searchTerm.toLowerCase().trim();
     
+    // If the search term is empty, render all products and exit
     if (normalizedSearch === '') {
-        renderPopularProducts(); // Hiển thị lại tất cả sản phẩm (với giá từ cache/json)
+        renderProducts(); // Call renderProducts to show all items from allProductsData
         return;
     }
 
-    // Sử dụng mảng popularProducts đã được định nghĩa
-    const filteredProducts = popularProducts.filter(product => 
-        product.name.toLowerCase().includes(normalizedSearch) ||
+    // Filter the allProductsData array based on the normalized search term
+    // Products match if their name or size (if size exists) includes the search term
+    const filteredProducts = allProductsData.filter(product => 
+        (product.name && product.name.toLowerCase().includes(normalizedSearch)) || 
         (product.size && product.size.toLowerCase().includes(normalizedSearch)) 
     );
 
-    popularProductsGrid.innerHTML = '';
-    
+    popularProductsGrid.innerHTML = ''; // Clear the current content of the grid
+
+    // If no products match the search term, display a "no results" message
     if (filteredProducts.length === 0) {
         popularProductsGrid.innerHTML = `
             <div class="no-results">
                 <p>Không tìm thấy sản phẩm "${searchTerm}"</p>
             </div>
         `;
-        return;
+        return; // Exit the function
     }
 
+    // If matching products are found, iterate through the filtered array and render them
     filteredProducts.forEach(product => {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
+        // Store the product ID in a data attribute
         productCard.dataset.productId = product.id;
 
-         const displayPrice = productPrices && productPrices[product.id] !== undefined 
-                             ? productPrices[product.id] 
-                             : product.price;
+         // Get all product details directly from the filtered product object
+         const displayPrice = product.price; 
+         const displayRating = product.rating;
+         const displayImageUrl = product.imageUrl;
+         const displayProductUrl = product.productUrl;
+         const displayName = product.name;
+         const displaySize = product.size;
 
+        // Generate the star rating HTML
         const starRatingHTML = Array(5).fill(0).map((_, i) =>
-            `<i class="ri-star-fill" style="color: ${i < Math.floor(product.rating) ? '#ffb300' : '#e0e0e0'};"></i>`
+            `<i class="ri-star-fill" style="color: ${i < Math.floor(displayRating) ? '#ffb300' : '#e0e0e0'};"></i>`
         ).join('');
 
+        // Build the inner HTML for the product card using the product data
         productCard.innerHTML = `
-             <a href="${product.productUrl}" class="product-link">
-                <img src="${product.imageUrl}" alt="${product.name}">
+             <a href="${displayProductUrl}" class="product-link">
+                <img src="${displayImageUrl}" alt="${displayName}">
             </a>
-            <h4>${product.name}</h4>
-             <div class="size">${product.size ? `Size: ${product.size}` : ''}</div>
+            <h4>${displayName}</h4>
+             <div class="size">${displaySize ? `Size: ${displaySize}` : ''}</div>
             <div class="rating">
-                ${starRatingHTML} (${product.rating})
+                ${starRatingHTML} (${displayRating || 0})
             </div>
             <div class="price">${formatVND(displayPrice)}</div> 
             <button class="add-to-cart-btn" data-product-id="${product.id}">Add to cart</button>
         `;
+        // Add the product card to the grid
         popularProductsGrid.appendChild(productCard);
     });
 
-    // Thêm lại event listeners cho các nút Add to Cart
+    // After rendering filtered products, re-attach event listeners to their "Add to cart" buttons
     popularProductsGrid.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.addEventListener('click', handleAddToCartClick); // Gắn listener gọi hàm đã định nghĩa ở ngoài
+        button.addEventListener('click', handleAddToCartClick); // Call the global handler
     });
 }
 
 // --- END GLOBAL/FILE SCOPE ---
 
 
-// --- DOMContentLoaded - Initial setup only ---
+// --- DOMContentLoaded - Initial setup and attaching event listeners ---
+// This code runs only after the HTML document has been fully loaded and parsed.
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements ---
-    // KHAI BÁO CÁC BIẾN DOM ELEMENT Ở ĐÂY
-    const popularProductsGrid = document.getElementById('popular-products-grid');
-    const cartSidebar = document.getElementById('cart-sidebar');
-    const cartItemsContainer = document.getElementById('cart-items-container');
-    const cartNotificationBadge = document.getElementById('cart-notification-badge');
-    const cartSubtotalElement = document.getElementById('cart-subtotal');
-    const cartTotalElement = document.getElementById('cart-total');
-    const notificationIcon = document.getElementById('notification-icon'); // This will be the cart toggle on mobile
-    const closeCartButton = document.getElementById('close-cart-button');
-    const body = document.body; // To add/remove class for overflow control
-    const searchInput = document.querySelector('.search-bar input');
-
-    // --- Initial Load Logic ---
-    // 1. Thử tải giá từ cache ngay lập tức
-    const cachedPrices = loadPricesFromCache();
-
-    if (cachedPrices) {
-        productPrices = cachedPrices; 
-        console.log("Using cached prices from localStorage.");
-        renderPopularProducts();
-        updateCartDisplay(); 
-    } else {
-        console.log("No valid cache, rendering with default prices from JS array.");
-        renderPopularProducts();
-        updateCartDisplay(); 
-    }
-
-    // 2. Bất đồng bộ fetch giá mới từ file prices.json (không chờ kết quả này)
-    fetchPricesFromJsonAndCache()
+    // Khởi tạo từ defaultProducts trước
+    allProductsData = [...defaultProducts];
+    renderProducts();
+    updateCartDisplay();
+    
+    // Sau đó fetch dữ liệu mới
+    fetchProductsFromJsonAndCache()
         .then(fetchedData => {
-            if (fetchedData) {
-                 console.log('Fetch from JSON complete. Updating UI with fresh prices.');
-                 productPrices = fetchedData; 
-                 renderPopularProducts(); 
-                 updateCartDisplay(); 
+            if (fetchedData && fetchedData.length > 0) {
+                console.log('Loaded fresh data:', fetchedData);
+                allProductsData = fetchedData;
+                renderProducts();
+                updateCartDisplay();
+            } else {
+                console.log('No data from fetch, keeping default products');
             }
         })
         .catch(error => {
-            console.warn('Failed to fetch fresh prices from JSON, using current data.', error);
+            console.error('Error fetching product data:', error);
         });
 
+    // --- Attach Event Listeners ---
+    // Attach event listeners to various interactive elements, calling the global functions
 
-    // --- Các Event Listener và Khởi tạo khác chỉ chạy sau khi DOMContentLoaded ---
-
-    // Listeners cho Cart Toggle (Notification icon và Close button)
+    // Listeners for Cart Toggle (Notification icon and Close button)
+    const notificationIcon = document.getElementById('notification-icon');
     if (notificationIcon) {
         notificationIcon.addEventListener('click', () => {
-            if (isMobile()) { // isMobile đã định nghĩa ngoài scope
-                toggleCart(true); // toggleCart đã định nghĩa ngoài scope
+             // Call global helper functions to toggle cart visibility
+            if (typeof isMobile === 'function' && isMobile()) { 
+                toggleCart(true); 
             }
         });
     }
 
+    const closeCartButton = document.getElementById('close-cart-button');
      if (closeCartButton) {
          closeCartButton.addEventListener('click', () => {
-             if (isMobile()) { // isMobile đã định nghĩa ngoài scope
-                 toggleCart(false); // toggleCart đã định nghĩa ngoài scope
+             // Call global helper functions to toggle cart visibility
+             if (typeof isMobile === 'function' && isMobile()) { 
+                 toggleCart(false); 
              }
          });
      }
 
-
-    // Handle window resize (gắn listener cho hàm handleResize đã định nghĩa ngoài scope)
+    // Attach a listener to the window's resize event, calling the global handleResize function
     window.addEventListener('resize', handleResize); 
 
-    // Thêm event listener cho thanh tìm kiếm
+    // Add event listener for the search input field
+    const searchInput = document.querySelector('.search-bar input');
     if (searchInput) {
-        let searchTimeout; // searchTimeout chỉ cần trong scope này
+        let searchTimeout; // This variable is local to this DOMContentLoaded scope for managing debounce
         searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
+            clearTimeout(searchTimeout); // Clear previous timeout on new input
             searchTimeout = setTimeout(() => {
-                searchProducts(e.target.value); // searchProducts đã định nghĩa ngoài scope
-            }, 300); 
+                // Call the global searchProducts function after a delay
+                searchProducts(e.target.value); 
+            }, 300); // 300ms delay for debounce
         });
     }
 
+    // --- Final Initializations ---
+    // Call global functions to set initial state of badge and handle initial window size
+    updateNotificationBadge(); 
+    handleResize(); 
 
-    // --- Các lệnh khởi tạo cuối cùng ---
-    updateNotificationBadge(); // updateNotificationBadge đã định nghĩa ngoài scope
-    handleResize(); // Gọi handleResize lần đầu để thiết lập trạng thái ban đầu
 
-
-}); // End DOMContentLoaded
+}); // End DOMContentLoaded block

@@ -1,13 +1,65 @@
-{
-  "03affeb3": 200000,
-  "330d280a": 300000,
-  "5498355b": 455000,
-  "68a4ff7c": 485000,
-  "0d00e5a0": 525000,
-  "a52e4b51": 620000,
-  "ffb5e8b3": 118000,
-  "0ca12c6c": 118000,
-  "ef492bf0": 335000,
-  "bf823a06": 400000,
-  "fcf76fc8": 350000
-}
+[
+  {
+    "id": "03affeb3",
+    "name": "DURAflex 6mm",
+    "size": "1m22x2m44",
+    "price": 200000,
+    "rating": 4.9,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "productUrl": "product/sanpham1.html"
+  },
+  {
+    "id": "330d280a",
+    "name": "DURAflex 8mm",
+    "size": "1m22x2m45",
+    "price": 300000,
+    "rating": 4.1,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "productUrl": "product/sanpham1.html"
+  },
+  {
+    "id": "5498355b",
+    "name": "DURAflex 15mm",
+    "size": "1m22x2m46",
+    "price": 455000,
+    "rating": 4.11,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "productUrl": "product/sanpham1.html"
+  },
+  {
+    "id": "68a4ff7c",
+    "name": "DURAflex 16mm",
+    "size": "1m22x2m47",
+    "price": 555555,
+    "rating": 4.12,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "productUrl": "product/sanpham1.html"
+  },
+  {
+    "id": "0d00e5a0",
+    "name": "DURAflex 18mm",
+    "size": "1m22x2m48",
+    "price": 525000,
+    "rating": 4.13,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "productUrl": "product/sanpham1.html"
+  },
+  {
+    "id": "a52e4b51",
+    "name": "dura vist bắn sàn",
+    "size": "35mm",
+    "price": 115000,
+    "rating": 4.9,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1CrHuh05opsLhcnufGgWxw9Rv93DjWQLC",
+    "productUrl": "product/sanpham2.html"
+  },
+  {
+    "id": "ffb5e8b3",
+    "name": "dura vist bắn vách",
+    "size": "26mm",
+    "price": 115000,
+    "rating": 4.9,
+    "imageUrl": "https://lh3.googleusercontent.com/d/1c7uX73pN-pFWtU28S6mx0sMtyOa7SOLG",
+    "productUrl": "product/sanpham2.html"
+  }
+]
