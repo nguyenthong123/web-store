@@ -910,7 +910,7 @@ button {
 }
 
 @media (max-width: 480px) {
-    /* Adjustments for very small screens */
+    /* General Adjustments for very small screens */
      .sidebar {
          padding: 10px 5px;
      }
@@ -932,6 +932,8 @@ button {
 
     .main-content {
          padding: 10px;
+         /* Ensure main-content itself doesn't allow overflow from its children */
+         overflow-x: hidden;
     }
      .greeting h2 {
          font-size: 1.5em;
@@ -978,36 +980,46 @@ button {
     }
 
     .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* Changed from 1 to 2 columns on mobile */
-        gap: 15px; /* Adjusted gap to be consistent with tablet 2-column layout */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px; /* Reduced gap from 15px to 10px */
+        /* width: 100%; is inherited and should be correct */
+    }
+
+    .product-card {
+        padding: 10px;     /* Reduced padding from 15px (general) to 10px */
+        min-width: 0;      /* Crucial: Allows card to shrink fully within the grid cell */
+        display: flex;     /* Added to ensure consistent flex behavior if not already set */
+        flex-direction: column; /* Added to ensure consistent flex behavior */
     }
 
     .product-card img {
-        height: 120px; /* Kept this, might need adjustment if items look too cramped */
+        height: 100px;    /* Slightly reduced image height */
+        /* object-fit: contain; is good */
+        margin-bottom: 10px; /* Adjusted margin */
     }
 
-     /* .product-card img {  This was a duplicate rule, commenting out the less specific one
-         height: 100px;
-     } */
-      .product-card h4 {
-          font-size: 0.9em;
-           margin-bottom: 3px;
-      }
-      .product-card .rating {
-          font-size: 0.8em;
-           margin-bottom: 5px;
-      }
-       .product-card .price {
-           font-size: 1em;
-            margin-bottom: 10px;
-       }
-        .product-card .add-to-cart-btn {
-            font-size: 0.9em;
-        }
+    .product-card h4 {
+        font-size: 0.85em; /* Slightly reduced font size */
+        margin: 0 0 4px 0; /* Adjusted margin */
+        /* overflow: hidden; text-overflow: ellipsis; white-space: nowrap; are good */
+    }
+    .product-card .rating {
+        font-size: 0.75em; /* Slightly reduced font size */
+        margin-bottom: 6px;  /* Adjusted margin */
+    }
+    .product-card .price {
+        font-size: 0.95em;  /* Slightly reduced font size */
+        margin-bottom: 8px; /* Adjusted margin */
+    }
+    .product-card .add-to-cart-btn {
+        font-size: 0.85em; /* Slightly reduced font size */
+        padding: 8px;      /* Adjusted padding for the button */
+        margin-top: auto;  /* Helps push button to bottom if cards have varying text height */
+    }
 
     .cart-sidebar {
         padding: 10px;
-        padding-bottom: 180px; /* Điều chỉnh padding nhỏ hơn cho màn hình nhỏ */
+        padding-bottom: 180px;
     }
     .cart-header h3 {
         font-size: 1.3em;
@@ -1051,7 +1063,7 @@ button {
      }
 
     .cart-items {
-        padding-bottom: 120px; /* Giảm padding cho màn hình nhỏ hơn */
+        padding-bottom: 120px;
     }
 
     .cart-summary {
