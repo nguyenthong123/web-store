@@ -39,9 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNotificationBadge();
     }
 
-    // Thêm hàm định dạng tiền tệ VNĐ
+    // Sửa lại hàm định dạng tiền tệ VNĐ
     function formatVND(amount) {
-        return amount.toLocaleString('vi-VN') + ' ₫';
+        // Đảm bảo amount là số
+        const numericAmount = parseInt(amount, 10);
+        if (isNaN(numericAmount)) {
+            return '0 đ';
+        }
+        
+        // Định dạng số với dấu chấm phân cách
+        const formatted = numericAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return formatted + ' đ';
     }
 
     // --- Cart State ---
