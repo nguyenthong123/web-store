@@ -1,200 +1,119 @@
 [
   {
-    "id": "c389cf19",
-    "name": "DURAflex Độ Dày 4mm",
+    "id": "0f3c958d",
+    "name": "DURAflex-4mm",
     "size": "1m22x2m44",
     "price": 130725,
     "rating": 4.9,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "7bbeeca6",
-    "name": "DURAflex Độ Dày 4,5mm",
+    "id": "362b3241",
+    "name": "DURAflex-4.5mm",
     "size": "1m22x2m44",
     "price": 149625,
     "rating": 4.1,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "0d4d7f59",
-    "name": "DURAflex Độ Dày 6mm",
+    "id": "c17466a8",
+    "name": "DURAflex-6mm",
     "size": "1m22x2m44",
     "price": 192677,
     "rating": 4.11,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "02c526dd",
-    "name": "DURAflex Độ Dày 8mm",
+    "id": "439aaf73",
+    "name": "DURAflex-8mm",
     "size": "1m22x2m44",
     "price": 284235,
     "rating": 4.12,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "956c1223",
-    "name": "DURAflex Độ Dày 9mm",
+    "id": "49566d1d",
+    "name": "DURAflex-9mm",
     "size": "1m22x2m44",
     "price": 325605,
     "rating": 4.13,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "e766d152",
-    "name": "DURAflex Độ Dày 10mm",
+    "id": "24e7208e",
+    "name": "DURAflex-10mm",
     "size": "1m22x2m44",
     "price": 387660,
     "rating": 4.9,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "d1efaf8d",
-    "name": "DURAflex Độ Dày 12mm",
+    "id": "7776b467",
+    "name": "DURAflex-12mm",
     "size": "1m22x2m44",
     "price": 441420,
     "rating": 4.9,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "a6510982",
-    "name": "DURAflex Độ Dày 14mm",
+    "id": "c339b524",
+    "name": "DURAflex-14mm",
     "size": "1m22x2m44",
     "price": 462630,
     "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "84d41b91",
-    "name": "DURAflex Độ Dày 15mm",
+    "id": "c64f522b",
+    "name": "DURAflex-15mm",
     "size": "1m22x2m44",
     "price": 470190,
     "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "e3a885c6",
-    "name": "DURAflex Độ Dày 16mm",
+    "id": "1e574e23",
+    "name": "DURAflex-16mm",
     "size": "1m22x2m44",
     "price": 510405,
     "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "9b6df97e",
-    "name": "DURAflex Độ Dày 18mm",
+    "id": "12c36177",
+    "name": "DURAflex-18mm",
     "size": "1m22x2m44",
     "price": 601230,
     "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1nbF91eUREVAMIN_82Jiy3d0YBzmEs1Aa",
     "productUrl": "product/sanpham1.html"
   },
   {
-    "id": "e5376634",
-    "name": "DURAflex Độ Dày 20mm",
-    "size": "1m22x2m44",
-    "price": 691950,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "2a768acb",
-    "name": "DURAflex Độ Dày 22mm",
-    "size": "1m22x2m44",
-    "price": 777000,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "343d9bcd",
-    "name": "DURAflex Độ Dày 24mm",
-    "size": "1m22x2m44",
-    "price": 928935,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "2a934bf0",
-    "name": "DURAflex Độ Dày 12mm",
-    "size": "1mx2m",
-    "price": 299775,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "b02ca27a",
-    "name": "DURAflex Độ Dày 14mm",
-    "size": "1mx2m",
-    "price": 315000,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1AvwucuTR5uzIqbRKCpq9Zomoa3CqZRT0",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "a847371e",
-    "name": "DURAflex Độ Dày 15mm",
-    "size": "1mx2m",
-    "price": 340200,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "6546ae7e",
-    "name": "DURAflex Độ Dày 16mm",
-    "size": "1mx2m",
-    "price": 366975,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "f8d3c474",
-    "name": "DURAflex Độ Dày 18mm",
-    "size": "1mx2m",
-    "price": 453705,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "4bb966a4",
-    "name": "DURAflex Độ Dày 20mm",
-    "size": "1mx2m",
-    "price": 530880,
-    "rating": 4.3,
-    "imageUrl": "https://lh3.googleusercontent.com/d/1jwewcToHwM7p9oiNG9Z6kpP-tSh7hSPM",
-    "productUrl": "product/sanpham1.html"
-  },
-  {
-    "id": "e8a4f545",
+    "id": "1a416780",
     "name": "Dura Vis bắn vách",
-    "size": "Dài 26mm",
-    "price": 102900,
+    "size": "26mm",
+    "price": 150000,
     "rating": 4.3,
-    "imageUrl": "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-01%20%281%29.png",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1pYFvVoV9uv6flFDRXjV3D5e1omMyveKh",
     "productUrl": "product/sanpham2.html"
   },
   {
-    "id": "8ffc7dc1",
+    "id": "7ba79c08",
     "name": "DURA vis bắn sàn",
-    "size": "Dài 35mm",
-    "price": 102900,
+    "size": "35mm",
+    "price": 150000,
     "rating": 4.3,
-    "imageUrl": "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-01%20%281%29.png",
+    "imageUrl": "https://lh3.googleusercontent.com/d/1pYFvVoV9uv6flFDRXjV3D5e1omMyveKh",
     "productUrl": "product/sanpham2.html"
   }
 ]
