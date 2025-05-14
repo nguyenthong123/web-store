@@ -562,6 +562,48 @@ document.addEventListener('DOMContentLoaded', function() {
     if (constructionButtons.length > 0) {
         constructionButtons[0].click();
     }
+
+    // --- Spec Table Update for Screws ---
+    function updateSpecTable() {
+        const productType = document.querySelector('.product-config-form').dataset.productType;
+        const specTableBody = document.querySelector('.spec-table tbody');
+        const selectedLength = document.querySelector('[data-option-type="doday"] .selected')?.dataset.value;
+        
+        if (productType === 'dura_vis_screws') {
+            specTableBody.innerHTML = '';
+            const row = document.createElement('tr');
+            
+            if (selectedLength === '26') {
+                row.innerHTML = `
+                    <td>Vít chuyên dụng bắn vách</td>
+                    <td>trung bình 20 con vít / tấm</td>
+                `;
+            } else if (selectedLength === '35') {
+                row.innerHTML = `
+                    <td>Vít chuyên dụng bắn sàn</td>
+                    <td>trung bình 16 con vít / tấm</td>
+                `;
+            }
+            
+            specTableBody.appendChild(row);
+        }
+    }
+
+    // Setup option buttons
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const optionGroup = this.closest('.options-group');
+            optionGroup.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            updateSpecTable();
+        });
+    });
+
+    // Initial update
+    updateSpecTable();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
