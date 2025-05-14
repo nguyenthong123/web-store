@@ -288,40 +288,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Unified update spec table function
     function updateSpecTable() {
-        const selectedSize = document.querySelector('[data-option-type="quycach"] .selected')?.dataset.value;
-        const selectedThickness = document.querySelector('[data-option-type="doday"] .selected')?.dataset.value;
-        const tbody = document.querySelector('.spec-table tbody');
-        const specTable = document.querySelector('.spec-table-wrapper');
-
-        // Debug logs
-        console.log('Selected Size:', selectedSize);
-        console.log('Selected Thickness:', selectedThickness);
-        console.log('Specs:', specifications[selectedSize]?.[selectedThickness]);
-
-        if (!selectedSize || !selectedThickness || !tbody) {
-            if (specTable) specTable.style.display = 'none';
-            return;
-        }
-
-        tbody.innerHTML = '';
-        const row = document.createElement('tr');
+        const productType = document.querySelector('.product-config-form').dataset.productType;
+        const specTableBody = document.querySelector('.spec-table tbody');
+        const selectedLength = document.querySelector('[data-option-type="doday"] .selected')?.dataset.value;
+        
+        if (productType === 'dura_vis_screws') {
+            // Clear existing content
+            specTableBody.innerHTML = '';
             
-        // Thêm cột khối lượng riêng
-        const khoiLuongCell = document.createElement('td');
-        const specs = specifications[selectedSize]?.[selectedThickness];
-        khoiLuongCell.textContent = specs ? specs.weight : '-';
-        row.appendChild(khoiLuongCell);
+            // Create new row based on selected screw length
+            const row = document.createElement('tr');
+            
+            if (selectedLength === '26') {
+                row.innerHTML = `
+                    <td>Vít chuyên dụng bắn vách</td>
+                    <td>trung bình 20 con vít / tấm</td>
+                `;
+            } else if (selectedLength === '35') {
+                row.innerHTML = `
+                    <td>Vít chuyên dụng bắn sàn</td>
+                    <td>trung bình 16 con vít / tấm</td>
+                `;
+            }
+            
+            specTableBody.appendChild(row);
+        } else {
+            // Original spec table content for other products
+            const selectedSize = document.querySelector('[data-option-type="quycach"] .selected')?.dataset.value;
+            const selectedThickness = document.querySelector('[data-option-type="doday"] .selected')?.dataset.value;
+            const tbody = document.querySelector('.spec-table tbody');
+            const specTable = document.querySelector('.spec-table-wrapper');
 
-        // Thêm cột quy cách đóng kiện
-        const quyCachKienCell = document.createElement('td');
-        quyCachKienCell.textContent = specs ? specs.package : '-';
-        row.appendChild(quyCachKienCell); // Sửa lỗi từ quyiCachKienCell thành quyCachKienCell
+            // Debug logs
+            console.log('Selected Size:', selectedSize);
+            console.log('Selected Thickness:', selectedThickness);
+            console.log('Specs:', specifications[selectedSize]?.[selectedThickness]);
 
-        tbody.appendChild(row);
+            if (!selectedSize || !selectedThickness || !tbody) {
+                if (specTable) specTable.style.display = 'none';
+                return;
+            }
 
-        // Hiển thị bảng
-        if (specTable) {
-            specTable.style.display = 'block';
+            tbody.innerHTML = '';
+            const row = document.createElement('tr');
+                
+            // Thêm cột khối lượng riêng
+            const khoiLuongCell = document.createElement('td');
+            const specs = specifications[selectedSize]?.[selectedThickness];
+            khoiLuongCell.textContent = specs ? specs.weight : '-';
+            row.appendChild(khoiLuongCell);
+
+            // Thêm cột quy cách đóng kiện
+            const quyCachKienCell = document.createElement('td');
+            quyCachKienCell.textContent = specs ? specs.package : '-';
+            row.appendChild(quyiCachKienCell);
+
+            tbody.appendChild(row);
+
+            // Hiển thị bảng
+            if (specTable) {
+                specTable.style.display = 'block';
+            }
         }
     }
 
@@ -579,4 +606,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const productType = document.querySelector('.product-config-form').dataset.productType;
+    const optionButtons = document.querySelectorAll('.option-btn');
+
+    optionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const optionGroup = this.closest('.options-group');
+            optionGroup.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            updateSpecTable();
+        });
+    });
+
+    // Initial update
+    updateSpecTable();
 });
