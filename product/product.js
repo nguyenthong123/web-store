@@ -625,3 +625,48 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial update
     updateSpecTable();
 });
+
+// Quantity control handling
+function setupQuantityControls() {
+    const controls = document.querySelectorAll('.quantity-controls');
+    
+    controls.forEach(control => {
+        const minusBtn = control.querySelector('.minus-btn');
+        const plusBtn = control.querySelector('.plus-btn');
+        const quantitySpan = control.querySelector('.quantity');
+        let quantity = 1;
+        let clickTimeout;
+
+        function updateQuantity(newQuantity) {
+            quantity = Math.max(1, Math.min(99, newQuantity));
+            quantitySpan.textContent = quantity;
+            // Trigger any other updates needed
+            updateProductSummary();
+        }
+
+        // Use touchstart for faster mobile response
+        plusBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            updateQuantity(quantity + 1);
+        });
+
+        minusBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            updateQuantity(quantity - 1);
+        });
+
+        // Keep click events for desktop
+        plusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            updateQuantity(quantity + 1);
+        });
+
+        minusBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            updateQuantity(quantity - 1);
+        });
+    });
+}
+
+// Initialize controls when DOM is ready
+document.addEventListener('DOMContentLoaded', setupQuantityControls);

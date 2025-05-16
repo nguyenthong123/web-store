@@ -328,3 +328,48 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeProducts(); // Replace the old renderPopularProducts() call
     handleResize(); // Set initial state based on screen size
 });
+
+function initQuantityControls() {
+    const controls = document.querySelectorAll('.quantity-controls');
+    
+    controls.forEach(control => {
+        const minusBtn = control.querySelector('.minus-btn');
+        const plusBtn = control.querySelector('.plus-btn');
+        const quantitySpan = control.querySelector('.quantity');
+        
+        let quantity = parseInt(quantitySpan.textContent) || 1;
+        let isUpdating = false;
+        
+        function updateQuantity(newValue) {
+            if (isUpdating) return;
+            isUpdating = true;
+            
+            quantity = Math.max(1, Math.min(99, newValue));
+            quantitySpan.textContent = quantity;
+            
+            // Thêm delay nhỏ để tránh update quá nhanh
+            setTimeout(() => {
+                isUpdating = false;
+            }, 100);
+        }
+
+        // Xử lý touch events
+        [plusBtn, minusBtn].forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const delta = btn === plusBtn ? 1 : -1;
+                updateQuantity(quantity + delta);
+            }, { passive: false });
+            
+            // Xử lý click cho desktop
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const delta = btn === plusBtn ? 1 : -1;
+                updateQuantity(quantity + delta);
+            });
+        });
+    });
+}
+
+// Khởi tạo khi DOM đã sẵn sàng
+document.addEventListener('DOMContentLoaded', initQuantityControls);
