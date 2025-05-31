@@ -670,3 +670,51 @@ function setupQuantityControls() {
 
 // Initialize controls when DOM is ready
 document.addEventListener('DOMContentLoaded', setupQuantityControls);
+
+// Lightbox functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('.lightbox-img');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
+    const mainImage = document.getElementById('main-product-image');
+    const thumbnails = document.querySelectorAll('.thumbnail-gallery .thumbnail');
+    
+    // Xử lý click vào hình ảnh chính - mở lightbox
+    mainImage.addEventListener('click', () => {
+        lightboxImg.src = mainImage.src;
+        lightboxImg.alt = mainImage.alt;
+        lightbox.classList.add('active');
+    });
+
+    // Xử lý click vào thumbnails - cập nhật hình ảnh chính
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+            mainImage.src = thumbnail.src;
+            mainImage.alt = thumbnail.alt;
+            // Cập nhật trạng thái active cho thumbnails
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            thumbnail.classList.add('active');
+        });
+    });
+
+    // Đóng lightbox khi click nút close
+    closeBtn.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+    });
+
+    // Đóng lightbox khi click vào nền đen
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            lightbox.classList.remove('active');
+        }
+    });
+
+    // Đóng lightbox khi nhấn phím Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            lightbox.classList.remove('active');
+        }
+    });
+});
