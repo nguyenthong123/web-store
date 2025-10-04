@@ -1,10 +1,12 @@
-// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - TÍCH HỢP ĐĂNG NHẬP VÀ GIÁ ĐỘNG
+// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - TÍCH HỢP DROPDOWN GIÁ TOÀN CỤC
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const popularProductsGrid = document.getElementById('popular-products-grid');
+    const globalPriceSelectorContainer = document.getElementById('global-price-selector-container');
     const cartSidebar = document.getElementById('cart-sidebar');
     const cartItemsContainer = document.getElementById('cart-items-container');
+    // ... (các element khác giữ nguyên) ...
     const cartNotificationBadge = document.getElementById('cart-notification-badge');
     const cartSubtotalElement = document.getElementById('cart-subtotal');
     const cartTotalElement = document.getElementById('cart-total');
@@ -13,9 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const searchInput = document.querySelector('.search-bar input');
 
+
     // --- Data ---
     let allProductsData = [];
-    let cart = JSON.parse(localStorage.getItem('cart')) || []; // Load giỏ hàng từ localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     // --- Helper Functions ---
     const getCurrentUser = () => {
@@ -28,10 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(numericAmount)) return 'Liên hệ';
         return numericAmount.toLocaleString('vi-VN') + ' đ';
     };
-
+    
+    // ... (các helper function khác giữ nguyên) ...
     const saveCart = () => {
         localStorage.setItem('cart', JSON.stringify(cart));
     };
+
 
     // --- Core Functions ---
     async function fetchProducts() {
@@ -43,6 +48,67 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Lỗi khi tải sản phẩm:', error);
         }
+    }
+    
+    // =================================================================
+    // === LOGIC MỚI: TẠO DROPDOWN GIÁ TOÀN CỤC ===
+    // =================================================================
+    function createGlobalPriceSelector() {
+        const currentUser = getCurrentUser();
+        const userType = currentUser ? currentUser.phan_loai : 'guest';
+
+        if ((userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') && allProductsData.length > 0) {
+            // Lấy tất cả các loại gói giá duy nhất từ tất cả sản phẩm
+            const priceKeys = new Set();
+            priceKeys.add('giá niêm yết'); // Bắt đầu với giá niêm yết
+            allProductsData.forEach(product => {
+                for (const key in product) {
+                    if (key.startsWith('gói')) {
+                        priceKeys.add(key);
+                    }
+                }
+            });
+
+            // Tạo dropdown
+            let optionsHtml = '';
+            priceKeys.forEach(key => {
+                const cleanKey = key.replace(/ Tháng \d+"/i, ''); // Làm sạch tên hiển thị
+                optionsHtml += `<option value="${key}">${cleanKey}</option>`;
+            });
+
+            const selectorHtml = `
+                <label for="package-select">Chọn báo giá:</label>
+                <select id="package-select">
+                    ${optionsHtml}
+                </select>
+            `;
+            
+            globalPriceSelectorContainer.innerHTML = selectorHtml;
+            globalPriceSelectorContainer.style.display = 'flex'; // Cho container hiện ra
+
+            // Thêm sự kiện để cập nhật giá khi chọn
+            document.getElementById('package-select').addEventListener('change', (event) => {
+                const selectedKey = event.target.value;
+                updateAllProductPrices(selectedKey);
+            });
+        }
+    }
+
+    // =================================================================
+    // === LOGIC MỚI: CẬP NHẬT GIÁ CHO TẤT CẢ SẢN PHẨM ===
+    // =================================================================
+    function updateAllProductPrices(priceKey) {
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            const productId = card.dataset.productId;
+            const productData = allProductsData.find(p => p.id_san_pham === productId);
+            const priceElement = card.querySelector('.price');
+            
+            if (productData && priceElement) {
+                const price = productData[priceKey];
+                priceElement.textContent = formatVND(price);
+            }
+        });
     }
 
     function renderPopularProducts(productsToRender = allProductsData) {
@@ -64,12 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let priceHtml = '';
             
-            // LOGIC HIỂN THỊ GIÁ ĐỘNG
-            if (userType === 'Thầu Thợ') {
+            // Cập nhật logic render: hiển thị giá mặc định cho mỗi nhóm
+            if (userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') {
+                // Hiển thị giá niêm yết làm mặc định
+                priceHtml = `<div class="price">${formatVND(product["giá niêm yết"])}</div>`;
+            } else if (userType === 'Thầu Thợ') {
                 priceHtml = `<div class="price">${formatVND(product["Giá Thầu Thợ"])}</div>`;
-            } else if (userType === 'Nhà Máy Tôn') {
-                priceHtml = `<button class="btn view-package-prices-btn" data-product-id="${product["id_san_pham"]}">Xem báo giá</button>`;
-            } else { // Mặc định là khách ('guest') hoặc loại khác
+            } else { // Mặc định là khách ('guest')
                 priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`;
             }
 
@@ -85,37 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
             popularProductsGrid.appendChild(productCard);
         });
 
-        addEventListenersToButtons();
-    }
-    
-    function addEventListenersToButtons() {
-        // Nút "Xem báo giá" cho Nhà Máy Tôn
-        document.querySelectorAll('.view-package-prices-btn').forEach(button => {
-            button.addEventListener('click', event => {
-                const productId = event.target.dataset.productId;
-                const product = allProductsData.find(p => p.id_san_pham === productId);
-                if (product) {
-                    let priceList = `BÁO GIÁ GÓI SỐ LƯỢNG LỚN\n----------------------------------\n`;
-                    priceList += `Sản phẩm: ${product["Tên sản phẩm"]}\n\n`;
-                    priceList += `Giá niêm yết: ${formatVND(product['giá niêm yết'])}\n`;
-                    // Lặp qua các key có chữ "gói"
-                    for (const key in product) {
-                        if (key.startsWith('gói')) {
-                            priceList += `${key.replace('"', '')}: ${formatVND(product[key])}\n`;
-                        }
-                    }
-                    alert(priceList); // Nâng cấp lên modal để đẹp hơn
-                }
-            });
-        });
-
-        // Nút "Thêm vào giỏ"
+        // Event listener cho nút "Thêm vào giỏ"
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
             button.addEventListener('click', handleAddToCartClick);
         });
     }
-
+    
     function handleAddToCartClick(event) {
+        // (Logic này giữ nguyên như cũ, đã xử lý tốt các trường hợp)
         const productId = event.target.dataset.productId;
         const productToAdd = allProductsData.find(p => p["id_san_pham"] === productId);
         if (!productToAdd) return;
@@ -126,9 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let priceKey = "Giá chủ nhà"; // Mặc định
         if (userType === 'Thầu Thợ') {
             priceKey = "Giá Thầu Thợ";
-        } else if (userType === 'Nhà Máy Tôn') {
-            alert('Vui lòng liên hệ để đặt hàng theo gói.');
-            return; // Ngăn không cho Nhà Máy Tôn thêm vào giỏ hàng trực tiếp
+        } else if (userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') {
+             // Cập nhật: cho phép thêm vào giỏ với giá đang hiển thị
+            const select = document.getElementById('package-select');
+            const selectedPriceKey = select ? select.value : 'giá niêm yết';
+            priceKey = selectedPriceKey;
         }
 
         const price = productToAdd[priceKey];
@@ -148,7 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addToCart(productForCart);
     }
     
-    // --- Cart Management ---
+    // --- Cart Management & Search (Giữ nguyên không đổi) ---
+    // ... (toàn bộ các hàm addToCart, updateQuantity, updateCartDisplay, etc. giữ nguyên) ...
     function addToCart(product) {
         const existingItem = cart.find(item => item.id === product.id);
         if (existingItem) {
@@ -211,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTotals() {
         const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
         cartSubtotalElement.textContent = formatVND(subtotal);
-        cartTotalElement.textContent = formatVND(subtotal); // Giả sử free shipping
+        cartTotalElement.textContent = formatVND(subtotal);
     }
 
     function updateNotificationBadge() {
@@ -233,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (notificationIcon) notificationIcon.addEventListener('click', () => toggleCart(true));
     if (closeCartButton) closeCartButton.addEventListener('click', () => toggleCart(false));
 
-    // --- Search ---
     function searchProducts(searchTerm) {
         const normalizedSearch = searchTerm.toLowerCase().trim();
         if (!normalizedSearch) {
@@ -255,10 +301,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     // --- Initialization ---
     async function initializeApp() {
         await fetchProducts();
         renderPopularProducts();
+        createGlobalPriceSelector(); // Gọi hàm tạo dropdown sau khi render sản phẩm
         updateCartDisplay();
         updateNotificationBadge();
     }
