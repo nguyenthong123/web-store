@@ -1,4 +1,121 @@
+
+// Thêm hàm này vào đầu file script.js
+const getCurrentUser = () => {
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
+};
+
+// Sửa lại toàn bộ hàm renderPopularProducts
+function renderPopularProducts(productsToRender = allProductsData) {
+    if (!popularProductsGrid) return;
+    popularProductsGrid.innerHTML = '';
+
+    if (!productsToRender || productsToRender.length === 0) {
+        popularProductsGrid.innerHTML = '<div class="no-results"><p>Không có sản phẩm nào.</p></div>';
+        return;
+    }
+
+    const currentUser = getCurrentUser();
+    let userType = 'chủ nhà'; // Mặc định
+    if (currentUser) {
+        userType = currentUser.phan_loai; // Lấy loại người dùng nếu đã đăng nhập
+    }
+
+    productsToRender.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.dataset.productId = product["id_san_pham"];
+
+        let priceHtml = '';
+
+        if (userType === 'Thầu Thợ') {
+            const price = product["Giá Thầu Thợ"];
+            priceHtml = `<div class="price">${formatVND(price)}</div>`;
+        } else if (userType === 'Nhà Máy Tôn') {
+            // Tạo một button để hiển thị danh sách giá
+            priceHtml = `<button class="view-package-prices-btn" data-product-id="${product["id_san_pham"]}">Xem báo giá</button>`;
+        } else { // Mặc định là 'chủ nhà'
+            const price = product["Giá chủ nhà"];
+            priceHtml = `<div class="price">${formatVND(price)}</div>`;
+        }
+
+        productCard.innerHTML = `
+            <a href="#" class="product-link">
+                <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
+            </a>
+            <h4>${product["Tên sản phẩm"]}</h4>
+            <div class="size">Kích thước: ${product["kích thước"]}</div>
+            ${priceHtml} 
+            <button class="add-to-cart-btn" data-product-id="${product["id_san_pham"]}">Thêm vào giỏ</button>
+        `;
+
+        popularProductsGrid.appendChild(productCard);
+    });
+    
+    // Thêm event listener cho các nút mới (nếu có)
+    document.querySelectorAll('.view-package-prices-btn').forEach(button => {
+        button.addEventListener('click', event => {
+            const productId = event.target.dataset.productId;
+            const productData = allProductsData.find(p => p.id_san_pham === productId);
+            if(productData){
+                let priceList = 'Báo giá cho Nhà Máy Tôn:\n';
+                priceList += `Giá niêm yết: ${formatVND(productData['giá niêm yết'])}\n`;
+                priceList += `Gói 1 kiện: ${formatVND(productData['gói 1 kiện Tháng 10"'])}/kiện\n`;
+                priceList += `Gói 2 kiện: ${formatVND(productData['gói 2 kiện Tháng 10"'])}/kiện\n`;
+                priceList += `Gói 4 kiện: ${formatVND(productData['gói 4 kiện'])}/kiện\n`;
+                // ... thêm các gói khác ...
+                alert(priceList); // Hiển thị alert đơn giản, có thể nâng cấp thành modal đẹp hơn
+            }
+        });
+    });
+
+    // Giữ nguyên event listener cho nút "Thêm vào giỏ"
+    popularProductsGrid.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', handleAddToCartClick);
+    });
+}
+
+// Sửa lại hàm handleAddToCartClick để dùng đúng giá
+function handleAddToCartClick(event) {
+    const productId = event.target.dataset.productId;
+    const productToAdd = allProductsData.find(p => p["id_san_pham"] === productId);
+
+    if (productToAdd) {
+        // QUAN TRỌNG: Xác định giá nào sẽ được thêm vào giỏ hàng
+        const currentUser = getCurrentUser();
+        let priceKey = "Giá chủ nhà"; // Mặc định
+        if(currentUser && currentUser.phan_loai === 'Thầu Thợ'){
+            priceKey = "Giá Thầu Thợ";
+        }
+        // Lưu ý: Đối với Nhà Máy Tôn, bạn cần quyết định giá nào sẽ được thêm vào giỏ. 
+        // Ở đây tạm lấy giá niêm yết.
+        if(currentUser && currentUser.phan_loai === 'Nhà Máy Tôn'){
+            priceKey = "giá niêm yết";
+        }
+
+        const productWithPrice = {
+            ...productToAdd,
+            // Thêm một trường 'displayPrice' để giỏ hàng biết dùng giá nào
+            displayPrice: productToAdd[priceKey] 
+        };
+        addToCart(productWithPrice);
+        if (window.innerWidth <= 768) {
+            toggleCart(true);
+        }
+    }
+}
+
+// Và cuối cùng, sửa lại các hàm trong giỏ hàng để dùng 'displayPrice'
+// Ví dụ: updateTotals
+function updateTotals() {
+    const subtotal = cart.reduce((sum, item) => sum + item.displayPrice * item.quantity, 0);
+    //...
+}
+
+
 // NỘI DUNG MỚI CHO SCRIPT.JS - ĐÃ SỬA LỖI VÀ LẤY ĐÚNG "GIÁ CHỦ NHÀ"
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
