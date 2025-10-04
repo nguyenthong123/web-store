@@ -15,20 +15,19 @@ jobs:
   fetch-and-commit-user-data:
     runs-on: ubuntu-latest
 
-    # === THÊM PHẦN NÀY ĐỂ CẤP QUYỀN GHI ===
+    # Cấp quyền ghi vào repository
     permissions:
       contents: write
-    # ==========================================
 
     steps:
-      # Bước 1: Checkout code
+      # Bước 1: Checkout code từ repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
       # Bước 2: Tải file data_web.json
       - name: Download user data from Google Drive
         run: |
-          # Dùng ID file từ fetch-data.txt của bạn
+          # Dùng ID file từ Google Drive của bạn
           curl -L "https://drive.google.com/uc?export=download&id=1404085uVa15Hw10VGUp46b0zw0Rix35m" -o data_web.json
           echo "File data_web.json đã được tải về thành công."
 
