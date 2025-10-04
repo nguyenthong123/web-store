@@ -1,50 +1,47 @@
-# Tên của workflow, sẽ hiển thị trong tab "Actions" của repo
-name: Fetch Data from Google Drive
+# Tên của workflow
+name: Fetch User Data from Google Drive
 
-# Cấu hình khi nào workflow sẽ được kích hoạt
+# Kích hoạt workflow
 on:
-  # Chạy mỗi khi có push lên nhánh 'main'
   push:
     branches:
       - main
-  # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch:
-  # Chạy theo lịch trình (ví dụ: mỗi 6 tiếng một lần) để cập nhật dữ liệu
   schedule:
-    - cron: '0 */6 * * *' # Chạy vào phút thứ 0, mỗi 6 giờ
+    - cron: '0 */6 * * *' # Chạy mỗi 6 giờ
 
-# Các công việc (jobs) sẽ được thực thi
+# Các công việc
 jobs:
-  # Tên của job, có thể đặt tùy ý
-  fetch-and-process-data:
-    # Sử dụng máy ảo Ubuntu phiên bản mới nhất để chạy job
+  fetch-and-commit-user-data:
     runs-on: ubuntu-latest
 
-    # Các bước (steps) sẽ được thực hiện tuần tự
+    # === THÊM PHẦN NÀY ĐỂ CẤP QUYỀN GHI ===
+    permissions:
+      contents: write
+    # ==========================================
+
     steps:
-      # Bước 1: Checkout code từ repository của bạn vào máy ảo
+      # Bước 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Bước 2: Tải file JSON từ Google Drive
-      - name: Download data from Google Drive
-        # Chạy lệnh curl để tải file.
-        # ID file của bạn là 1404085uVa15Hw10VGUp46b0zw0Rix35m
+      # Bước 2: Tải file data_web.json
+      - name: Download user data from Google Drive
         run: |
+          # Dùng ID file từ fetch-data.txt của bạn
           curl -L "https://drive.google.com/uc?export=download&id=1404085uVa15Hw10VGUp46b0zw0Rix35m" -o data_web.json
           echo "File data_web.json đã được tải về thành công."
 
-      # Bước 3: Đọc và hiển thị nội dung để kiểm tra
-      - name: Process JSON data with jq
+      # Bước 3: Commit và push nếu có thay đổi
+      - name: Commit and push if user data changed
         run: |
-          # Kiểm tra xem file có tồn tại và có nội dung không
-          echo "--- Nội dung file data_web.json ---"
-          cat data_web.json
-          
-          # Ví dụ: Đếm số lượng đối tượng trong file JSON
-          ITEM_COUNT=$(jq 'length' data_web.json)
-          echo "Tổng số mục trong file: $ITEM_COUNT"
-          
-          # Ví dụ: Lấy tên (name) của mục đầu tiên
-          FIRST_NAME=$(jq -r '.[0].name' data_web.json)
-          echo "Tên của mục đầu tiên là: $FIRST_NAME"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data_web.json
+          # Chỉ commit khi file có sự thay đổi
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: Cập nhật dữ liệu người dùng (data_web.json)"
+            git push
+          else
+            echo "Dữ liệu người dùng không có gì thay đổi."
+          fi
