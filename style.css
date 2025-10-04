@@ -1339,3 +1339,135 @@ button {
     align-self: flex-end;
     width: fit-content;
 }
+/* ========================================= */
+/*  STYLES FOR PROFILE/LOGIN PAGE            */
+/* ========================================= */
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.auth-card {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.auth-card h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.auth-subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1em;
+}
+
+/* Form Styles */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.2em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 50px; /* Thêm padding trái cho icon */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+#login-message {
+    margin-top: 15px;
+    font-weight: 500;
+    color: #ff5252;
+}
+
+/* Profile Details Styles */
+.user-greeting {
+    font-size: 1.3em;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.user-greeting strong {
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.user-details {
+    text-align: left;
+    margin-bottom: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.user-details p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.user-details p strong {
+    display: inline-block;
+    width: 100px;
+    color: #777;
+}
+
+/* Logout Button */
+.btn-logout {
+    background-color: #e57373; /* Màu đỏ nhạt */
+    color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1.1em;
+    padding: 15px;
+}
+
+.btn-logout:hover {
+    background-color: #c62828; /* Màu đỏ đậm hơn */
+}
+
+
+/* Responsive for auth card */
+@media (max-width: 768px) {
+    .auth-card {
+        padding: 25px 20px;
+    }
+    .auth-card h2 {
+        font-size: 1.5em;
+    }
+}
