@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài Khoản</title>
+    <link rel="stylesheet" href="style.css"> <!-- Dùng chung style.css cho nhất quán -->
+</head>
+<body>
+    <!-- Bạn có thể copy header, sidebar từ index.html vào đây -->
 
+    <main class="main-content">
+        <h1>Tài Khoản Của Bạn</h1>
+
+        <!-- Vùng hiển thị khi CHƯA đăng nhập -->
+        <section id="login-section">
+            <h2>Đăng Nhập</h2>
+            <form id="login-form">
+                <input type="email" id="email-input" placeholder="Nhập email của bạn" required>
+                <button type="submit">Đăng Nhập</button>
+            </form>
+            <p id="login-message"></p>
+        </section>
+
+        <!-- Vùng hiển thị khi ĐÃ đăng nhập -->
+        <section id="profile-section" style="display: none;">
+            <h2>Chào, <span id="user-name"></span>!</h2>
+            <p>Phân loại: <span id="user-phan_loai"></span></p>
+            <p>Email: <span id="user-email"></span></p>
+            <button id="logout-button">Đăng Xuất</button>
+        </section>
+    </main>
+
+    <!-- Script xử lý logic đăng nhập -->
+    <script src="auth.js"></script>
+</body>
+</html>
