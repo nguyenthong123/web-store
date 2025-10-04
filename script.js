@@ -1,4 +1,4 @@
-// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - TÍCH HỢP DROPDOWN GIÁ TOÀN CỤC
+// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - CẬP NHẬT DROPDOWN GIÁ TOÀN CỤC
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const globalPriceSelectorContainer = document.getElementById('global-price-selector-container');
     const cartSidebar = document.getElementById('cart-sidebar');
     const cartItemsContainer = document.getElementById('cart-items-container');
-    // ... (các element khác giữ nguyên) ...
     const cartNotificationBadge = document.getElementById('cart-notification-badge');
     const cartSubtotalElement = document.getElementById('cart-subtotal');
     const cartTotalElement = document.getElementById('cart-total');
@@ -32,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return numericAmount.toLocaleString('vi-VN') + ' đ';
     };
     
-    // ... (các helper function khác giữ nguyên) ...
     const saveCart = () => {
         localStorage.setItem('cart', JSON.stringify(cart));
     };
@@ -50,17 +48,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // =================================================================
-    // === LOGIC MỚI: TẠO DROPDOWN GIÁ TOÀN CỤC ===
-    // =================================================================
     function createGlobalPriceSelector() {
         const currentUser = getCurrentUser();
         const userType = currentUser ? currentUser.phan_loai : 'guest';
 
         if ((userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') && allProductsData.length > 0) {
-            // Lấy tất cả các loại gói giá duy nhất từ tất cả sản phẩm
             const priceKeys = new Set();
-            priceKeys.add('giá niêm yết'); // Bắt đầu với giá niêm yết
+            
+            // =================================================================
+            // === THAY ĐỔI Ở ĐÂY: Thêm các tùy chọn giá mới vào dropdown ===
+            // =================================================================
+            priceKeys.add('Giá chủ nhà');
+            priceKeys.add('Giá Thầu Thợ');
+            priceKeys.add('giá niêm yết');
+            // =================================================================
+
+            // Lấy tất cả các loại gói giá duy nhất từ tất cả sản phẩm
             allProductsData.forEach(product => {
                 for (const key in product) {
                     if (key.startsWith('gói')) {
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             
             globalPriceSelectorContainer.innerHTML = selectorHtml;
-            globalPriceSelectorContainer.style.display = 'flex'; // Cho container hiện ra
+            globalPriceSelectorContainer.style.display = 'flex';
 
             // Thêm sự kiện để cập nhật giá khi chọn
             document.getElementById('package-select').addEventListener('change', (event) => {
@@ -94,9 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // =================================================================
-    // === LOGIC MỚI: CẬP NHẬT GIÁ CHO TẤT CẢ SẢN PHẨM ===
-    // =================================================================
     function updateAllProductPrices(priceKey) {
         const productCards = document.querySelectorAll('.product-card');
         productCards.forEach(card => {
@@ -130,13 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let priceHtml = '';
             
-            // Cập nhật logic render: hiển thị giá mặc định cho mỗi nhóm
             if (userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') {
-                // Hiển thị giá niêm yết làm mặc định
                 priceHtml = `<div class="price">${formatVND(product["giá niêm yết"])}</div>`;
             } else if (userType === 'Thầu Thợ') {
                 priceHtml = `<div class="price">${formatVND(product["Giá Thầu Thợ"])}</div>`;
-            } else { // Mặc định là khách ('guest')
+            } else {
                 priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`;
             }
 
@@ -152,14 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
             popularProductsGrid.appendChild(productCard);
         });
 
-        // Event listener cho nút "Thêm vào giỏ"
         document.querySelectorAll('.add-to-cart-btn').forEach(button => {
             button.addEventListener('click', handleAddToCartClick);
         });
     }
     
     function handleAddToCartClick(event) {
-        // (Logic này giữ nguyên như cũ, đã xử lý tốt các trường hợp)
         const productId = event.target.dataset.productId;
         const productToAdd = allProductsData.find(p => p["id_san_pham"] === productId);
         if (!productToAdd) return;
@@ -167,11 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentUser = getCurrentUser();
         const userType = currentUser ? currentUser.phan_loai : 'guest';
 
-        let priceKey = "Giá chủ nhà"; // Mặc định
+        let priceKey = "Giá chủ nhà"; 
         if (userType === 'Thầu Thợ') {
             priceKey = "Giá Thầu Thợ";
         } else if (userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') {
-             // Cập nhật: cho phép thêm vào giỏ với giá đang hiển thị
             const select = document.getElementById('package-select');
             const selectedPriceKey = select ? select.value : 'giá niêm yết';
             priceKey = selectedPriceKey;
@@ -195,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // --- Cart Management & Search (Giữ nguyên không đổi) ---
-    // ... (toàn bộ các hàm addToCart, updateQuantity, updateCartDisplay, etc. giữ nguyên) ...
     function addToCart(product) {
         const existingItem = cart.find(item => item.id === product.id);
         if (existingItem) {
@@ -301,12 +295,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // --- Initialization ---
     async function initializeApp() {
         await fetchProducts();
         renderPopularProducts();
-        createGlobalPriceSelector(); // Gọi hàm tạo dropdown sau khi render sản phẩm
+        createGlobalPriceSelector();
         updateCartDisplay();
         updateNotificationBadge();
     }
