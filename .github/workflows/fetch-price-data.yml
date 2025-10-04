@@ -1,0 +1,49 @@
+# Tên của workflow mới, sẽ hiển thị riêng biệt trong tab "Actions"
+name: Fetch Price Data from Google Drive
+
+# Cấu hình khi nào workflow sẽ được kích hoạt
+# Giữ giống workflow cũ để chúng chạy đồng bộ
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # Chạy mỗi 6 tiếng một lần
+
+jobs:
+  # Đặt tên job khác để dễ phân biệt
+  fetch-and-commit-price-data:
+    # Sử dụng máy ảo Ubuntu phiên bản mới nhất để chạy job
+    runs-on: ubuntu-latest
+
+    # Các bước sẽ được thực hiện tuần tự
+    steps:
+      # Bước 1: Checkout code từ repository của bạn vào máy ảo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Bước 2: Tải file gia_web_dura.json (file dữ liệu giá)
+      - name: Download price data file
+        run: |
+          curl -L "https://drive.google.com/uc?export=download&id=1A1RIs1bi66lvkA82IDCWg1IjvmEU73o-" -o gia_web_dura.json
+          echo "File gia_web_dura.json đã được tải về thành công."
+
+      # Bước 3: Commit và push NẾU file giá có sự thay đổi
+      - name: Commit and push if price data changed
+        run: |
+          # Cấu hình git user để có thể commit
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Chỉ thêm file gia_web_dura.json vào staging area
+          git add gia_web_dura.json
+          
+          # Chỉ commit và push nếu file này có thay đổi
+          if ! git diff --staged --quiet; then
+            # Commit message riêng biệt để biết file nào được cập nhật
+            git commit -m "chore: Cập nhật dữ liệu giá (gia_web_dura.json)"
+            git push
+          else
+            echo "Dữ liệu giá không có gì thay đổi."
+          fi
