@@ -200,11 +200,11 @@
   {
     "id_name": "99627ac4",
     "name": "thông 3",
-    "phan_loai": "cửa hàng",
+    "phan_loai": "Thầu Thợ",
     "mail": "nbt1122@gmail.com",
-    "bang_gia": "bang_gia_cua_hang",
-    "thong_tin_khuyen_mai": "khuyen_mai_cua_hang",
-    "san_luong_hien_tai": "san_luong_cua_hang"
+    "bang_gia": "bang_gia_thau_tho",
+    "thong_tin_khuyen_mai": "khuyen_mai_thau_tho",
+    "san_luong_hien_tai": "#"
   },
   {
     "id_name": "08af3be1",
@@ -4556,6 +4556,33 @@
   {
     "id_name": "32814fe7",
     "name": "Cửa sắt tấn thọ",
+    "phan_loai": "thầu thợ",
+    "mail": "",
+    "bang_gia": "bang_gia_thau_tho",
+    "thong_tin_khuyen_mai": "khuyen_mai_thau_tho",
+    "san_luong_hien_tai": "#"
+  },
+  {
+    "id_name": "785fb3dc",
+    "name": "Anh hải",
+    "phan_loai": "thầu thợ",
+    "mail": "",
+    "bang_gia": "bang_gia_thau_tho",
+    "thong_tin_khuyen_mai": "khuyen_mai_thau_tho",
+    "san_luong_hien_tai": "#"
+  },
+  {
+    "id_name": "3aa2383b",
+    "name": "Cơ khí cường py",
+    "phan_loai": "thầu thợ",
+    "mail": "",
+    "bang_gia": "bang_gia_thau_tho",
+    "thong_tin_khuyen_mai": "khuyen_mai_thau_tho",
+    "san_luong_hien_tai": "#"
+  },
+  {
+    "id_name": "50b0ad6e",
+    "name": "Anh thuật cữa sắt",
     "phan_loai": "thầu thợ",
     "mail": "",
     "bang_gia": "bang_gia_thau_tho",
