@@ -1516,3 +1516,35 @@ button {
         font-size: 0.9em;
     }
 }
+/* ========================================= */
+/*  STYLES FOR SHIPPING INPUT IN CART        */
+/* ========================================= */
+
+.shipping-row {
+    align-items: center;
+}
+
+.shipping-input {
+    width: 120px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-align: right;
+    font-size: 1em;
+    font-weight: bold;
+    color: #4caf50; /* Màu xanh lá */
+    background-color: #f5f5f5;
+    -moz-appearance: textfield; /* Ẩn mũi tên tăng giảm số */
+}
+
+.shipping-input::-webkit-outer-spin-button,
+.shipping-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.shipping-input:focus {
+    outline: none;
+    border-color: #4caf50;
+    background-color: #fff;
+}
