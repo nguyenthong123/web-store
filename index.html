@@ -134,21 +134,25 @@
             </div>
             <div class="empty-cart-message">Your cart is empty.</div>
         </div>
-        <div class="cart-summary">
-            <div class="summary-row">
-                <span>Sub Total</span>
-                <span id="cart-subtotal">$0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Shipping</span>
-                <span class="shipping">FREE</span>
-            </div>
-            <div class="summary-row total">
-                <span>Total</span>
-                <span id="cart-total">$0.00</span>
-            </div>
-            <button class="btn checkout-btn">Checkout</button>
-        </div>
+     <div class="cart-summary">
+    <div class="summary-row">
+        <span>Sub Total</span>
+        <span id="cart-subtotal">0 đ</span>
+    </div>
+    <!-- =============================================================== -->
+    <!-- THAY ĐỔI Ở ĐÂY: Thêm ô nhập liệu cho phí vận chuyển -->
+    <!-- =============================================================== -->
+    <div class="summary-row shipping-row">
+        <span>Shipping</span>
+        <input type="text" id="shipping-input" class="shipping-input" value="0">
+    </div>
+    <!-- =============================================================== -->
+    <div class="summary-row total">
+        <span>Total</span>
+        <span id="cart-total">0 đ</span>
+    </div>
+    <button class="btn checkout-btn">Checkout</button>
+</div>
     </aside>
 
     <script src="script.js"></script>
