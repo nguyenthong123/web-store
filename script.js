@@ -138,12 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`;
             }
 
-            // Lấy ID sản phẩm từ file gia_web_dura.json
-const productId = product["id_san_pham"]; 
+/ LẤY ID NHÓM TỪ CỘT MỚI 'group_id'
+const groupId = product["group_id"]; 
 
 productCard.innerHTML = `
-    
-    <a href="product/index.html?id=${productId}" class="product-link">
+    // Sửa href để dùng groupId
+    <a href="product/index.html?id=${groupId}" class="product-link">
         <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
     </a>
     <h4>${product["Tên sản phẩm"]}</h4>
