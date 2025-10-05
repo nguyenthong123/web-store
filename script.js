@@ -138,11 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`;
             }
 
-            productCard.innerHTML = `
-                <a href="#" class="product-link">
-                    <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
-                </a>
-                <h4>${product["Tên sản phẩm"]}</h4>
+            // Lấy ID sản phẩm từ file gia_web_dura.json
+const productId = product["id_san_pham"]; 
+
+productCard.innerHTML = `
+    // Sửa href ở đây để trỏ đến trang chi tiết với đúng id
+    <a href="product/index.html?id=${productId}" class="product-link">
+        <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
+    </a>
+    <h4>${product["Tên sản phẩm"]}</h4>
                 <div class="size">Kích thước: ${product["kích thước"]}</div>
                 ${priceHtml}
                 <button class="add-to-cart-btn" data-product-id="${product["id_san_pham"]}">Thêm vào giỏ</button>
