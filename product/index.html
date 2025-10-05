@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm - DunVex & VLXD</title>
+    <link rel="icon" type="image/x-icon" href="../https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
+    
+    <!-- Do file này nằm trong thư mục 'product', cần dùng '../' để đi ra ngoài -->
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="product.css"> <!-- File này cùng thư mục -->
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar sẽ được chèn vào đây bằng JS sau này để tránh lặp code, tạm thời để trống -->
+    <aside class="sidebar">
+        <!-- ... bạn có thể copy sidebar từ file index.html gốc vào đây ... -->
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="product-hero-new">
+            <div class="container">
+                <div class="breadcrumb">
+                    <!-- Sửa link trang chủ -->
+                    <a href="../index.html">Trang chủ</a> / <span id="product-category">Sản phẩm</span> / <span id="product-name-breadcrumb">Tên sản phẩm</span>
+                </div>
+                <div class="hero-main-layout">
+                    <!-- Cột trái: Gallery ảnh -->
+                    <div class="hero-gallery">
+                        <div class="main-image-wrapper">
+                            <img id="main-product-image" src="" alt="Ảnh chính sản phẩm">
+                        </div>
+                        <div class="thumbnail-scroller">
+                            <!-- JS sẽ điền thumbnails vào đây -->
+                        </div>
+                    </div>
+                    <!-- Cột phải: Thông tin và cấu hình -->
+                    <div class="hero-config">
+                        <h1 id="product-title">Đang tải...</h1>
+                        <div class="product-price" id="product-price"></div>
+                        
+                        <div class="product-specs-summary">
+                            <!-- JS có thể điền thông tin tóm tắt vào đây -->
+                        </div>
+
+                        <div class="config-group" id="quycach-group">
+                            <label>Quy cách (mm):</label>
+                            <div class="options-group" id="quycach-options"></div>
+                        </div>
+
+                        <div class="config-group" id="doday-group">
+                            <label>Độ dày (mm):</label>
+                            <div class="options-group" id="doday-options"></div>
+                        </div>
+
+                        <div class="cta-buttons">
+                            <button class="btn-cta primary">Nhận báo giá</button>
+                            <button class="btn-cta secondary">Tư vấn ngay</button>
+                        </div>
+                         <button class="btn-cta full-width">Tìm đại lý gần nhất</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-details-tabs">
+            <div class="container">
+                <div class="tabs-container">
+                    <button class="tab-link active" data-tab="tab-description">Mô tả</button>
+                    <button class="tab-link" data-tab="tab-specs">Thông số kỹ thuật</button>
+                    <button class="tab-link" data-tab="tab-videos">Video Hướng Dẫn</button>
+                </div>
+
+                <div class="tab-content">
+                    <!-- Tab 1: Mô Tả -->
+                    <div id="tab-description" class="tab-pane active">
+                        <!-- JS sẽ điền nội dung mô tả vào đây -->
+                    </div>
+
+                    <!-- Tab 2: Thông số kỹ thuật -->
+                    <div id="tab-specs" class="tab-pane">
+                         <div class="spec-table-container">
+                            <!-- JS sẽ điền bảng thông số vào đây -->
+                         </div>
+                    </div>
+
+                    <!-- Tab 3: Video Hướng Dẫn -->
+                    <div id="tab-videos" class="tab-pane">
+                        <div class="video-grid">
+                            <!-- JS sẽ điền video vào đây -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Script cho trang chi tiết sản phẩm -->
+    <script src="product.js"></script> <!-- File này cùng thư mục -->
+
+</body>
+</html>
