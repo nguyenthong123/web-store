@@ -1,4 +1,4 @@
-// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - PHIÊN BẢN ĐẦY ĐỦ VÀ SỬA LỖI
+// PHIÊN BẢN SCRIPT.JS CUỐI CÙNG - ĐẦY ĐỦ VÀ ĐÃ KIỂM TRA
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
@@ -42,16 +42,21 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchProducts() {
         try {
             const response = await fetch('./gia_web_dura.json');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
             allProductsData = data;
         } catch (error) {
-            console.error('Lỗi khi tải sản phẩm:', error);
-            if(popularProductsGrid) popularProductsGrid.innerHTML = '<p style="text-align: center; color: red;">Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.</p>';
+            console.error('Lỗi khi tải hoặc phân tích file JSON sản phẩm:', error);
+            if(popularProductsGrid) {
+                popularProductsGrid.innerHTML = '<p style="text-align: center; color: red;">Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.</p>';
+            }
         }
     }
     
     function createGlobalPriceSelector() {
+        if (!globalPriceSelectorContainer) return;
         const currentUser = getCurrentUser();
         const userType = currentUser ? currentUser.phan_loai : 'guest';
 
@@ -82,11 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             `;
             
-            if(globalPriceSelectorContainer) {
-                globalPriceSelectorContainer.innerHTML = selectorHtml;
-                globalPriceSelectorContainer.style.display = 'flex';
+            globalPriceSelectorContainer.innerHTML = selectorHtml;
+            globalPriceSelectorContainer.style.display = 'flex';
 
-                document.getElementById('package-select').addEventListener('change', (event) => {
+            const packageSelect = document.getElementById('package-select');
+            if (packageSelect) {
+                packageSelect.addEventListener('change', (event) => {
                     const selectedKey = event.target.value;
                     updateAllProductPrices(selectedKey);
                 });
@@ -113,7 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         popularProductsGrid.innerHTML = '';
 
         if (!productsToRender || productsToRender.length === 0) {
-            popularProductsGrid.innerHTML = '<div class="no-results"><p>Không tìm thấy sản phẩm.</p></div>';
+            // Chỉ hiển thị thông báo này nếu không phải đang tìm kiếm
+            if (searchInput && searchInput.value === '') {
+                 popularProductsGrid.innerHTML = '<div class="no-results"><p>Không có sản phẩm để hiển thị.</p></div>';
+            } else {
+                 popularProductsGrid.innerHTML = '<div class="no-results"><p>Không tìm thấy sản phẩm phù hợp.</p></div>';
+            }
             return;
         }
 
