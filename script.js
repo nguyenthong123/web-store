@@ -1,4 +1,4 @@
-// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - ĐÃ SỬA LỖI VÀ CẬP NHẬT LOGIC GROUP_ID
+// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - ĐÃ SỬA DỨT ĐIỂM LỖI CÚ PHÁP
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
             allProductsData = data;
         } catch (error) {
             console.error('Lỗi khi tải sản phẩm:', error);
+            // Hiển thị thông báo lỗi cho người dùng nếu cần
+            if(popularProductsGrid) popularProductsGrid.innerHTML = '<p style="text-align: center; color: red;">Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.</p>';
         }
     }
     
@@ -68,7 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let optionsHtml = '';
             priceKeys.forEach(key => {
-                // Sửa lỗi cú pháp ở đây: Dùng replace với chuỗi thay vì biểu thức chính quy phức tạp
+                // =================================================================
+                // === SỬA LỖI CÚ PHÁP Ở ĐÂY ===
+                // Thay thế phương thức replace phức tạp bằng phương thức đơn giản và an toàn hơn.
+                // =================================================================
                 const cleanKey = key.replace(' Tháng 10"', ''); 
                 optionsHtml += `<option value="${key}">${cleanKey}</option>`;
             });
@@ -120,13 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const productCard = document.createElement('div');
             productCard.classList.add('product-card');
             
-            // =================================================================
-            // === THAY ĐỔI QUAN TRỌNG: SỬ DỤNG ĐÚNG ID ===
-            // =================================================================
-            const uniqueProductId = product["id_san_pham"]; // ID duy nhất cho giỏ hàng
-            const groupId = product["group_id"]; // ID chung cho link trang chi tiết
+            const uniqueProductId = product["id_san_pham"];
+            const groupId = product["group_id"];
             
-            productCard.dataset.productId = uniqueProductId; // Dùng ID duy nhất cho dataset
+            productCard.dataset.productId = uniqueProductId;
 
             let priceHtml = '';
             
