@@ -1,4 +1,4 @@
-// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - CẬP NHẬT DROPDOWN GIÁ TOÀN CỤC
+// NỘI DUNG MỚI HOÀN TOÀN CHO SCRIPT.JS - ĐÃ SỬA LỖI VÀ CẬP NHẬT LOGIC GROUP_ID
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
@@ -54,16 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if ((userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') && allProductsData.length > 0) {
             const priceKeys = new Set();
-            
-            // =================================================================
-            // === THAY ĐỔI Ở ĐÂY: Thêm các tùy chọn giá mới vào dropdown ===
-            // =================================================================
             priceKeys.add('Giá chủ nhà');
             priceKeys.add('Giá Thầu Thợ');
             priceKeys.add('giá niêm yết');
-            // =================================================================
-
-            // Lấy tất cả các loại gói giá duy nhất từ tất cả sản phẩm
+            
             allProductsData.forEach(product => {
                 for (const key in product) {
                     if (key.startsWith('gói')) {
@@ -72,10 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Tạo dropdown
             let optionsHtml = '';
             priceKeys.forEach(key => {
-                const cleanKey = key.replace(/ Tháng \d+"/i, ''); // Làm sạch tên hiển thị
+                // Sửa lỗi cú pháp ở đây: Dùng replace với chuỗi thay vì biểu thức chính quy phức tạp
+                const cleanKey = key.replace(' Tháng 10"', ''); 
                 optionsHtml += `<option value="${key}">${cleanKey}</option>`;
             });
 
@@ -89,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
             globalPriceSelectorContainer.innerHTML = selectorHtml;
             globalPriceSelectorContainer.style.display = 'flex';
 
-            // Thêm sự kiện để cập nhật giá khi chọn
             document.getElementById('package-select').addEventListener('change', (event) => {
                 const selectedKey = event.target.value;
                 updateAllProductPrices(selectedKey);
@@ -126,7 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
         productsToRender.forEach(product => {
             const productCard = document.createElement('div');
             productCard.classList.add('product-card');
-            productCard.dataset.productId = product["id_san_pham"];
+            
+            // =================================================================
+            // === THAY ĐỔI QUAN TRỌNG: SỬ DỤNG ĐÚNG ID ===
+            // =================================================================
+            const uniqueProductId = product["id_san_pham"]; // ID duy nhất cho giỏ hàng
+            const groupId = product["group_id"]; // ID chung cho link trang chi tiết
+            
+            productCard.dataset.productId = uniqueProductId; // Dùng ID duy nhất cho dataset
 
             let priceHtml = '';
             
@@ -138,18 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`;
             }
 
-/ LẤY ID NHÓM TỪ CỘT MỚI 'group_id'
-const groupId = product["group_id"]; 
-
-productCard.innerHTML = `
-    // Sửa href để dùng groupId
-    <a href="product/index.html?id=${groupId}" class="product-link">
-        <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
-    </a>
-    <h4>${product["Tên sản phẩm"]}</h4>
+            productCard.innerHTML = `
+                <a href="product/index.html?id=${groupId}" class="product-link">
+                    <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
+                </a>
+                <h4>${product["Tên sản phẩm"]}</h4>
                 <div class="size">Kích thước: ${product["kích thước"]}</div>
                 ${priceHtml}
-                <button class="add-to-cart-btn" data-product-id="${product["id_san_pham"]}">Thêm vào giỏ</button>
+                <button class="add-to-cart-btn" data-product-id="${uniqueProductId}">Thêm vào giỏ</button>
             `;
             popularProductsGrid.appendChild(productCard);
         });
