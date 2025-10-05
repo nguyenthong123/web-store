@@ -6,9 +6,12 @@
     <title>Chi tiết sản phẩm - DunVex & VLXD</title>
     <link rel="icon" type="image/x-icon" href="../https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
     
+    <!-- =============================================================== -->
+    <!-- SỬA LẠI ĐƯỜNG DẪN Ở ĐÂY -->
     <!-- Dùng đường dẫn tương đối để đi ra thư mục gốc -->
+    <!-- =============================================================== -->
     <link rel="stylesheet" href="../style.css"> 
-    <link rel="stylesheet" href="../product.css"> <!-- Đổi đường dẫn file này -->
+    <link rel="stylesheet" href="../product.css">
 
     <!-- Dùng chung thư viện icon -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
@@ -17,7 +20,7 @@
 <body>
 
     <!-- =============================================================== -->
-    <!-- BƯỚC 1: Thêm sidebar vào trang chi tiết -->
+    <!-- THÊM LẠI TOÀN BỘ SIDEBAR VÀO ĐÂY -->
     <!-- =============================================================== -->
     <aside class="sidebar">
         <div class="logo">
@@ -45,9 +48,6 @@
                     <a href="../index.html">Trang chủ</a> / <span id="product-category">Sản phẩm</span> / <span id="product-name-breadcrumb">Tên sản phẩm</span>
                 </div>
                 
-                <!-- =============================================================== -->
-                <!-- BƯỚC 2: Bọc nội dung chính trong div layout -->
-                <!-- =============================================================== -->
                 <div class="hero-main-layout">
                     <!-- Cột trái: Gallery ảnh -->
                     <div class="hero-gallery">
@@ -87,9 +87,31 @@
             </div>
         </section>
 
-        <!-- Phần Tabs (giữ nguyên) -->
+        <!-- Phần Tabs -->
         <section class="product-details-tabs">
-            <!-- ... nội dung tabs của bạn ... -->
+            <div class="container">
+                <div class="tabs-container">
+                    <button class="tab-link active" data-tab="tab-description">Mô tả</button>
+                    <button class="tab-link" data-tab="tab-specs">Thông số kỹ thuật</button>
+                    <button class="tab-link" data-tab="tab-videos">Video Hướng Dẫn</button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="tab-description" class="tab-pane active">
+                        <!-- JS sẽ điền nội dung mô tả -->
+                    </div>
+                    <div id="tab-specs" class="tab-pane">
+                         <div class="spec-table-container">
+                            <!-- JS sẽ điền bảng thông số -->
+                         </div>
+                    </div>
+                    <div id="tab-videos" class="tab-pane">
+                        <div class="video-grid">
+                            <!-- JS sẽ điền video -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </main>
