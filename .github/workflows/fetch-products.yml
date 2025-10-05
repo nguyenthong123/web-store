@@ -1,1 +1,58 @@
+# Tên của workflow, sẽ hiển thị trong tab "Actions" của repo
+name: Fetch Product Details from Google Drive
 
+# Cấu hình khi nào workflow sẽ được kích hoạt
+on:
+  # Chạy mỗi khi có push lên nhánh 'main'
+  push:
+    branches:
+      - main
+  # Cho phép chạy thủ công từ tab Actions
+  workflow_dispatch:
+  # Chạy theo lịch trình (ví dụ: mỗi 6 tiếng một lần) để cập nhật dữ liệu
+  schedule:
+    - cron: '0 */6 * * *' # Chạy vào phút thứ 0, mỗi 6 giờ
+
+# Các công việc (jobs) sẽ được thực thi
+jobs:
+  fetch-and-commit-product-details:
+    # Sử dụng máy ảo Ubuntu phiên bản mới nhất để chạy job
+    runs-on: ubuntu-latest
+
+    # Cấp quyền cho action để có thể ghi (commit & push) vào repository
+    permissions:
+      contents: write
+
+    # Các bước (steps) sẽ được thực hiện tuần tự
+    steps:
+      # Bước 1: Checkout code từ repository của bạn vào máy ảo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Bước 2: Tải file products.json từ Google Drive
+      - name: Download product details from Google Drive
+        run: |
+          # Sử dụng curl để tải file.
+          # Thay thế ID file của bạn vào đây
+          curl -L "https://drive.google.com/uc?export=download&id=15fAteyESQusjBlJ0GoY-zCKVgsJtlKOB" -o data/products.json
+          echo "File data/products.json đã được tải về thành công."
+
+      # Bước 3: Commit và push nếu file có sự thay đổi
+      - name: Commit and push if product details changed
+        run: |
+          # Cấu hình user cho git commit
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Thêm file vừa tải vào staging area
+          git add data/products.json
+          
+          # Kiểm tra xem có sự thay đổi thực sự nào không
+          if ! git diff --staged --quiet; then
+            # Nếu có thay đổi, tạo commit và push
+            git commit -m "chore: Cập nhật dữ liệu sản phẩm chi tiết (products.json)"
+            git push
+          else
+            # Nếu không có gì thay đổi, chỉ thông báo
+            echo "Dữ liệu sản phẩm chi tiết không có gì thay đổi."
+          fi
