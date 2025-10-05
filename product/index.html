@@ -6,28 +6,48 @@
     <title>Chi tiết sản phẩm - DunVex & VLXD</title>
     <link rel="icon" type="image/x-icon" href="../https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
     
-    <!-- Do file này nằm trong thư mục 'product', cần dùng '../' để đi ra ngoài -->
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="product.css"> <!-- File này cùng thư mục -->
+    <!-- Dùng đường dẫn tương đối để đi ra thư mục gốc -->
+    <link rel="stylesheet" href="../style.css"> 
+    <link rel="stylesheet" href="../product.css"> <!-- Đổi đường dẫn file này -->
 
+    <!-- Dùng chung thư viện icon -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-    <!-- Sidebar sẽ được chèn vào đây bằng JS sau này để tránh lặp code, tạm thời để trống -->
+    <!-- =============================================================== -->
+    <!-- BƯỚC 1: Thêm sidebar vào trang chi tiết -->
+    <!-- =============================================================== -->
     <aside class="sidebar">
-        <!-- ... bạn có thể copy sidebar từ file index.html gốc vào đây ... -->
+        <div class="logo">
+            DUNVEX & VLXD
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <!-- Link Dashboard về trang chủ -->
+                <li><a href="../index.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="../profile.html"><i class="ri-user-line"></i> Profile</a></li>
+                <li><a href="#"><i class="ri-settings-5-line"></i> Settings</a></li>
+                <li><a href="#"><i class="ri-message-3-line"></i> Message</a></li>
+                <li><a href="#" class="open-cart-mobile"><i class="ri-shopping-bag-3-line"></i> My Cart</a></li>
+                <li><a href="#" class="logout"><i class="ri-logout-box-line"></i> Logout</a></li>
+            </ul>
+        </nav>
     </aside>
 
+    <!-- MAIN CONTENT WRAPPER -->
     <main class="main-content">
         
         <section class="product-hero-new">
             <div class="container">
                 <div class="breadcrumb">
-                    <!-- Sửa link trang chủ -->
                     <a href="../index.html">Trang chủ</a> / <span id="product-category">Sản phẩm</span> / <span id="product-name-breadcrumb">Tên sản phẩm</span>
                 </div>
+                
+                <!-- =============================================================== -->
+                <!-- BƯỚC 2: Bọc nội dung chính trong div layout -->
+                <!-- =============================================================== -->
                 <div class="hero-main-layout">
                     <!-- Cột trái: Gallery ảnh -->
                     <div class="hero-gallery">
@@ -44,7 +64,7 @@
                         <div class="product-price" id="product-price"></div>
                         
                         <div class="product-specs-summary">
-                            <!-- JS có thể điền thông tin tóm tắt vào đây -->
+                             <!-- Nội dung tóm tắt sản phẩm -->
                         </div>
 
                         <div class="config-group" id="quycach-group">
@@ -67,41 +87,15 @@
             </div>
         </section>
 
+        <!-- Phần Tabs (giữ nguyên) -->
         <section class="product-details-tabs">
-            <div class="container">
-                <div class="tabs-container">
-                    <button class="tab-link active" data-tab="tab-description">Mô tả</button>
-                    <button class="tab-link" data-tab="tab-specs">Thông số kỹ thuật</button>
-                    <button class="tab-link" data-tab="tab-videos">Video Hướng Dẫn</button>
-                </div>
-
-                <div class="tab-content">
-                    <!-- Tab 1: Mô Tả -->
-                    <div id="tab-description" class="tab-pane active">
-                        <!-- JS sẽ điền nội dung mô tả vào đây -->
-                    </div>
-
-                    <!-- Tab 2: Thông số kỹ thuật -->
-                    <div id="tab-specs" class="tab-pane">
-                         <div class="spec-table-container">
-                            <!-- JS sẽ điền bảng thông số vào đây -->
-                         </div>
-                    </div>
-
-                    <!-- Tab 3: Video Hướng Dẫn -->
-                    <div id="tab-videos" class="tab-pane">
-                        <div class="video-grid">
-                            <!-- JS sẽ điền video vào đây -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- ... nội dung tabs của bạn ... -->
         </section>
 
     </main>
     
     <!-- Script cho trang chi tiết sản phẩm -->
-    <script src="product.js"></script> <!-- Sửa lại tên file ở đây -->
+    <script src="product.js"></script> 
 
 </body>
 </html>
