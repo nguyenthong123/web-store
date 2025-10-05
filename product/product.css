@@ -2616,3 +2616,64 @@ footer {
 .thumbnail:hover {
     opacity: 1;
 }
+/* ========================================= */
+/*  SỬA LẠI GIAO DIỆN CHO GALLERY ẢNH         */
+/* ========================================= */
+
+.hero-main-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Mặc định 1 cột cho mobile */
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* Layout 2 cột cho màn hình lớn hơn */
+@media (min-width: 768px) {
+    .hero-main-layout {
+        grid-template-columns: 1.2fr 1fr; /* Cột ảnh rộng hơn */
+        gap: 40px;
+    }
+}
+
+.hero-gallery .main-image-wrapper {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    position: relative;
+    background-color: #fff;
+}
+
+.hero-gallery #main-product-image {
+    width: 100%;
+    display: block;
+    aspect-ratio: 4 / 3; /* Tỷ lệ ảnh ngang hơn, giống mẫu */
+    object-fit: contain; /* Đổi thành contain để ảnh không bị cắt */
+    padding: 10px; /* Thêm khoảng đệm cho ảnh */
+}
+
+.thumbnail-scroller {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Hiển thị tối đa 5 ảnh thumbnail */
+    gap: 10px;
+}
+
+.thumbnail-scroller .thumbnail {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    padding: 5px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    background-color: #fff;
+}
+
+.thumbnail-scroller .thumbnail:hover,
+.thumbnail-scroller .thumbnail.active {
+    opacity: 1;
+    border-color: #007bff;
+}
