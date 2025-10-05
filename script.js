@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const productId = product["id_san_pham"]; 
 
 productCard.innerHTML = `
-    // Sửa href ở đây để trỏ đến trang chi tiết với đúng id
+    
     <a href="product/index.html?id=${productId}" class="product-link">
         <img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy">
     </a>
