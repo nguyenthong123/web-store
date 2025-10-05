@@ -89,7 +89,8 @@
         "title": "Hạng mục & Phân bố",
         "headers": [
           "Hạng mục thi công",
-          "Phân bố"
+          "Phân bố",
+          "số vít phân bổ trên tấm"
         ],
         "rows": [
           [
