@@ -1,4 +1,4 @@
-// PHIÊN BẢN REPORT.JS CUỐI CÙNG - SỬA LỖI XỬ LÝ NGÀY THÁNG BỊ TRỐNG
+// PHIÊN BẢN REPORT.JS CUỐI CÙNG - SỬA LỖI DỰA TRÊN CẤU TRÚC JSON MỚI
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- DOM Elements ---
@@ -15,16 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     let viewableOrders = [];
 
     // --- Helper Functions ---
-    const getCurrentUser = () => { /* ... */ };
-    const formatVND = (amount) => { /* ... */ };
+    const getCurrentUser = () => {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+    };
     
-    // --- Hàm chuyển đổi ngày tháng an toàn ---
-    const parseDate = (dateString) => {
-        if (!dateString || typeof dateString !== 'string') return null;
-        const parts = dateString.split('-');
-        if (parts.length !== 3) return null;
-        // Chuyển từ dd-MM-yyyy sang yyyy-MM-dd để new Date() hiểu đúng
-        return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    const formatVND = (amount) => {
+        const numericAmount = parseFloat(amount);
+        if (isNaN(numericAmount)) return 'N/A';
+        return numericAmount.toLocaleString('vi-VN') + ' đ';
     };
 
     // --- Functions ---
@@ -36,16 +35,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // =================================================================
-        // === SỬA LỖI Ở ĐÂY: Sắp xếp an toàn, bỏ qua các đơn hàng thiếu ngày ===
-        // =================================================================
+        // Sắp xếp đơn hàng theo thời gian mới nhất lên đầu
         orders.sort((a, b) => {
-            const dateA = parseDate(a['thời gian tạo đơn']);
-            const dateB = parseDate(b['thời gian tạo đơn']);
-            if (dateA && dateB) {
-                return dateB - dateA; // Sắp xếp mới nhất lên đầu
-            }
-            return 0; // Giữ nguyên vị trí nếu ngày không hợp lệ
+            // Dữ liệu đã ở định dạng YYYY-MM-DD nên có thể so sánh trực tiếp như chuỗi
+            const dateA = a['thời gian tạo đơn'] || '';
+            const dateB = b['thời gian tạo đơn'] || '';
+            return dateB.localeCompare(dateA);
         });
 
         orders.forEach(order => {
@@ -63,7 +58,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-    function populateStatusFilter(orders) { /* ... */ }
+    function populateStatusFilter(orders) {
+        const statusFilter = document.getElementById('statusFilter');
+        if (!statusFilter) return;
+        const statuses = [...new Set(orders.map(o => o['trạng thái']))];
+        statuses.forEach(status => {
+            if(status) statusFilter.innerHTML += `<option value="${status}">${status}</option>`;
+        });
+    }
 
     function applyFilters() {
         const startDate = document.getElementById('startDate').value;
@@ -72,14 +74,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const customer = customerSearchInput.value.toLowerCase();
 
         let filtered = viewableOrders.filter(order => {
-            // =================================================================
-            // === SỬA LỖI Ở ĐÂY: Xử lý an toàn khi lọc theo ngày ===
-            // =================================================================
-            const orderDate = parseDate(order['thời gian tạo đơn']);
-            if (!orderDate) return false; // Bỏ qua đơn hàng không có ngày hợp lệ khi lọc
+            const orderDate = order['thời gian tạo đơn']; // Định dạng YYYY-MM-DD
 
-            if (startDate && orderDate < new Date(startDate)) return false;
-            if (endDate && orderDate > new Date(endDate)) return false;
+            if (!orderDate) return false; // Bỏ qua nếu không có ngày
+            
+            if (startDate && orderDate < startDate) return false;
+            if (endDate && orderDate > endDate) return false;
             if (status && order['trạng thái'] !== status) return false;
             if (customer && !order['tên khách hàng'].toLowerCase().includes(customer) && !(order['số điện thoại'] && order['số điện thoại'].includes(customer))) return false;
 
@@ -88,7 +88,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderTable(filtered);
     }
     
-    function showOrderDetails(orderId) { /* ... */ }
+    function showOrderDetails(orderId) {
+        const order = viewableOrders.find(o => o['id order'] === orderId);
+        const details = allOrderDetails[orderId] || [];
+        
+        if (!order || !modal) return;
+        
+        document.getElementById('modalOrderId').textContent = orderId;
+        document.getElementById('modalOrderInfo').innerHTML = `
+            <p><strong>Khách hàng:</strong> ${order['tên khách hàng']}</p>
+            <p><strong>Ngày tạo:</strong> ${order['thời gian tạo đơn'] || 'N/A'}</p>
+            <p><strong>Trạng thái:</strong> ${order['trạng thái']}</p>
+            <p><strong>Tổng tiền:</strong> ${formatVND(order['tổng phụ'])}</p>
+        `;
+
+        const detailsTbody = document.getElementById('modal-details-tbody');
+        detailsTbody.innerHTML = '';
+        if(details.length > 0){
+            details.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item['tên sản phẩm']}</td>
+                        <td>${item['số lượng']}</td>
+                        <td>${item['đơn vị tính']}</td>
+                        <td>${formatVND(item['tổng tiền'])}</td>
+                    </tr>
+                `;
+                detailsTbody.innerHTML += row;
+            });
+        } else {
+             detailsTbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Không có chi tiết sản phẩm cho đơn hàng này.</td></tr>`;
+        }
+
+        modal.style.display = "block";
+    }
 
     // --- Initialization ---
     async function initializeApp() {
@@ -106,11 +139,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             allOrders = await ordersRes.json();
             allOrderDetails = await detailsRes.json();
 
+            // Lọc bỏ các đơn hàng không có ID để tránh lỗi
+            allOrders = allOrders.filter(order => order && order['id order']);
+
             const userEmail = currentUser.mail.toLowerCase();
             const userType = currentUser.phan_loai;
-
-            // Lọc bỏ các đơn hàng không có ID để tránh lỗi
-            allOrders = allOrders.filter(order => order['id order']);
 
             if (['ad mind', 'Nhà máy tôn', 'Cửa Hàng'].includes(userType)) {
                 viewableOrders = allOrders.filter(order => 
@@ -132,19 +165,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Event Listeners ---
-    // ...
-
-    // --- Dán đầy đủ các hàm đã bị rút gọn vào đây ---
-    const getCurrentUser = () => { const user = localStorage.getItem('currentUser'); return user ? JSON.parse(user) : null; };
-    const formatVND = (amount) => { const numericAmount = parseFloat(amount); if (isNaN(numericAmount)) return 'N/A'; return numericAmount.toLocaleString('vi-VN') + ' đ'; };
     if(filterBtn) filterBtn.addEventListener('click', applyFilters);
-    if(resetBtn) resetBtn.addEventListener('click', () => { if(document.getElementById('startDate')) document.getElementById('startDate').value = ''; if(document.getElementById('endDate')) document.getElementById('endDate').value = ''; if(document.getElementById('statusFilter')) document.getElementById('statusFilter').value = ''; if(customerSearchInput) customerSearchInput.value = ''; renderTable(viewableOrders); });
+    if(resetBtn) resetBtn.addEventListener('click', () => { 
+        if(document.getElementById('startDate')) document.getElementById('startDate').value = '';
+        if(document.getElementById('endDate')) document.getElementById('endDate').value = '';
+        if(document.getElementById('statusFilter')) document.getElementById('statusFilter').value = '';
+        if(customerSearchInput) customerSearchInput.value = '';
+        renderTable(viewableOrders);
+    });
     if(closeModalBtn) closeModalBtn.addEventListener('click', () => modal.style.display = "none");
-    if(modal) window.addEventListener('click', (event) => { if (event.target == modal) { modal.style.display = "none"; } });
-    if(customerSearchInput) customerSearchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { applyFilters(); } });
-    if(ordersTbody) ordersTbody.addEventListener('click', (event) => { if (event.target.classList.contains('view-details-btn')) { showOrderDetails(event.target.dataset.orderId); } });
-    function populateStatusFilter(orders) { const statusFilter = document.getElementById('statusFilter'); if (!statusFilter) return; const statuses = [...new Set(orders.map(o => o['trạng thái']))]; statuses.forEach(status => { if(status) statusFilter.innerHTML += `<option value="${status}">${status}</option>`; }); }
-    function showOrderDetails(orderId) { const order = viewableOrders.find(o => o['id order'] === orderId); const details = allOrderDetails[orderId] || []; if (!order || !modal) return; document.getElementById('modalOrderId').textContent = orderId; document.getElementById('modalOrderInfo').innerHTML = `<p><strong>Khách hàng:</strong> ${order['tên khách hàng']}</p><p><strong>Ngày tạo:</strong> ${order['thời gian tạo đơn']}</p><p><strong>Trạng thái:</strong> ${order['trạng thái']}</p><p><strong>Tổng tiền:</strong> ${formatVND(order['tổng phụ'])}</p>`; const detailsTbody = document.getElementById('modal-details-tbody'); detailsTbody.innerHTML = ''; if(details.length > 0){ details.forEach(item => { const row = `<tr><td>${item['tên sản phẩm']}</td><td>${item['số lượng']}</td><td>${item['đơn vị tính']}</td><td>${formatVND(item['tổng tiền'])}</td></tr>`; detailsTbody.innerHTML += row; }); } else { detailsTbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Không có chi tiết sản phẩm.</td></tr>`; } modal.style.display = "block"; }
+    if(modal) window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+    if(customerSearchInput) customerSearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            applyFilters();
+        }
+    });
+    if(ordersTbody) ordersTbody.addEventListener('click', (event) => {
+        if (event.target.classList.contains('view-details-btn')) {
+            showOrderDetails(event.target.dataset.orderId);
+        }
+    });
 
     // Run the app
     initializeApp();
