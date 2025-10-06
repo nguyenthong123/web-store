@@ -1,4 +1,4 @@
-// PHIÊN BẢN SCRIPT.JS CUỐI CÙNG - ĐẦY ĐỦ VÀ CHÍNH XÁC
+// PHIÊN BẢN SCRIPT.JS SẠCH - ĐÃ XÓA TẤT CẢ CÁC HÀM BỊ LẶP
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
