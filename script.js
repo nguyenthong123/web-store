@@ -255,24 +255,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Initialization ---
-    async function initializeApp() {
-        await fetchProducts();
-        renderPopularProducts();
-        createGlobalPriceSelector();
-        updateCartDisplay();
-        updateNotificationBadge();
-
-        if (shippingInput) {
-            shippingInput.addEventListener('input', () => {
-                let value = shippingInput.value.replace(/\./g, '');
-                if (!isNaN(value) && value.length > 0) {
-                    shippingInput.value = parseInt(value, 10).toLocaleString('vi-VN');
+    // ... bên trong hàm initializeApp() ...
+async function initializeApp() {
+    await fetchProducts();
+    renderPopularProducts();
+    createGlobalPriceSelector();
+    updateCartDisplay();
+    updateNotificationBadge();
+    
+    // ===============================================================
+    // === THÊM ĐOẠN CODE NÀY VÀO CUỐI HÀM initializeApp() ===
+    // ===============================================================
+    function addReportLinkToSidebar() {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            const userType = currentUser.phan_loai;
+            // Danh sách các vai trò được phép xem báo cáo
+            const allowedRoles = ['ad mind', 'Nhà máy tôn', 'Cửa Hàng']; 
+            
+            if (allowedRoles.includes(userType)) {
+                const sidebarNav = document.querySelector('.sidebar-nav ul');
+                if (sidebarNav) {
+                    const reportLi = document.createElement('li');
+                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-chart-line"></i> Báo Cáo</a>`;
+                    
+                    // Chèn link Báo cáo vào trước mục Logout
+                    const logoutLi = sidebarNav.querySelector('.logout');
+                    if(logoutLi) {
+                        sidebarNav.insertBefore(reportLi, logoutLi.parentElement);
+                    } else {
+                        sidebarNav.appendChild(reportLi);
+                    }
                 }
-                updateTotals();
-            });
+            }
         }
     }
+    addReportLinkToSidebar();
+    // ===============================================================
 
-    initializeApp();
-});
+    if (shippingInput) {
+        // ... (code xử lý shipping input giữ nguyên)
+    }
+}
