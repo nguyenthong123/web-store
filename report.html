@@ -51,7 +51,10 @@
                 </div>
                 <div class="filter-group">
                     <label for="customerSearch">Tên Khách Hàng</label>
-                    <input type="text" id="customerSearch" placeholder="Nhập họ tên, SĐT...">
+                    <input type="text" id="customerSearch" list="customer-list" placeholder="Nhập họ tên, SĐT...">
+<datalist id="customer-list">
+    <!-- JS sẽ điền danh sách khách hàng vào đây -->
+</datalist>
                 </div>
                 <div class="filter-buttons">
                     <button id="filterBtn" class="btn primary-btn">Lọc Dữ Liệu</button>
