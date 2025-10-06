@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo Đơn Hàng - DunVex & VLXD</title>
+    <link rel="icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="report.css"> <!-- File CSS riêng cho trang báo cáo -->
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="logo">
+            DUNVEX & VLXD
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="profile.html"><i class="ri-user-line"></i> Profile</a></li>
+                <li><a href="#"><i class="ri-settings-5-line"></i> Settings</a></li>
+                <li><a href="#"><i class="ri-message-3-line"></i> Message</a></li>
+                <li><a href="#" class="logout"><i class="ri-logout-box-line"></i> Logout</a></li>
+                <!-- JS sẽ thêm link Báo cáo vào đây nếu đủ quyền -->
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="report-container">
+            <h1>Bảng Dữ Liệu Đơn Hàng</h1>
+
+            <div class="filter-section card">
+                <div class="filter-group">
+                    <label for="startDate">Từ Ngày</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">Đến Ngày</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">Trạng Thái</label>
+                    <select id="statusFilter">
+                        <option value="">-- Tất cả trạng thái --</option>
+                        <!-- JS sẽ điền các tùy chọn vào đây -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="customerSearch">Tên Khách Hàng</label>
+                    <input type="text" id="customerSearch" placeholder="Nhập họ tên, SĐT...">
+                </div>
+                <div class="filter-buttons">
+                    <button id="filterBtn" class="btn primary-btn">Lọc Dữ Liệu</button>
+                    <button id="resetBtn" class="btn">Xóa Lọc</button>
+                </div>
+            </div>
+
+            <div class="table-container card">
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Thời Gian</th>
+                            <th>ID Order</th>
+                            <th>Tên Khách Hàng</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Phụ Trách</th>
+                            <th>Chi Tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <!-- JS sẽ điền các dòng dữ liệu vào đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal để hiển thị chi tiết đơn hàng -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Chi Tiết Đơn Hàng: <span id="modalOrderId"></span></h2>
+            <div id="modalOrderInfo"></div>
+            <table id="modal-details-table">
+                <thead>
+                    <tr>
+                        <th>Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Đơn Vị</th>
+                        <th>Thành Tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="modal-details-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="report.js"></script> <!-- File JS riêng cho trang báo cáo -->
+</body>
+</html>
