@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Phân Tích - DunVex & VLXD</title>
+    <link rel="icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css"> <!-- File CSS mới -->
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <!-- Thêm thư viện Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <!-- Copy nội dung sidebar từ index.html vào đây -->
+    </aside>
+
+    <main class="main-content">
+        <div class="dashboard-container">
+            <h1>Dashboard Phân Tích</h1>
+
+            <!-- Sử dụng lại bộ lọc từ trang report -->
+            <div class="filter-section card">
+                <div class="filter-group">
+                    <label for="startDate">Từ Ngày</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">Đến Ngày</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">Trạng Thái</label>
+                    <select id="statusFilter">
+                        <option value="">-- Tất cả trạng thái --</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="customerSearch">Tên Khách Hàng</label>
+                    <input type="text" id="customerSearch" list="customer-list" placeholder="Nhập họ tên...">
+                    <datalist id="customer-list"></datalist>
+                </div>
+                <div class="filter-buttons">
+                    <button id="filterBtn" class="btn primary-btn">Lọc Dữ Liệu</button>
+                    <button id="resetBtn" class="btn">Xóa Lọc</button>
+                </div>
+            </div>
+
+            <!-- Lưới hiển thị các biểu đồ -->
+            <div class="charts-grid">
+                <!-- Doanh số và Sản lượng chiết khấu -->
+                <div class="chart-card card">
+                    <h3>Doanh số & Sản lượng Chiết khấu</h3>
+                    <canvas id="salesAndDiscountChart"></canvas>
+                </div>
+                
+                <!-- Sản phẩm bán chạy -->
+                <div class="chart-card card">
+                    <h3>Top 5 Sản Phẩm Bán Chạy (Theo số lượng)</h3>
+                    <canvas id="topProductsChart"></canvas>
+                </div>
+
+                <!-- Top khách hàng -->
+                <div class="chart-card card">
+                    <h3>Top 5 Khách Hàng (Theo tổng tiền)</h3>
+                    <canvas id="topCustomersChart"></canvas>
+                </div>
+
+                 <!-- Doanh số theo thời gian -->
+                <div class="chart-card card large">
+                    <h3>Doanh số theo Thời gian</h3>
+                    <canvas id="salesOverTimeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="dashboard.js"></script> <!-- File JS mới -->
+</body>
+</html>
