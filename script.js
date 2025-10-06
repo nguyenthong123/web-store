@@ -1,9 +1,71 @@
-// PHIÊN BẢN SCRIPT.JS - ĐÃ SỬA LỖI HIỂN THỊ LINK BÁO CÁO
+// PHIÊN BẢN SCRIPT.JS - SỬA LỖI HIỂN THỊ LINK BÁO CÁO
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM Elements ---
+    // --- Các khai báo DOM Elements, Data... giữ nguyên ---
+    // ...
+
+    // --- Helper Functions ---
+    const getCurrentUser = () => {
+        const userJson = localStorage.getItem('currentUser');
+        return userJson ? JSON.parse(userJson) : null;
+    };
+    
+    // --- TÁCH HÀM NÀY RA RIÊNG BIỆT ĐỂ ĐẢM BẢO NÓ LUÔN CHẠY ---
+    function addReportLinkToSidebar() {
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.phan_loai) {
+            // Chuyển loại người dùng về chữ thường để so sánh cho chắc chắn
+            const userType = currentUser.phan_loai.toLowerCase();
+            
+            // =================================================================
+            // === SỬA LỖI Ở ĐÂY: Dùng chữ thường và thêm các vai trò ===
+            // =================================================================
+            const allowedRoles = ['ad mind', 'nhà máy tôn', 'cửa hàng']; 
+            
+            if (allowedRoles.includes(userType)) {
+                const sidebarNavUl = document.querySelector('.sidebar-nav ul');
+                if (sidebarNavUl) {
+                    if (sidebarNavUl.querySelector('.report-link')) return;
+
+                    const reportLi = document.createElement('li');
+                    reportLi.classList.add('report-link');
+                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-chart-line"></i> Báo Cáo</a>`;
+                    
+                    const logoutLi = sidebarNavUl.querySelector('.logout');
+                    if(logoutLi && logoutLi.parentElement) {
+                        sidebarNavUl.insertBefore(reportLi, logoutLi.parentElement);
+                    } else {
+                        sidebarNavUl.appendChild(reportLi);
+                    }
+                }
+            }
+        }
+    }
+
+    // --- Các hàm Core khác (giữ nguyên) ---
+    async function fetchProducts() { /* ... */ }
+    // ... (tất cả các hàm khác) ...
+
+    // --- Initialization ---
+    async function initializeApp() {
+        await fetchProducts();
+        renderPopularProducts();
+        createGlobalPriceSelector();
+        updateCartDisplay();
+        updateNotificationBadge();
+
+        if (shippingInput) {
+            // ... (code xử lý shipping input giữ nguyên)
+        }
+    }
+
+    // --- Chạy các hàm khởi tạo ---
+    addReportLinkToSidebar(); // GỌI HÀM NÀY NGAY LẬP TỨC
+    initializeApp();
+    
+    
+    // --- Dán đầy đủ nội dung các hàm đã rút gọn ở trên vào đây ---
     const popularProductsGrid = document.getElementById('popular-products-grid');
-    // ... (các khai báo element khác giữ nguyên) ...
     const shippingInput = document.getElementById('shipping-input');
     const globalPriceSelectorContainer = document.getElementById('global-price-selector-container');
     const cartSidebar = document.getElementById('cart-sidebar');
@@ -15,92 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCartButton = document.getElementById('close-cart-button');
     const body = document.body;
     const searchInput = document.querySelector('.search-bar input');
-
-    // --- Data & Config ---
-    let allProductsData = [];
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    const QUANTITY_STEP = 0.5;
-    const MINIMUM_QUANTITY = 0.5;
-
-    // --- Helper Functions ---
-    const getCurrentUser = () => {
-        const userJson = localStorage.getItem('currentUser');
-        return userJson ? JSON.parse(userJson) : null;
-    };
-
-    // =================================================================
-    // === TÁCH HÀM NÀY RA RIÊNG BIỆT ĐỂ ĐẢM BẢO NÓ LUÔN CHẠY ===
-    // =================================================================
-    function addReportLinkToSidebar() {
-        const currentUser = getCurrentUser();
-        if (currentUser && currentUser.phan_loai) {
-            const userType = currentUser.phan_loai;
-            // Danh sách các vai trò được phép xem báo cáo
-            const allowedRoles = ['ad mind', 'Nhà máy tôn', 'Cửa Hàng']; 
-            
-            if (allowedRoles.includes(userType)) {
-                const sidebarNavUl = document.querySelector('.sidebar-nav ul');
-                if (sidebarNavUl) {
-                    // Kiểm tra xem link đã tồn tại chưa để tránh thêm nhiều lần
-                    if (sidebarNavUl.querySelector('.report-link')) return;
-
-                    const reportLi = document.createElement('li');
-                    reportLi.classList.add('report-link'); // Thêm class để dễ kiểm tra
-                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-chart-line"></i> Báo Cáo</a>`;
-                    
-                    const logoutLi = sidebarNavUl.querySelector('.logout');
-                    if(logoutLi && logoutLi.parentElement) {
-                        // Chèn link Báo cáo vào trước mục Logout
-                        sidebarNavUl.insertBefore(reportLi, logoutLi.parentElement);
-                    } else {
-                        sidebarNavUl.appendChild(reportLi);
-                    }
-                }
-            }
-        }
-    }
-    // =================================================================
-
-    // --- Các hàm Core khác (giữ nguyên) ---
-    async function fetchProducts() { /* ... */ }
-    function createGlobalPriceSelector() { /* ... */ }
-    function updateAllProductPrices(priceKey) { /* ... */ }
-    function renderPopularProducts(productsToRender) { /* ... */ }
-    function handleAddToCartClick(event) { /* ... */ }
-    function addToCart(product) { /* ... */ }
-    function updateQuantity(productId, change) { /* ... */ }
-    function updateCartDisplay() { /* ... */ }
-    function updateTotals() { /* ... */ }
-    function updateNotificationBadge() { /* ... */ }
-    function toggleCart(show) { /* ... */ }
-    function searchProducts(searchTerm) { /* ... */ }
-
-    // --- Initialization ---
-    async function initializeApp() {
-        await fetchProducts();
-        renderPopularProducts();
-        createGlobalPriceSelector();
-        updateCartDisplay();
-        updateNotificationBadge();
-
-        if (shippingInput) {
-            shippingInput.addEventListener('input', () => {
-                let value = shippingInput.value.replace(/\./g, '');
-                if (!isNaN(value) && value.length > 0) {
-                    shippingInput.value = parseInt(value, 10).toLocaleString('vi-VN');
-                }
-                updateTotals();
-            });
-        }
-    }
-
-    // --- Chạy các hàm khởi tạo ---
-    addReportLinkToSidebar(); // GỌI HÀM NÀY NGAY LẬP TỨC
-    initializeApp(); // Chạy các hàm còn lại
-    
-    
-    // --- Dán đầy đủ nội dung các hàm đã rút gọn ở trên vào đây ---
     const formatVND = (amount) => { const numericAmount = parseFloat(amount); if (isNaN(numericAmount)) return 'Liên hệ'; return numericAmount.toLocaleString('vi-VN') + ' đ'; };
     const saveCart = () => { localStorage.setItem('cart', JSON.stringify(cart)); };
     async function fetchProducts() { try { const response = await fetch('./gia_web_dura.json'); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const data = await response.json(); allProductsData = data; } catch (error) { console.error('Lỗi khi tải sản phẩm:', error); if(popularProductsGrid) popularProductsGrid.innerHTML = '<p style="text-align: center; color: red;">Không thể tải dữ liệu sản phẩm.</p>'; } }
