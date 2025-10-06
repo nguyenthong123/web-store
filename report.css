@@ -121,3 +121,21 @@
     padding: 8px;
     border: 1px solid #ddd;
 }
+/* ========================================= */
+/*  TÙY CHỈNH ĐỘ RỘNG CHO TRANG BÁO CÁO     */
+/* ========================================= */
+
+/* Ghi đè max-width mặc định của .main-content chỉ trên trang báo cáo */
+.report-container {
+    /* Bạn có thể điều chỉnh giá trị này nếu muốn rộng hơn nữa */
+    max-width: 1400px; 
+    margin: 0 auto; /* Căn giữa container */
+}
+
+/* Điều chỉnh lại layout của bộ lọc trên màn hình lớn */
+@media (min-width: 1200px) {
+    .filter-section {
+        /* Sắp xếp các mục lọc trên 1 hàng */
+        grid-template-columns: 1fr 1fr 1fr 2fr auto; 
+    }
+}
