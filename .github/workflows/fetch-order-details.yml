@@ -1,0 +1,40 @@
+# Tên của workflow: Cập nhật chi tiết đơn hàng
+name: Fetch Order Details Data
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '20 */1 * * *' # Chạy vào phút thứ 20, mỗi giờ một lần
+
+jobs:
+  fetch-and-commit-order-details:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download order details from Google Drive
+        run: |
+          # Dùng curl để tải file. Lưu vào thư mục data/
+          curl -L "https://drive.google.com/uc?export=download&id=1nBIInD6TpXsVPMDkno9S_AbeScUj6-Sk" -o data/orderDetails.json
+          echo "File data/orderDetails.json đã được tải về thành công."
+
+      - name: Commit and push if order details changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git add data/orderDetails.json
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: Cập nhật chi tiết đơn hàng (orderDetails.json)"
+            git push
+          else
+            echo "Chi tiết đơn hàng không có gì thay đổi."
+          fi
