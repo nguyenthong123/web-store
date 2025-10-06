@@ -7,23 +7,37 @@
     <link rel="icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
     
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="dashboard.css"> <!-- File CSS mới -->
+    <link rel="stylesheet" href="report.css"> <!-- Dùng chung CSS với trang report -->
+    <link rel="stylesheet" href="dashboard.css">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
-    <!-- Thêm thư viện Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
+    <!-- =============================================================== -->
+    <!-- ĐÃ THÊM NỘI DUNG SIDEBAR ĐẦY ĐỦ VÀO ĐÂY -->
+    <!-- =============================================================== -->
     <aside class="sidebar">
-        <!-- Copy nội dung sidebar từ index.html vào đây -->
+        <div class="logo">
+            DUNVEX & VLXD
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="profile.html"><i class="ri-user-line"></i> Profile</a></li>
+                <li><a href="#"><i class="ri-settings-5-line"></i> Settings</a></li>
+                <li><a href="#"><i class="ri-message-3-line"></i> Message</a></li>
+                <li><a href="#" class="logout"><i class="ri-logout-box-line"></i> Logout</a></li>
+                <!-- JS sẽ tự động thêm link Báo Cáo và Phân Tích vào đây -->
+            </ul>
+        </nav>
     </aside>
 
     <main class="main-content">
         <div class="dashboard-container">
             <h1>Dashboard Phân Tích</h1>
 
-            <!-- Sử dụng lại bộ lọc từ trang report -->
             <div class="filter-section card">
                 <div class="filter-group">
                     <label for="startDate">Từ Ngày</label>
@@ -50,35 +64,13 @@
                 </div>
             </div>
 
-            <!-- Lưới hiển thị các biểu đồ -->
-            <div class="charts-grid">
-                <!-- Doanh số và Sản lượng chiết khấu -->
-                <div class="chart-card card">
-                    <h3>Doanh số & Sản lượng Chiết khấu</h3>
-                    <canvas id="salesAndDiscountChart"></canvas>
-                </div>
-                
-                <!-- Sản phẩm bán chạy -->
-                <div class="chart-card card">
-                    <h3>Top 5 Sản Phẩm Bán Chạy (Theo số lượng)</h3>
-                    <canvas id="topProductsChart"></canvas>
-                </div>
-
-                <!-- Top khách hàng -->
-                <div class="chart-card card">
-                    <h3>Top 5 Khách Hàng (Theo tổng tiền)</h3>
-                    <canvas id="topCustomersChart"></canvas>
-                </div>
-
-                 <!-- Doanh số theo thời gian -->
-                <div class="chart-card card large">
-                    <h3>Doanh số theo Thời gian</h3>
-                    <canvas id="salesOverTimeChart"></canvas>
-                </div>
+            <div class="charts-grid" id="charts-grid-container">
+                <!-- JS sẽ điền các card biểu đồ vào đây -->
+                <p class="loading-message">Đang tải dữ liệu phân tích...</p>
             </div>
         </div>
     </main>
     
-    <script src="dashboard.js"></script> <!-- File JS mới -->
+    <script src="dashboard.js"></script>
 </body>
 </html>
