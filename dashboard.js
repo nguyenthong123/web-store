@@ -1,4 +1,4 @@
-// PHIÊN BẢN DASHBOARD.JS HOÀN CHỈNH - SỬA LỖI PHÂN QUYỀN VÀ DỌN DẸP
+// PHIÊN BẢN DASHBOARD.JS CUỐI CÙNG - ĐẦY ĐỦ VÀ CHÍNH XÁC
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- DOM Elements & Chart instances ---
@@ -194,7 +194,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             statusFilter.innerHTML = '<option value="">-- Tất cả trạng thái --</option>';
             statuses.forEach(status => { statusFilter.innerHTML += `<option value="${status}">${status}</option>`; });
         }
-        
         if (populateCustomers) {
             const datalist = document.getElementById('customer-list');
             if (datalist) {
@@ -214,31 +213,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.querySelector('.dashboard-container').innerHTML = '<h1>Bạn cần đăng nhập để xem.</h1>';
                 return;
             }
-            const [ordersRes, detailsRes] = await Promise.all([ fetch('./data/orderData.json'), fetch('./data/orderDetails.json') ]);
+
+            const [ordersRes, detailsRes] = await Promise.all([
+                fetch('./data/orderData.json'),
+                fetch('./data/orderDetails.json')
+            ]);
+            if (!ordersRes.ok || !detailsRes.ok) throw new Error("Không thể tải file dữ liệu.");
+            
             let allOrdersRaw = await ordersRes.json();
             allOrderDetails = await detailsRes.json();
+
             allOrders = allOrdersRaw.filter(o => o && o['id order']).map(o => { const cleaned = {}; for (const key in o) { cleaned[key.trim().replace(/:$/, '')] = o[key]; } return cleaned; });
             
             const userEmail = currentUser.mail.toLowerCase();
             const userType = currentUser.phan_loai.toLowerCase();
 
-            // =================================================================
-            // === SỬA LẠI LOGIC PHÂN QUYỀN Ở ĐÂY ===
-            // =================================================================
             if (userType === 'ad mind') {
-                // Admin xem đơn hàng họ phụ trách
                 viewableOrders = allOrders.filter(order => order['email người phụ trách'] && order['email người phụ trách'].toLowerCase() === userEmail);
-                populateFilters(viewableOrders, true); // Populate tất cả bộ lọc
+                populateFilters(viewableOrders, true);
             } else {
-                // Các loại khác (Nhà máy tôn, Cửa hàng) là khách hàng, xem đơn của chính mình
                 viewableOrders = allOrders.filter(order => (order['email khách hàng'] && order['email khách hàng'].toLowerCase() === userEmail) || (order['tên khách hàng'] === currentUser.name));
-                
-                // Khóa ô tìm kiếm
                 if (customerSearchInput) {
                     customerSearchInput.value = currentUser.name;
                     customerSearchInput.disabled = true;
                 }
-                populateFilters(viewableOrders, false); // Chỉ populate bộ lọc trạng thái
+                populateFilters(viewableOrders, false);
             }
 
             const viewableOrderIds = new Set(viewableOrders.map(o => o['id order']));
@@ -252,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error("Lỗi khi khởi tạo dashboard:", error);
-            if(chartsContainer) chartsContainer.innerHTML = '<p class="no-data" style="text-align:center; padding: 20px;">Lỗi tải dữ liệu. Vui lòng kiểm tra file JSON.</p>';
+            if(chartsContainer) chartsContainer.innerHTML = '<p class="no-data" style="text-align:center; padding: 20px;">Lỗi tải dữ liệu. Vui lòng kiểm tra file JSON và đường dẫn.</p>';
         }
     }
 
@@ -266,8 +265,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (customerSearchInput && (!currentUser || currentUser.phan_loai.toLowerCase() === 'ad mind')) {
              customerSearchInput.value = '';
         }
-        // Gọi lại initializeApp để reset về trạng thái ban đầu theo quyền
-        initializeApp();
+        initializeApp(); // Reset lại toàn bộ
     });
     
     // Khởi chạy
