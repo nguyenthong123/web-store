@@ -1,9 +1,13 @@
-// PHIÊN BẢN REPORT.JS CUỐI CÙNG - SỬA LỖI KHỚP TÊN CỘT
+// PHIÊN BẢN REPORT.JS SẠCH - ĐÃ XÓA TẤT CẢ CÁC HÀM BỊ LẶP
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- DOM Elements ---
     const ordersTbody = document.getElementById('orders-tbody');
-    // ... (các element khác giữ nguyên)
+    const filterBtn = document.getElementById('filterBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const modal = document.getElementById('detailsModal');
+    const closeModalBtn = document.querySelector('.close-button');
+    const customerSearchInput = document.getElementById('customerSearch');
 
     // --- Data ---
     let allOrders = [];
@@ -11,9 +15,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let viewableOrders = [];
 
     // --- Helper Functions ---
-    const getCurrentUser = () => { /* ... */ };
-    const formatVND = (amount) => { /* ... */ };
+    const getCurrentUser = () => {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+    };
     
+    const formatVND = (amount) => {
+        const numericAmount = parseFloat(amount);
+        if (isNaN(numericAmount)) return 'N/A';
+        return numericAmount.toLocaleString('vi-VN') + ' đ';
+    };
+
     // --- Functions ---
     function renderTable(orders) {
         if (!ordersTbody) return;
@@ -23,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        // Sắp xếp đơn hàng theo thời gian
         orders.sort((a, b) => {
             const dateA = a['thời gian lên đơn'] || '';
             const dateB = b['thời gian lên đơn'] || '';
@@ -32,10 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         orders.forEach(order => {
             const row = document.createElement('tr');
-            
-            // =================================================================
-            // === SỬA LẠI TÊN CỘT Ở ĐÂY ===
-            // =================================================================
             row.innerHTML = `
                 <td>${order['thời gian lên đơn'] || 'N/A'}</td>
                 <td>${order['id order']}</td>
@@ -52,9 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function populateStatusFilter(orders) {
         const statusFilter = document.getElementById('statusFilter');
         if (!statusFilter) return;
-        // =================================================================
-        // === SỬA LẠI TÊN CỘT Ở ĐÂY ===
-        // =================================================================
         const statuses = [...new Set(orders.map(o => o['trạng thái:']))];
         statuses.forEach(status => {
             if(status && status.trim() !== '') statusFilter.innerHTML += `<option value="${status}">${status}</option>`;
@@ -65,12 +69,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
         const status = document.getElementById('statusFilter').value;
-        const customer = document.getElementById('customerSearch').value.toLowerCase();
+        const customer = customerSearchInput.value.toLowerCase();
 
         let filtered = viewableOrders.filter(order => {
-            // =================================================================
-            // === SỬA LẠI TÊN CỘT Ở ĐÂY ===
-            // =================================================================
             const orderDate = order['thời gian lên đơn'];
 
             if (!orderDate) return false;
@@ -91,9 +92,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (!order || !modal) return;
         
-        // =================================================================
-        // === SỬA LẠI TÊN CỘT Ở ĐÂY ===
-        // =================================================================
         document.getElementById('modalOrderId').textContent = orderId;
         document.getElementById('modalOrderInfo').innerHTML = `
             <p><strong>Khách hàng:</strong> ${order['tên khách hàng']}</p>
@@ -131,11 +129,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             let allOrdersRaw = await ordersRes.json();
             allOrderDetails = await detailsRes.json();
 
-            // Làm sạch dữ liệu: lọc bỏ đơn hàng lỗi và trim() tên cột
             allOrders = allOrdersRaw
                 .filter(order => order && order['id order'])
                 .map(order => {
-                    // Tạo một object mới đã được làm sạch tên cột
                     const cleanedOrder = {};
                     for (const key in order) {
                         cleanedOrder[key.trim()] = order[key];
@@ -146,9 +142,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const userEmail = currentUser.mail.toLowerCase();
             const userType = currentUser.phan_loai;
             
-            // =================================================================
-            // === SỬA LẠI TÊN CỘT Ở ĐÂY ===
-            // =================================================================
             if (['ad mind', 'Nhà máy tôn', 'Cửa Hàng'].includes(userType)) {
                 viewableOrders = allOrders.filter(order => 
                     order['email người phụ trách'] && order['email người phụ trách'].toLowerCase() === userEmail
@@ -168,15 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- Các hàm và event listener khác giữ nguyên ---
-    const getCurrentUser = () => { const user = localStorage.getItem('currentUser'); return user ? JSON.parse(user) : null; };
-    const formatVND = (amount) => { const numericAmount = parseFloat(amount); if (isNaN(numericAmount)) return 'N/A'; return numericAmount.toLocaleString('vi-VN') + ' đ'; };
-    const filterBtn = document.getElementById('filterBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const modal = document.getElementById('detailsModal');
-    const closeModalBtn = document.querySelector('.close-button');
-    const customerSearchInput = document.getElementById('customerSearch');
-    
+    // --- Event Listeners ---
     if(filterBtn) filterBtn.addEventListener('click', applyFilters);
     if(resetBtn) resetBtn.addEventListener('click', () => { 
         if(document.getElementById('startDate')) document.getElementById('startDate').value = ''; 
