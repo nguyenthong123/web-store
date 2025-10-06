@@ -1,71 +1,7 @@
-// PHIÊN BẢN SCRIPT.JS - SỬA LỖI HIỂN THỊ LINK BÁO CÁO
+// PHIÊN BẢN SCRIPT.JS CUỐI CÙNG - ĐẦY ĐỦ VÀ CHÍNH XÁC
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Các khai báo DOM Elements, Data... giữ nguyên ---
-    // ...
-
-    // --- Helper Functions ---
-    const getCurrentUser = () => {
-        const userJson = localStorage.getItem('currentUser');
-        return userJson ? JSON.parse(userJson) : null;
-    };
-    
-    // --- TÁCH HÀM NÀY RA RIÊNG BIỆT ĐỂ ĐẢM BẢO NÓ LUÔN CHẠY ---
-   // ... trong script.js
-function addReportLinkToSidebar() {
-    const currentUser = getCurrentUser();
-    if (currentUser && currentUser.phan_loai) {
-        const userType = currentUser.phan_loai.toLowerCase();
-        const allowedRoles = ['ad mind', 'nhà máy tôn', 'cửa hàng']; 
-        
-        if (allowedRoles.includes(userType)) {
-            const sidebarNavUl = document.querySelector('.sidebar-nav ul');
-            if (sidebarNavUl) {
-                const logoutLi = sidebarNavUl.querySelector('.logout')?.parentElement;
-
-                // Thêm link Báo cáo
-                if (!sidebarNavUl.querySelector('.report-link')) {
-                    const reportLi = document.createElement('li');
-                    reportLi.classList.add('report-link');
-                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-list-3-line"></i> Báo cáo Đơn hàng</a>`;
-                    if(logoutLi) sidebarNavUl.insertBefore(reportLi, logoutLi);
-                }
-                
-                // === THÊM MỚI: Thêm link Dashboard Phân tích ===
-                if (!sidebarNavUl.querySelector('.dashboard-link')) {
-                    const dashboardLi = document.createElement('li');
-                    dashboardLi.classList.add('dashboard-link');
-                    dashboardLi.innerHTML = `<a href="dashboard-analytics.html"><i class="ri-bar-chart-2-line"></i> Phân tích</a>`;
-                    if(logoutLi) sidebarNavUl.insertBefore(dashboardLi, logoutLi);
-                }
-            }
-        }
-    }
-}
-
-    // --- Các hàm Core khác (giữ nguyên) ---
-    async function fetchProducts() { /* ... */ }
-    // ... (tất cả các hàm khác) ...
-
-    // --- Initialization ---
-    async function initializeApp() {
-        await fetchProducts();
-        renderPopularProducts();
-        createGlobalPriceSelector();
-        updateCartDisplay();
-        updateNotificationBadge();
-
-        if (shippingInput) {
-            // ... (code xử lý shipping input giữ nguyên)
-        }
-    }
-
-    // --- Chạy các hàm khởi tạo ---
-    addReportLinkToSidebar(); // GỌI HÀM NÀY NGAY LẬP TỨC
-    initializeApp();
-    
-    
-    // --- Dán đầy đủ nội dung các hàm đã rút gọn ở trên vào đây ---
+    // --- DOM Elements ---
     const popularProductsGrid = document.getElementById('popular-products-grid');
     const shippingInput = document.getElementById('shipping-input');
     const globalPriceSelectorContainer = document.getElementById('global-price-selector-container');
@@ -78,8 +14,53 @@ function addReportLinkToSidebar() {
     const closeCartButton = document.getElementById('close-cart-button');
     const body = document.body;
     const searchInput = document.querySelector('.search-bar input');
+
+    // --- Data & Config ---
+    let allProductsData = [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    const QUANTITY_STEP = 0.5;
+    const MINIMUM_QUANTITY = 0.5;
+
+    // --- Helper Functions ---
+    const getCurrentUser = () => {
+        const userJson = localStorage.getItem('currentUser');
+        return userJson ? JSON.parse(userJson) : null;
+    };
+    
+    function addDynamicSidebarLinks() {
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.phan_loai) {
+            const userType = currentUser.phan_loai.toLowerCase();
+            const allowedRoles = ['ad mind', 'nhà máy tôn', 'cửa hàng'];
+            
+            if (allowedRoles.includes(userType)) {
+                const sidebarNavUl = document.querySelector('.sidebar-nav ul');
+                if (sidebarNavUl) {
+                    const logoutLi = sidebarNavUl.querySelector('.logout')?.parentElement;
+
+                    if (!sidebarNavUl.querySelector('.report-link')) {
+                        const reportLi = document.createElement('li');
+                        reportLi.classList.add('report-link');
+                        reportLi.innerHTML = `<a href="report.html"><i class="ri-file-list-3-line"></i> Báo cáo Đơn hàng</a>`;
+                        if(logoutLi) sidebarNavUl.insertBefore(reportLi, logoutLi);
+                    }
+                    
+                    if (!sidebarNavUl.querySelector('.dashboard-link')) {
+                        const dashboardLi = document.createElement('li');
+                        dashboardLi.classList.add('dashboard-link');
+                        dashboardLi.innerHTML = `<a href="dashboard-analytics.html"><i class="ri-bar-chart-2-line"></i> Phân tích</a>`;
+                        if(logoutLi) sidebarNavUl.insertBefore(dashboardLi, logoutLi);
+                    }
+                }
+            }
+        }
+    }
+
     const formatVND = (amount) => { const numericAmount = parseFloat(amount); if (isNaN(numericAmount)) return 'Liên hệ'; return numericAmount.toLocaleString('vi-VN') + ' đ'; };
     const saveCart = () => { localStorage.setItem('cart', JSON.stringify(cart)); };
+
+    // --- Core Functions ---
     async function fetchProducts() { try { const response = await fetch('./gia_web_dura.json'); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const data = await response.json(); allProductsData = data; } catch (error) { console.error('Lỗi khi tải sản phẩm:', error); if(popularProductsGrid) popularProductsGrid.innerHTML = '<p style="text-align: center; color: red;">Không thể tải dữ liệu sản phẩm.</p>'; } }
     function renderPopularProducts(productsToRender = allProductsData) { if (!popularProductsGrid) return; popularProductsGrid.innerHTML = ''; if (!productsToRender || productsToRender.length === 0) { popularProductsGrid.innerHTML = '<div class="no-results"><p>Không tìm thấy sản phẩm.</p></div>'; return; } const currentUser = getCurrentUser(); const userType = currentUser ? currentUser.phan_loai : 'guest'; productsToRender.forEach(product => { const productCard = document.createElement('div'); productCard.classList.add('product-card'); const uniqueProductId = product["id_san_pham"]; const groupId = product["group_id"]; productCard.dataset.productId = uniqueProductId; let priceHtml = ''; if (userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') { priceHtml = `<div class="price">${formatVND(product["giá niêm yết"])}</div>`; } else if (userType === 'Thầu Thợ') { priceHtml = `<div class="price">${formatVND(product["Giá Thầu Thợ"])}</div>`; } else { priceHtml = `<div class="price">${formatVND(product["Giá chủ nhà"])}</div>`; } productCard.innerHTML = `<a href="product/index.html?id=${groupId}" class="product-link"><img src="${product["image sản phẩm"]}" alt="${product["Tên sản phẩm"]}" loading="lazy"></a><h4>${product["Tên sản phẩm"]}</h4><div class="size">Kích thước: ${product["kích thước"]}</div>${priceHtml}<button class="add-to-cart-btn" data-product-id="${uniqueProductId}">Thêm vào giỏ</button>`; popularProductsGrid.appendChild(productCard); }); document.querySelectorAll('.add-to-cart-btn').forEach(button => { button.addEventListener('click', handleAddToCartClick); }); }
     function createGlobalPriceSelector() { if (!globalPriceSelectorContainer) return; const currentUser = getCurrentUser(); const userType = currentUser ? currentUser.phan_loai : 'guest'; if ((userType === 'Nhà Máy Tôn' || userType === 'Cửa Hàng') && allProductsData.length > 0) { const priceKeys = new Set(); priceKeys.add('Giá chủ nhà'); priceKeys.add('Giá Thầu Thợ'); priceKeys.add('giá niêm yết'); allProductsData.forEach(product => { for (const key in product) { if (key.startsWith('gói')) { priceKeys.add(key); } } }); let optionsHtml = ''; priceKeys.forEach(key => { const cleanKey = key.replace(' Tháng 10"', ''); optionsHtml += `<option value="${key}">${cleanKey}</option>`; }); const selectorHtml = `<label for="package-select">Chọn báo giá:</label><select id="package-select">${optionsHtml}</select>`; globalPriceSelectorContainer.innerHTML = selectorHtml; globalPriceSelectorContainer.style.display = 'flex'; const packageSelect = document.getElementById('package-select'); if (packageSelect) { packageSelect.addEventListener('change', (event) => { const selectedKey = event.target.value; updateAllProductPrices(selectedKey); }); } } }
@@ -95,4 +76,24 @@ function addReportLinkToSidebar() {
     if (closeCartButton) closeCartButton.addEventListener('click', () => toggleCart(false));
     function searchProducts(searchTerm) { const normalizedSearch = searchTerm.toLowerCase().trim(); if (!normalizedSearch) { renderPopularProducts(allProductsData); return; } const filteredProducts = allProductsData.filter(p => p["Tên sản phẩm"].toLowerCase().includes(normalizedSearch) || (p["kích thước"] && p["kích thước"].toLowerCase().includes(normalizedSearch))); renderPopularProducts(filteredProducts); }
     if (searchInput) { let searchTimeout; searchInput.addEventListener('input', (e) => { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => searchProducts(e.target.value), 300); }); }
+    
+    async function initializeApp() {
+        addDynamicSidebarLinks();
+        await fetchProducts();
+        renderPopularProducts();
+        createGlobalPriceSelector();
+        updateCartDisplay();
+        updateNotificationBadge();
+        if (shippingInput) {
+            shippingInput.addEventListener('input', () => {
+                let value = shippingInput.value.replace(/\./g, '');
+                if (!isNaN(value) && value.length > 0) {
+                    shippingInput.value = parseInt(value, 10).toLocaleString('vi-VN');
+                }
+                updateTotals();
+            });
+        }
+    }
+
+    initializeApp();
 });
