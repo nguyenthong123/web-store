@@ -1,4 +1,4 @@
-// PHIÊN BẢN DASHBOARD.JS HOÀN CHỈNH - ĐÃ SỬA LỖI VÀ THÊM CÁC HÀM CÒN THIẾU
+// PHIÊN BẢN DASHBOARD.JS HOÀN CHỈNH - SỬA LỖI PHÂN QUYỀN VÀ DỌN DẸP
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- DOM Elements & Chart instances ---
@@ -21,9 +21,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new Date(dateString);
     };
     
-    // =================================================================
-    // === THÊM LẠI HÀM BỊ THIẾU Ở ĐÂY ===
-    // =================================================================
     function addDynamicSidebarLinks() {
         const currentUser = getCurrentUser();
         if (currentUser && currentUser.phan_loai) {
@@ -52,7 +49,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     }
-
 
     // --- Chart Drawing Functions ---
     function drawSalesAndDiscountChart(orders) {
@@ -191,18 +187,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateAllCharts(filteredOrders, filteredDetails);
     }
     
-    function populateFilters(orders) {
+    function populateFilters(orders, populateCustomers = true) {
         const statusFilter = document.getElementById('statusFilter');
         if (statusFilter) {
             const statuses = [...new Set(orders.map(o => o['trạng thái']).filter(s => s && s.trim() !== ''))];
             statusFilter.innerHTML = '<option value="">-- Tất cả trạng thái --</option>';
             statuses.forEach(status => { statusFilter.innerHTML += `<option value="${status}">${status}</option>`; });
         }
-        const datalist = document.getElementById('customer-list');
-        if (datalist) {
-            const customerNames = [...new Set(orders.map(o => o['tên khách hàng']).filter(Boolean))];
-            datalist.innerHTML = '';
-            customerNames.forEach(name => { datalist.innerHTML += `<option value="${name}"></option>`; });
+        
+        if (populateCustomers) {
+            const datalist = document.getElementById('customer-list');
+            if (datalist) {
+                const customerNames = [...new Set(orders.map(o => o['tên khách hàng']).filter(Boolean))];
+                datalist.innerHTML = '';
+                customerNames.forEach(name => { datalist.innerHTML += `<option value="${name}"></option>`; });
+            }
         }
     }
 
@@ -219,21 +218,38 @@ document.addEventListener('DOMContentLoaded', async () => {
             let allOrdersRaw = await ordersRes.json();
             allOrderDetails = await detailsRes.json();
             allOrders = allOrdersRaw.filter(o => o && o['id order']).map(o => { const cleaned = {}; for (const key in o) { cleaned[key.trim().replace(/:$/, '')] = o[key]; } return cleaned; });
+            
             const userEmail = currentUser.mail.toLowerCase();
             const userType = currentUser.phan_loai.toLowerCase();
-            if (['ad mind', 'nhà máy tôn'].includes(userType)) {
+
+            // =================================================================
+            // === SỬA LẠI LOGIC PHÂN QUYỀN Ở ĐÂY ===
+            // =================================================================
+            if (userType === 'ad mind') {
+                // Admin xem đơn hàng họ phụ trách
                 viewableOrders = allOrders.filter(order => order['email người phụ trách'] && order['email người phụ trách'].toLowerCase() === userEmail);
+                populateFilters(viewableOrders, true); // Populate tất cả bộ lọc
             } else {
+                // Các loại khác (Nhà máy tôn, Cửa hàng) là khách hàng, xem đơn của chính mình
                 viewableOrders = allOrders.filter(order => (order['email khách hàng'] && order['email khách hàng'].toLowerCase() === userEmail) || (order['tên khách hàng'] === currentUser.name));
+                
+                // Khóa ô tìm kiếm
+                if (customerSearchInput) {
+                    customerSearchInput.value = currentUser.name;
+                    customerSearchInput.disabled = true;
+                }
+                populateFilters(viewableOrders, false); // Chỉ populate bộ lọc trạng thái
             }
+
             const viewableOrderIds = new Set(viewableOrders.map(o => o['id order']));
             Object.keys(allOrderDetails).forEach(orderId => {
                 if (viewableOrderIds.has(orderId)) {
                     viewableDetails[orderId] = allOrderDetails[orderId];
                 }
             });
-            populateFilters(viewableOrders);
+
             updateAllCharts(viewableOrders, viewableDetails);
+
         } catch (error) {
             console.error("Lỗi khi khởi tạo dashboard:", error);
             if(chartsContainer) chartsContainer.innerHTML = '<p class="no-data" style="text-align:center; padding: 20px;">Lỗi tải dữ liệu. Vui lòng kiểm tra file JSON.</p>';
@@ -246,9 +262,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('startDate').value = '';
         document.getElementById('endDate').value = '';
         document.getElementById('statusFilter').value = '';
-        if (customerSearchInput.disabled === false) { customerSearchInput.value = ''; }
-        updateAllCharts(viewableOrders, viewableDetails);
+        const currentUser = getCurrentUser();
+        if (customerSearchInput && (!currentUser || currentUser.phan_loai.toLowerCase() === 'ad mind')) {
+             customerSearchInput.value = '';
+        }
+        // Gọi lại initializeApp để reset về trạng thái ban đầu theo quyền
+        initializeApp();
     });
     
+    // Khởi chạy
     initializeApp();
 });
