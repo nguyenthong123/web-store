@@ -1,73 +1,95 @@
-// PHIÊN BẢN REPORT.JS - SỬA LỖI LOGIC PHÂN QUYỀN CHO CỬA HÀNG
+// PHIÊN BẢN REPORT.JS - TÍCH HỢP DANH SÁCH GỢI Ý KHÁCH HÀNG ĐỘNG
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- Các khai báo DOM Elements, Data, và Helper Functions giữ nguyên ---
-    // ...
+    // --- DOM Elements ---
+    const ordersTbody = document.getElementById('orders-tbody');
+    const filterBtn = document.getElementById('filterBtn');
+    // ... (các element khác giữ nguyên) ...
 
-    // --- Các hàm renderTable, populateStatusFilter, ... giữ nguyên ---
-    // ...
+    // --- Data ---
+    let allOrders = [];
+    let allOrderDetails = {}; 
+    let viewableOrders = []; // Danh sách đơn hàng người dùng được phép xem ban đầu
+
+    // --- Helper Functions ---
+    const getCurrentUser = () => { /* ... */ };
+    const formatVND = (amount) => { /* ... */ };
+    const parseDate = (dateString) => { /* ... */ };
+
+    // --- Functions ---
+    function renderTable(orders) { /* ... giữ nguyên ... */ }
+    
+    // =================================================================
+    // === HÀM NÀY GIỜ SẼ NHẬN MỘT MẢNG ĐƠN HÀNG ĐỂ TẠO GỢI Ý ===
+    // =================================================================
+    function populateCustomerDatalist(orders) {
+        const datalist = document.getElementById('customer-list');
+        if (!datalist) return;
+        
+        // Lấy danh sách tên khách hàng duy nhất TỪ CÁC ĐƠN HÀNG ĐÃ LỌC
+        const customerNames = [...new Set(orders.map(o => o['tên khách hàng']))];
+        
+        datalist.innerHTML = ''; // Xóa gợi ý cũ
+        customerNames.forEach(name => {
+            if (name) datalist.innerHTML += `<option value="${name}"></option>`;
+        });
+    }
+
+    function populateStatusFilter(orders) { /* ... giữ nguyên ... */ }
+
+    // =================================================================
+    // === HÀM APPLYFILTERS ĐƯỢC CẬP NHẬT ĐỂ ĐIỀU KHIỂN DATALIST ===
+    // =================================================================
+    function applyFilters() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const status = document.getElementById('statusFilter').value;
+        const customer = document.getElementById('customerSearch').value.toLowerCase();
+        
+        const currentUser = getCurrentUser();
+        const userType = currentUser ? currentUser.phan_loai : 'guest';
+
+        // Lọc theo Ngày và Trạng thái trước
+        let filteredByDateAndStatus = viewableOrders.filter(order => {
+            const orderDate = parseDate(order['thời gian lên đơn']);
+            if (startDate && (!orderDate || orderDate < new Date(startDate))) return false;
+            if (endDate && (!orderDate || orderDate > new Date(endDate))) return false;
+            if (status && order['trạng thái'] !== status) return false;
+            return true;
+        });
+        
+        // Cập nhật lại danh sách gợi ý khách hàng dựa trên kết quả lọc trên
+        if (userType === 'ad mind') {
+            populateCustomerDatalist(filteredByDateAndStatus);
+        }
+
+        // Sau đó, lọc tiếp theo Tên khách hàng (nếu có nhập)
+        let finalFiltered = filteredByDateAndStatus;
+        if (customer) {
+            finalFiltered = filteredByDateAndStatus.filter(order => 
+                (order['tên khách hàng'] && order['tên khách hàng'].toLowerCase().includes(customer)) || 
+                (order['số điện thoại'] && order['số điện thoại'].includes(customer))
+            );
+        }
+        
+        renderTable(finalFiltered);
+    }
+    
+    function showOrderDetails(orderId) { /* ... giữ nguyên ... */ }
 
     // --- Initialization ---
     async function initializeApp() {
         try {
+            // ... (code tải dữ liệu và phân quyền ban đầu giữ nguyên) ...
+            
+            // Lần đầu tiên, tạo danh sách gợi ý từ tất cả đơn hàng xem được
             const currentUser = getCurrentUser();
-            if (!currentUser || !currentUser.mail) {
-                document.querySelector('.report-container').innerHTML = '<h1>Bạn cần đăng nhập để xem báo cáo.</h1>';
-                return;
+            if (currentUser && currentUser.phan_loai === 'ad mind') {
+                populateCustomerDatalist(viewableOrders);
             }
 
-            const [ordersRes, detailsRes] = await Promise.all([
-                fetch('./data/orderData.json'),
-                fetch('./data/orderDetails.json')
-            ]);
-            let allOrdersRaw = await ordersRes.json();
-            allOrderDetails = await detailsRes.json();
-
-            allOrders = allOrdersRaw
-                .filter(order => order && order['id order'])
-                .map(order => {
-                    const cleanedOrder = {};
-                    for (const key in order) {
-                        cleanedOrder[key.trim().replace(/:$/, '')] = order[key];
-                    }
-                    return cleanedOrder;
-                });
-            
-            const userEmail = currentUser.mail.toLowerCase();
-            const userType = currentUser.phan_loai;
-            
-            // =================================================================
-            // === SỬA LỖI LOGIC PHÂN QUYỀN TẠI ĐÂY ===
-            // =================================================================
-            if (userType === 'ad mind' || userType === 'Nhà máy tôn') {
-                // Admin và Nhà máy tôn là người phụ trách, xem đơn họ phụ trách
-                viewableOrders = allOrders.filter(order => 
-                    order['email người phụ trách'] && order['email người phụ trách'].toLowerCase() === userEmail
-                );
-                
-                // Admin có thể tìm kiếm tất cả khách hàng họ quản lý
-                if(userType === 'ad mind') {
-                    populateCustomerDatalist(viewableOrders);
-                }
-                
-            } else { 
-                // Các loại khác (bao gồm "Cửa Hàng" và khách hàng thường) là khách hàng,
-                // chỉ xem được đơn hàng của chính mình.
-                viewableOrders = allOrders.filter(order => 
-                    (order['email khách hàng'] && order['email khách hàng'].toLowerCase() === userEmail) ||
-                    (order['tên khách hàng'] === currentUser.name) // Thêm điều kiện tìm theo tên cho chắc chắn
-                );
-                
-                // Khóa ô tìm kiếm và tự điền tên của họ
-                if (customerSearchInput) {
-                    customerSearchInput.value = currentUser.name;
-                    customerSearchInput.disabled = true;
-                }
-            }
-            
             renderTable(viewableOrders);
-            // Chỉ populate status từ các đơn hàng họ được xem
-            populateStatusFilter(viewableOrders);
+            populateStatusFilter(viewableOrders); // Populate status từ các đơn hàng được xem
 
         } catch (error) {
             console.error("Lỗi khi tải dữ liệu đơn hàng:", error);
@@ -75,10 +97,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- Các Event Listeners giữ nguyên ---
+    // --- Các Event Listeners và helper functions khác giữ nguyên ---
     // ...
-    
-    // --- Dán lại đầy đủ các hàm đã bị rút gọn vào đây ---
+
+    // --- Dán đầy đủ các hàm đã được copy ở dưới đây ---
     const ordersTbody = document.getElementById('orders-tbody');
     const filterBtn = document.getElementById('filterBtn');
     const resetBtn = document.getElementById('resetBtn');
@@ -90,15 +112,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const parseDate = (dateString) => { if (!dateString || typeof dateString !== 'string') return null; const parts = dateString.split('-'); if (parts.length !== 3) return null; return new Date(parts[0].length === 4 ? dateString : `${parts[2]}-${parts[1]}-${parts[0]}`); };
     function renderTable(orders) { if (!ordersTbody) return; ordersTbody.innerHTML = ''; if (orders.length === 0) { ordersTbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">Không tìm thấy đơn hàng nào.</td></tr>`; return; } orders.sort((a, b) => (b['thời gian lên đơn'] || '').localeCompare(a['thời gian lên đơn'] || '')); orders.forEach(order => { const row = document.createElement('tr'); row.innerHTML = `<td>${order['thời gian lên đơn'] || 'N/A'}</td><td>${order['id order'] || 'N/A'}</td><td>${order['tên khách hàng'] || 'N/A'}</td><td>${formatVND(order['tổng phụ'])}</td><td>${order['trạng thái'] || 'Chưa cập nhật'}</td><td>${order['email người phụ trách'] || 'N/A'}</td><td><button class="view-details-btn" data-order-id="${order['id order']}">Xem</button></td>`; ordersTbody.appendChild(row); }); }
     function populateStatusFilter(orders) { const statusFilter = document.getElementById('statusFilter'); if (!statusFilter) return; const statuses = [...new Set(orders.map(o => o['trạng thái']).filter(s => s && s.trim() !== ''))]; statusFilter.innerHTML = '<option value="">-- Tất cả trạng thái --</option>'; statuses.forEach(status => { statusFilter.innerHTML += `<option value="${status}">${status}</option>`; }); }
-    function applyFilters() { const startDate = document.getElementById('startDate').value; const endDate = document.getElementById('endDate').value; const status = document.getElementById('statusFilter').value; const customer = customerSearchInput.value.toLowerCase(); let filtered = viewableOrders.filter(order => { const orderDate = parseDate(order['thời gian lên đơn']); if (startDate && (!orderDate || orderDate < new Date(startDate))) return false; if (endDate && (!orderDate || orderDate > new Date(endDate))) return false; if (status && order['trạng thái'] !== status) return false; if (customer && !order['tên khách hàng'].toLowerCase().includes(customer) && !(order['số điện thoại'] && order['số điện thoại'].includes(customer))) return false; return true; }); renderTable(filtered); }
-    function showOrderDetails(orderId) { const order = viewableOrders.find(o => o['id order'] === orderId); const details = allOrderDetails[orderId] || []; if (!order || !modal) return; document.getElementById('modalOrderId').textContent = orderId; document.getElementById('modalOrderInfo').innerHTML = `<p><strong>Khách hàng:</strong> ${order['tên khách hàng']}</p><p><strong>Ngày tạo:</strong> ${order['thời gian lên đơn'] || 'N/A'}</p><p><strong>Trạng thái:</strong> ${order['trạng thái'] || 'Chưa cập nhật'}</p><p><strong>Tổng tiền:</strong> ${formatVND(order['tổng phụ'])}</p>`; const detailsTbody = document.getElementById('modal-details-tbody'); detailsTbody.innerHTML = ''; if(details.length > 0){ details.forEach(item => { const row = `<tr><td>${item['tên sản phẩm']}</td><td>${item['số lượng']}</td><td>${item['đơn vị tính']}</td><td>${formatVND(item['tổng tiền'])}</td></tr>`; detailsTbody.innerHTML += row; }); } else { detailsTbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Không có chi tiết sản phẩm.</td></tr>`; } modal.style.display = "block"; }
-    function populateCustomerDatalist(orders) { const datalist = document.getElementById('customer-list'); if (!datalist) return; const customerNames = [...new Set(orders.map(o => o['tên khách hàng']))]; datalist.innerHTML = ''; customerNames.forEach(name => { datalist.innerHTML += `<option value="${name}"></option>`; }); }
+    function showOrderDetails(orderId) { const order = viewableOrders.find(o => o['id order'] === orderId) || allOrders.find(o => o['id order'] === orderId); const details = allOrderDetails[orderId] || []; if (!order || !modal) return; document.getElementById('modalOrderId').textContent = orderId; document.getElementById('modalOrderInfo').innerHTML = `<p><strong>Khách hàng:</strong> ${order['tên khách hàng']}</p><p><strong>Ngày tạo:</strong> ${order['thời gian lên đơn'] || 'N/A'}</p><p><strong>Trạng thái:</strong> ${order['trạng thái'] || 'Chưa cập nhật'}</p><p><strong>Tổng tiền:</strong> ${formatVND(order['tổng phụ'])}</p>`; const detailsTbody = document.getElementById('modal-details-tbody'); detailsTbody.innerHTML = ''; if(details.length > 0){ details.forEach(item => { const row = `<tr><td>${item['tên sản phẩm']}</td><td>${item['số lượng']}</td><td>${item['đơn vị tính']}</td><td>${formatVND(item['tổng tiền'])}</td></tr>`; detailsTbody.innerHTML += row; }); } else { detailsTbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Không có chi tiết sản phẩm.</td></tr>`; } modal.style.display = "block"; }
+    
     if(filterBtn) filterBtn.addEventListener('click', applyFilters);
     if(resetBtn) resetBtn.addEventListener('click', () => { if(document.getElementById('startDate')) document.getElementById('startDate').value = ''; if(document.getElementById('endDate')) document.getElementById('endDate').value = ''; if(document.getElementById('statusFilter')) document.getElementById('statusFilter').value = ''; if(customerSearchInput) { const currentUser = getCurrentUser(); if(!currentUser || currentUser.phan_loai === 'ad mind') { customerSearchInput.value = ''; } } initializeApp(); });
     if(closeModalBtn) closeModalBtn.addEventListener('click', () => modal.style.display = "none");
     if(modal) window.addEventListener('click', (event) => { if (event.target == modal) { modal.style.display = "none"; } });
     if(customerSearchInput) customerSearchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { applyFilters(); } });
     if(ordersTbody) ordersTbody.addEventListener('click', (event) => { if (event.target.classList.contains('view-details-btn')) { showOrderDetails(event.target.dataset.orderId); } });
+    
+    async function initializeApp() { try { const currentUser = getCurrentUser(); if (!currentUser || !currentUser.mail) { document.querySelector('.report-container').innerHTML = '<h1>Bạn cần đăng nhập để xem báo cáo.</h1>'; return; } const [ordersRes, detailsRes] = await Promise.all([fetch('./data/orderData.json'), fetch('./data/orderDetails.json')]); let allOrdersRaw = await ordersRes.json(); allOrderDetails = await detailsRes.json(); allOrders = allOrdersRaw.filter(order => order && order['id order']).map(order => { const cleanedOrder = {}; for (const key in order) { cleanedOrder[key.trim().replace(/:$/, '')] = order[key]; } return cleanedOrder; }); const userEmail = currentUser.mail.toLowerCase(); const userType = currentUser.phan_loai; if (['ad mind', 'Nhà máy tôn'].includes(userType)) { viewableOrders = allOrders.filter(order => order['email người phụ trách'] && order['email người phụ trách'].toLowerCase() === userEmail); } else { viewableOrders = allOrders.filter(order => (order['email khách hàng'] && order['email khách hàng'].toLowerCase() === userEmail) || (order['tên khách hàng'] === currentUser.name)); if (customerSearchInput) { customerSearchInput.value = currentUser.name; customerSearchInput.disabled = true; } } if (userType === 'ad mind') { populateCustomerDatalist(viewableOrders); } renderTable(viewableOrders); populateStatusFilter(viewableOrders); } catch (error) { console.error("Lỗi khi tải dữ liệu đơn hàng:", error); if (ordersTbody) ordersTbody.innerHTML = `<tr><td colspan="7">Lỗi tải dữ liệu.</td></tr>`; } }
 
     // Run the app
     initializeApp();
