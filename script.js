@@ -11,36 +11,37 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // --- TÁCH HÀM NÀY RA RIÊNG BIỆT ĐỂ ĐẢM BẢO NÓ LUÔN CHẠY ---
-    function addReportLinkToSidebar() {
-        const currentUser = getCurrentUser();
-        if (currentUser && currentUser.phan_loai) {
-            // Chuyển loại người dùng về chữ thường để so sánh cho chắc chắn
-            const userType = currentUser.phan_loai.toLowerCase();
-            
-            // =================================================================
-            // === SỬA LỖI Ở ĐÂY: Dùng chữ thường và thêm các vai trò ===
-            // =================================================================
-            const allowedRoles = ['ad mind', 'nhà máy tôn', 'cửa hàng']; 
-            
-            if (allowedRoles.includes(userType)) {
-                const sidebarNavUl = document.querySelector('.sidebar-nav ul');
-                if (sidebarNavUl) {
-                    if (sidebarNavUl.querySelector('.report-link')) return;
+   // ... trong script.js
+function addReportLinkToSidebar() {
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.phan_loai) {
+        const userType = currentUser.phan_loai.toLowerCase();
+        const allowedRoles = ['ad mind', 'nhà máy tôn', 'cửa hàng']; 
+        
+        if (allowedRoles.includes(userType)) {
+            const sidebarNavUl = document.querySelector('.sidebar-nav ul');
+            if (sidebarNavUl) {
+                const logoutLi = sidebarNavUl.querySelector('.logout')?.parentElement;
 
+                // Thêm link Báo cáo
+                if (!sidebarNavUl.querySelector('.report-link')) {
                     const reportLi = document.createElement('li');
                     reportLi.classList.add('report-link');
-                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-chart-line"></i> Báo Cáo</a>`;
-                    
-                    const logoutLi = sidebarNavUl.querySelector('.logout');
-                    if(logoutLi && logoutLi.parentElement) {
-                        sidebarNavUl.insertBefore(reportLi, logoutLi.parentElement);
-                    } else {
-                        sidebarNavUl.appendChild(reportLi);
-                    }
+                    reportLi.innerHTML = `<a href="report.html"><i class="ri-file-list-3-line"></i> Báo cáo Đơn hàng</a>`;
+                    if(logoutLi) sidebarNavUl.insertBefore(reportLi, logoutLi);
+                }
+                
+                // === THÊM MỚI: Thêm link Dashboard Phân tích ===
+                if (!sidebarNavUl.querySelector('.dashboard-link')) {
+                    const dashboardLi = document.createElement('li');
+                    dashboardLi.classList.add('dashboard-link');
+                    dashboardLi.innerHTML = `<a href="dashboard-analytics.html"><i class="ri-bar-chart-2-line"></i> Phân tích</a>`;
+                    if(logoutLi) sidebarNavUl.insertBefore(dashboardLi, logoutLi);
                 }
             }
         }
     }
+}
 
     // --- Các hàm Core khác (giữ nguyên) ---
     async function fetchProducts() { /* ... */ }
