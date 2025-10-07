@@ -1,1 +1,142 @@
-<html lang="en" dir=ltr><meta charset=utf-8><meta name=viewport content="initial-scale=1, minimum-scale=1, width=device-width"><title>Error 500 (Server Error)!!1</title><style nonce="tWTufiOdS4wAfjLPf0rRMw">*{margin:0;padding:0}html,code{font:15px/22px arial,sans-serif}html{background:#fff;color:#222;padding:15px}body{color:#222;text-align:unset;margin:7% auto 0;max-width:390px;min-height:180px;padding:30px 0 15px;}* > body{background:url(//www.google.com/images/errors/robot.png) 100% 5px no-repeat;padding-right:205px}p{margin:11px 0 22px;overflow:hidden}pre{white-space:pre-wrap;}ins{color:#777;text-decoration:none}a img{border:0}@media screen and (max-width:772px){body{background:none;margin-top:0;max-width:none;padding-right:0}}#logo{background:url(//www.google.com/images/branding/googlelogo/1x/googlelogo_color_150x54dp.png) no-repeat;margin-left:-5px}@media only screen and (min-resolution:192dpi){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat 0% 0%/100% 100%;-moz-border-image:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) 0}}@media only screen and (-webkit-min-device-pixel-ratio:2){#logo{background:url(//www.google.com/images/branding/googlelogo/2x/googlelogo_color_150x54dp.png) no-repeat;-webkit-background-size:100% 100%}}#logo{display:inline-block;height:54px;width:150px}</style><main id="af-error-container" role="main"><a href=//www.google.com><span id=logo aria-label=Google role=img></span></a><p><b>500.</b> <ins>That’s an error.</ins><p>There was an error. Please try again later. <ins>That’s all we know.</ins></main>
+{
+  "tam-dura-low-carbon": {
+    "id": "tam-dura-low-carbon",
+    "name": "Tấm xi măng DURAflex",
+    "category": "Tấm Xi Măng",
+    "type": "tam-xi-mang",
+    "images": [
+      "https://duraflex.com.vn/sites/default/files/2025-03/unnamed.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20l%C3%A0m%20t%C6%B0%E1%BB%9Dng_900x600px_3.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_Giai%20Phap%20chi%20tiet_S%C3%A0n%20n%E1%BB%99i%20th%E1%BA%A5t_Gaclung_900x600_3.png"
+    ],
+    "options": {
+      "quycach": [
+        "1220x2440",
+        "1000x2000"
+      ],
+      "doday": [
+        "6",
+        "8",
+        "12",
+        "15",
+        "16",
+        "18"
+      ],
+      "mausac": []
+    },
+    "specs": [
+      {
+        "title": "Kích thước & Trọng lượng",
+        "headers": [
+          "Thông số",
+          "6mm",
+          "8mm",
+          "12mm",
+          "15mm",
+          "16mm",
+          "18mm"
+        ],
+        "rows": [
+          [
+            "Trọng lượng ( kg/tấm )",
+            "29.24",
+            "38.18",
+            "60",
+            "73",
+            "78",
+            "89"
+          ],
+          [
+            "Quy cách kiện",
+            "100 tấm",
+            "80 tấm",
+            "50 tấm",
+            "40 tấm",
+            "40 tấm",
+            "35 tấm"
+          ]
+        ]
+      }
+    ]
+  },
+  "vit-dura-vis": {
+    "id": "vit-dura-vis",
+    "name": "Vít chuyên dụng DURA vis",
+    "category": "Phụ Kiện",
+    "type": "vit",
+    "images": [
+      "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-01%20%281%29.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet-1_1.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet_2_0.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet-1_1.png"
+    ],
+    "options": {
+      "quycach": [
+        {
+          "value": "26",
+          "text": "Vít bắn vách 26mm"
+        },
+        {
+          "value": "35",
+          "text": "Vít bắn sàn 35mm"
+        }
+      ],
+      "doday": [],
+      "mausac": []
+    },
+    "specs": [
+      {
+        "title": "Hạng mục & Phân bố",
+        "headers": [
+          "Hạng mục thi công",
+          "Phân bố",
+          "số vít phân bổ trên tấm"
+        ],
+        "rows": [
+          [
+            "Vít 26mm",
+            "Vách ngăn",
+            "Trung bình 20 vít/tấm",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Vít 35mm",
+            "Sàn",
+            "Trung bình 20 vít/tấm",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      }
+    ]
+  },
+  "tam-van-go-durawood": {
+    "id": "tam-van-go-durawood",
+    "name": "Tấm vân gỗ DURAwood",
+    "category": "Trang Trí",
+    "type": "tam-van-go",
+    "images": [
+      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20v%C3%A2n%20g%E1%BB%97%20DURAwood_900x600_3.png",
+      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20v%C3%A2n%20g%E1%BB%97%20DURAwood_900x600_2.png"
+    ],
+    "options": {
+      "quycach": [
+        "200x2440",
+        "150x2440"
+      ],
+      "doday": [
+        "8.12"
+      ],
+      "mausac": [
+        "vân Gỗ Sồi",
+        "vân Gỗ Óc Chó"
+      ]
+    },
+    "specs": []
+  }
+}
