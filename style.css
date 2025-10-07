@@ -1548,3 +1548,152 @@ button {
     border-color: #4caf50;
     background-color: #fff;
 }
+/* ========================================= */
+/*  STYLES FOR APPLICATION HERO SECTION      */
+/* ========================================= */
+
+.application-hero {
+    background-color: #589f47; /* Màu nền xanh */
+    padding: 50px 0;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.app-tabs-container {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 40px;
+}
+
+.app-tab-link {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 15px 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.app-tab-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.app-tab-link.active,
+.app-tab-link:hover {
+    color: white;
+}
+
+.app-tab-link.active::after {
+    transform: scaleX(1);
+}
+
+.app-tab-pane {
+    display: none; /* Ẩn tất cả các tab */
+    grid-template-columns: 1fr 1.2fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.app-tab-pane.active {
+    display: grid; /* Chỉ hiện tab active */
+}
+
+.pane-content .icon-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.pane-content .icon-title img {
+    width: 50px;
+    height: 50px;
+}
+
+.pane-content h2 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.pane-content p {
+    font-size: 1em;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+
+.btn-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #8bc34a;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-explore:hover {
+    background-color: #7cb321;
+}
+
+.btn-explore i {
+    font-size: 1.2em;
+}
+
+.pane-image img {
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .app-tab-pane {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .pane-content .icon-title {
+        justify-content: center;
+    }
+
+    .pane-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .pane-image {
+        order: -1; /* Đưa ảnh lên trên */
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-tabs-container {
+        flex-wrap: wrap;
+    }
+    .app-tab-link {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+    .pane-content h2 {
+        font-size: 2em;
+    }
+}
