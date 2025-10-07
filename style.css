@@ -196,11 +196,15 @@ button { cursor: pointer; }
 .application-hero {
     background: linear-gradient(135deg, #4CAF50, #388E3C);
     border-radius: 20px; /* Bo góc section */
-    padding: 50px 40px;
+    padding: 50px 0; /* Chỉ giữ padding trên dưới, bỏ padding trái phải */
 }
-.app-tabs-container { margin-bottom: 50px; }
-.pane-content h2 { font-size: 3em; }
-.btn-explore { border-radius: 25px; }
+
+/* Thêm style để đảm bảo .container bên trong section này hoạt động đúng */
+.application-hero .container {
+    max-width: 1200px; /* Giới hạn chiều rộng nội dung */
+    margin: 0 auto; /* Căn giữa nội dung */
+    padding: 0 20px; /* Thêm khoảng đệm trái phải cho nội dung */
+}
 
 
 /* --- 9. GIỎ HÀNG (Nâng cấp) --- */
