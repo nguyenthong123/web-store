@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DunVex & VLXD</title>
     <link rel="icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
-    <link rel="shortcut icon" type="image/x-icon" href="https://lh3.googleusercontent.com/d/1Lw5ImUdh6J9Amtoy4kKXSbkmuM4xDHr3">
     <link rel="stylesheet" href="style.css">
-    <!-- Using Remixicon for icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
 </head>
 <body>
@@ -18,12 +16,11 @@
         </div>
         <nav class="sidebar-nav">
             <ul>
-                <li class="active"><a href="#"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li class="active"><a href="index.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
                 <li><a href="profile.html"><i class="ri-user-line"></i> Profile</a></li>
                 <li><a href="#"><i class="ri-settings-5-line"></i> Settings</a></li>
                 <li><a href="#"><i class="ri-message-3-line"></i> Message</a></li>
-                <li><a href="#" class="open-cart-mobile"><i class="ri-shopping-bag-3-line"></i> My Cart</a></li>
-                <li><a href="#" class="logout"><i class="ri-logout-box-line"></i> Logout</a></li>
+                <li class="logout"><a href="#"><i class="ri-logout-box-line"></i> Logout</a></li>
             </ul>
         </nav>
     </aside>
@@ -48,87 +45,53 @@
                 </div>
             </div>
         </header>
-</header> <!-- Thẻ đóng của header -->
 
-    <!-- =============================================================== -->
-    <!-- === KHỐI HTML MỚI CHO HERO SECTION ỨNG DỤNG === -->
-    <!-- =============================================================== -->
-    <section class="application-hero">
-        <div class="container">
-            <div class="app-tabs-container">
-                <button class="app-tab-link active" data-tab="nha-lap-ghep">Nhà lắp ghép</button>
-                <button class="app-tab-link" data-tab="nha-tien-che">Nhà tiền chế</button>
-                <button class="app-tab-link" data-tab="nha-dan-dung">Nhà dân dụng</button>
-                <button class="app-tab-link" data-tab="nha-sang-tao">Loại nhà sáng tạo khác</button>
-            </div>
-
-            <div class="app-tab-content">
-                <!-- Tab 1: Nhà Lắp Ghép -->
-                <div id="nha-lap-ghep" class="app-tab-pane active">
-                    <div class="pane-content">
-                        <div class="icon-title">
-                            <img src="https://duraflex.com.vn/sites/default/files/2022-06/Frame.png" alt="icon nhà lắp ghép">
-                            <h2>NHÀ LẮP GHÉP</h2>
-                        </div>
-                        <p>Nhà lắp ghép không chỉ là cách thức xây dựng mà trở thành kiểu phong cách công trình hiện đại, dễ dàng ứng dụng vào nhiều loại công trình theo nhiều công năng sử dụng.</p>
-                        <p>Đảm bảo độ bền và sự linh hoạt trong mẫu mã, nhà lắp ghép sử dụng tấm xi măng DURAflex, tấm vân gỗ và các loại vật liệu nhẹ đang dần trở nên phổ biến. Lựa chọn này giúp chủ đầu tư tiết kiệm thời gian thi công và chi phí xây dựng.</p>
-                        <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
-                    </div>
-                    <div class="pane-image">
-                        <img src="https://duraflex.com.vn/sites/default/files/2024-04/nha%20lap%20ghep.png" alt="Nhà lắp ghép">
-                    </div>
+        <section class="application-hero">
+            <div class="container">
+                <div class="app-tabs-container">
+                    <button class="app-tab-link active" data-tab="nha-lap-ghep">Nhà lắp ghép</button>
+                    <button class="app-tab-link" data-tab="nha-tien-che">Nhà tiền chế</button>
+                    <button class="app-tab-link" data-tab="nha-dan-dung">Nhà dân dụng</button>
+                    <button class="app-tab-link" data-tab="nha-sang-tao">Loại nhà sáng tạo khác</button>
                 </div>
-
-                <!-- Tab 2: Nhà Tiền Chế -->
-                <div id="nha-tien-che" class="app-tab-pane">
-                    <div class="pane-content">
-                         <div class="icon-title">
-                            <img src="https://duraflex.com.vn/sites/default/files/2022-06/nha%20tien%20che.png" alt="icon nhà tiền chế">
-                            <h2>NHÀ TIỀN CHẾ</h2>
+                <div class="app-tab-content">
+                    <div id="nha-lap-ghep" class="app-tab-pane active">
+                        <div class="pane-content">
+                            <div class="icon-title"><img src="https://duraflex.com.vn/sites/default/files/2022-06/Frame.png" alt="icon"><h2>NHÀ LẮP GHÉP</h2></div>
+                            <p>Nhà lắp ghép không chỉ là cách thức xây dựng mà trở thành kiểu phong cách công trình hiện đại, dễ dàng ứng dụng vào nhiều loại công trình theo nhiều công năng sử dụng.</p>
+                            <p>Đảm bảo độ bền và sự linh hoạt trong mẫu mã, nhà lắp ghép sử dụng tấm xi măng DURAflex, tấm vân gỗ và các loại vật liệu nhẹ đang dần trở nên phổ biến. Lựa chọn này giúp chủ đầu tư tiết kiệm thời gian thi công và chi phí xây dựng.</p>
+                            <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
                         </div>
-                        <p>Nhà tiền chế là loại nhà được xây dựng từ các cấu kiện thép, được chế tạo và lắp đặt theo bản vẽ kỹ thuật. Giải pháp này giúp tiết kiệm chi phí, thời gian và dễ dàng mở rộng.</p>
-                        <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
+                        <div class="pane-image"><img src="https://duraflex.com.vn/sites/default/files/2024-04/nha%20lap%20ghep.png" alt="Nhà lắp ghép"></div>
                     </div>
-                    <div class="pane-image">
-                        <img src="https://duraflex.com.vn/sites/default/files/2024-04/Nha%20tien%20che.png" alt="Nhà tiền chế">
-                    </div>
-                </div>
-                
-                <!-- Tab 3: Nhà Dân Dụng -->
-                <div id="nha-dan-dung" class="app-tab-pane">
-                     <div class="pane-content">
-                        <div class="icon-title">
-                            <img src="https://duraflex.com.vn/sites/default/files/2022-06/icon%20nha%20dan%20dung.png" alt="icon nhà dân dụng">
-                            <h2>NHÀ DÂN DỤNG</h2>
+                    <div id="nha-tien-che" class="app-tab-pane">
+                        <div class="pane-content">
+                            <div class="icon-title"><img src="https://duraflex.com.vn/sites/default/files/2022-06/nha%20tien%20che.png" alt="icon"><h2>NHÀ TIỀN CHẾ</h2></div>
+                            <p>Nhà tiền chế là loại nhà được xây dựng từ các cấu kiện thép, được chế tạo và lắp đặt theo bản vẽ kỹ thuật. Giải pháp này giúp tiết kiệm chi phí, thời gian và dễ dàng mở rộng.</p>
+                            <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
                         </div>
-                        <p>Giải pháp vật liệu nhẹ DURAflex giúp các công trình nhà dân dụng như nhà phố, biệt thự trở nên bền chắc, thi công nhanh và mang lại hiệu quả kinh tế cao cho chủ đầu tư.</p>
-                        <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
+                        <div class="pane-image"><img src="https://duraflex.com.vn/sites/default/files/2024-04/Nha%20tien%20che.png" alt="Nhà tiền chế"></div>
                     </div>
-                    <div class="pane-image">
-                        <img src="https://duraflex.com.vn/sites/default/files/2024-04/nha%20dan%20dung_0.png" alt="Nhà dân dụng">
-                    </div>
-                </div>
-
-                <!-- Tab 4: Loại nhà sáng tạo khác -->
-                 <div id="nha-sang-tao" class="app-tab-pane">
-                    <div class="pane-content">
-                         <div class="icon-title">
-                            <img src="https://duraflex.com.vn/sites/default/files/2022-06/loai%20nha%20sang%20tao.png" alt="icon nhà sáng tạo">
-                            <h2>NHÀ SÁNG TẠO</h2>
+                    <div id="nha-dan-dung" class="app-tab-pane">
+                        <div class="pane-content">
+                            <div class="icon-title"><img src="https://duraflex.com.vn/sites/default/files/2022-06/icon%20nha%20dan%20dung.png" alt="icon"><h2>NHÀ DÂN DỤNG</h2></div>
+                            <p>Giải pháp vật liệu nhẹ DURAflex giúp các công trình nhà dân dụng như nhà phố, biệt thự trở nên bền chắc, thi công nhanh và mang lại hiệu quả kinh tế cao cho chủ đầu tư.</p>
+                            <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
                         </div>
-                        <p>Với tính linh hoạt và bền chắc, DURAflex là vật liệu lý tưởng cho các công trình độc đáo như nhà nổi, homestay, resort, giúp hiện thực hóa mọi ý tưởng kiến trúc táo bạo.</p>
-                        <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
+                        <div class="pane-image"><img src="https://duraflex.com.vn/sites/default/files/2024-04/nha%20dan%20dung_0.png" alt="Nhà dân dụng"></div>
                     </div>
-                    <div class="pane-image">
-                        <img src="https://duraflex.com.vn/sites/default/files/2024-05/model3.png" alt="Nhà sáng tạo khác">
+                    <div id="nha-sang-tao" class="app-tab-pane">
+                        <div class="pane-content">
+                            <div class="icon-title"><img src="https://duraflex.com.vn/sites/default/files/2022-06/loai%20nha%20sang%20tao.png" alt="icon"><h2>NHÀ SÁNG TẠO</h2></div>
+                            <p>Với tính linh hoạt và bền chắc, DURAflex là vật liệu lý tưởng cho các công trình độc đáo như nhà nổi, homestay, resort, giúp hiện thực hóa mọi ý tưởng kiến trúc táo bạo.</p>
+                            <a href="#" class="btn-explore">Xem mẫu xu hướng <i class="ri-arrow-right-s-line"></i></a>
+                        </div>
+                        <div class="pane-image"><img src="https://duraflex.com.vn/sites/default/files/2024-05/model3.png" alt="Nhà sáng tạo"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- =============================================================== -->
-    
-    <section class="featured-sections"> <!-- Thẻ section này đã có sẵn -->
+        </section>
+
         <section class="featured-sections">
             <div class="best-offers-card">
                 <div class="card-content">
@@ -149,15 +112,14 @@
         </section>
 
        <section class="popular-collection">
-    <div class="section-header">
-        <h2>SẢN PHẨM THÔNG DỤNG</h2>
-        <!-- Div này sẽ chứa dropdown giá toàn cục -->
-        <div id="global-price-selector-container" style="display: none;"></div>
-    </div>
-    <div class="product-grid" id="popular-products-grid">
-        <!-- Product cards will be loaded here by JavaScript -->
-    </div>
-</section>
+            <div class="section-header">
+                <h2>SẢN PHẨM THÔNG DỤNG</h2>
+                <div id="global-price-selector-container" style="display: none;"></div>
+            </div>
+            <div class="product-grid" id="popular-products-grid">
+                <!-- JS chèn sản phẩm vào đây -->
+            </div>
+        </section>
     </main>
 
     <aside class="cart-sidebar" id="cart-sidebar">
@@ -166,73 +128,23 @@
             <h3>My Cart</h3>
         </div>
         <div class="cart-items" id="cart-items-container">
-            <!-- Cart items will be loaded here by JavaScript -->
-            <div class="cart-item">
-                <div class="product-info">
-                    <img src="product-image.jpg" alt="Product">
-                    <div class="item-details">
-                        <h5>DURAflex Độ Dày 8mm</h5>
-                        <div class="size">Size: 1m22x2m44</div>
-                        <div class="price">284.235 đ</div>
-                    </div>
-                </div>
-                <div class="quantity-controls">
-                    <button class="minus-btn" aria-label="Giảm số lượng">-</button>
-                    <span class="quantity">1</span>
-                    <button class="plus-btn" aria-label="Tăng số lượng">+</button>
-                </div>
-            </div>
-            <div class="cart-item">
-                <div class="product-info">
-                    <img src="product-image.jpg" alt="Product">
-                    <div class="item-details">
-                        <h5>DURAflex Độ Dày 6mm</h5>
-                        <div class="size">Size: 1m22x2m44</div>
-                        <div class="price">1.926.771 đ</div>
-                    </div>
-                </div>
-                <div class="quantity-controls">
-                    <button class="minus-btn" aria-label="Giảm số lượng">-</button>
-                    <span class="quantity">1</span>
-                    <button class="plus-btn" aria-label="Tăng số lượng">+</button>
-                </div>
-            </div>
-            <div class="cart-item">
-                <div class="product-info">
-                    <img src="product-image.jpg" alt="Product">
-                    <div class="item-details">
-                        <h5>DURAflex Độ Dày 8mm</h5>
-                        <div class="size">Size: 1m22x2m44</div>
-                        <div class="price">284.235 đ</div>
-                    </div>
-                </div>
-                <div class="quantity-controls">
-                    <button class="minus-btn" aria-label="Giảm số lượng">-</button>
-                    <span class="quantity">1</span>
-                    <button class="plus-btn" aria-label="Tăng số lượng">+</button>
-                </div>
-            </div>
             <div class="empty-cart-message">Your cart is empty.</div>
         </div>
-     <div class="cart-summary">
-    <div class="summary-row">
-        <span>Sub Total</span>
-        <span id="cart-subtotal">0 đ</span>
-    </div>
-    <!-- =============================================================== -->
-    <!-- THAY ĐỔI Ở ĐÂY: Thêm ô nhập liệu cho phí vận chuyển -->
-    <!-- =============================================================== -->
-    <div class="summary-row shipping-row">
-        <span>Shipping</span>
-        <input type="text" id="shipping-input" class="shipping-input" value="0">
-    </div>
-    <!-- =============================================================== -->
-    <div class="summary-row total">
-        <span>Total</span>
-        <span id="cart-total">0 đ</span>
-    </div>
-    <button class="btn checkout-btn">Checkout</button>
-</div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Sub Total</span>
+                <span id="cart-subtotal">0 đ</span>
+            </div>
+            <div class="summary-row shipping-row">
+                <span>Shipping</span>
+                <input type="text" id="shipping-input" class="shipping-input" value="0">
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="cart-total">0 đ</span>
+            </div>
+            <button class="btn checkout-btn">Checkout</button>
+        </div>
     </aside>
 
     <script src="script.js"></script>
