@@ -1,13 +1,16 @@
 /* =============================================================== */
-/* === PHIÊN BẢN STYLE.CSS MỚI - LAYOUT THEO PHONG CÁCH DRIBBBLE === */
+/* === PHIÊN BẢN STYLE.CSS HOÀN CHỈNH - LAYOUT DRIBBBLE === */
 /* =============================================================== */
+
+/* --- 1. BIẾN MÀU VÀ FONT CHỮ --- */
 :root {
     --primary-color: #4CAF50;
     --primary-dark: #388E3C;
+    --secondary-color: #FFC107;
     --background-color: #F8F8F8;
     --card-background: #FFFFFF;
-    --text-color: #333;
-    --text-light: #666;
+    --text-color: #2D3748; /* Màu chữ đậm hơn */
+    --text-light: #718096;
     --border-color: #EAEAEA;
     --font-family: 'Inter', sans-serif;
     --header-height: 70px;
@@ -15,26 +18,29 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* --- 2. THIẾT LẬP CHUNG --- */
 body {
     font-family: var(--font-family);
     margin: 0;
+    padding-top: var(--header-height); /* Khoảng trống cho header cố định */
     background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 * { box-sizing: border-box; }
 a { text-decoration: none; color: inherit; }
 .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 30px; }
 
-/* --- HEADER MỚI --- */
+/* --- 3. HEADER MỚI --- */
 .main-header-new {
     background-color: var(--card-background);
     border-bottom: 1px solid var(--border-color);
-    padding: 0 30px;
     height: var(--header-height);
-    position: sticky;
+    position: fixed; /* Cố định header */
     top: 0;
-    z-index: 100;
+    left: 0;
     width: 100%;
+    z-index: 1000;
 }
 .main-header-new .container {
     display: flex;
@@ -43,22 +49,30 @@ a { text-decoration: none; color: inherit; }
     height: 100%;
 }
 .header-left .logo-new { font-size: 1.5em; font-weight: 700; color: var(--text-color); }
-.header-center { flex-grow: 1; display: flex; justify-content: center; }
+.header-center { flex-grow: 1; display: flex; justify-content: center; padding: 0 20px; }
 .search-bar-new {
     display: flex;
     align-items: center;
     background-color: #f5f5f5;
+    border: 1px solid transparent;
     border-radius: 25px;
     padding: 8px 15px;
     width: 100%;
     max-width: 450px;
+    transition: all 0.2s ease;
+}
+.search-bar-new:focus-within {
+    background-color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
 }
 .search-bar-new i { color: var(--text-light); margin-right: 10px; }
 .search-bar-new input { border: none; background: none; outline: none; width: 100%; font-size: 1em; }
 
 .header-right .header-actions { display: flex; align-items: center; gap: 20px; }
-.action-item { font-size: 1.5em; color: var(--text-light); cursor: pointer; position: relative; }
-.notification-badge { /* ... style cũ của bạn ... */ }
+.action-item { font-size: 1.5em; color: var(--text-light); cursor: pointer; position: relative; transition: color 0.2s; }
+.action-item:hover { color: var(--text-color); }
+.notification-badge { position: absolute; top: -5px; right: -8px; background-color: #E53935; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7em; font-weight: bold; }
 
 /* Profile Dropdown */
 .profile-menu { position: relative; }
@@ -67,7 +81,7 @@ a { text-decoration: none; color: inherit; }
 .profile-dropdown {
     display: none;
     position: absolute;
-    top: 120%;
+    top: calc(100% + 15px);
     right: 0;
     background: var(--card-background);
     border-radius: 10px;
@@ -75,8 +89,11 @@ a { text-decoration: none; color: inherit; }
     width: 240px;
     padding: 10px 0;
     border: 1px solid var(--border-color);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.2s, transform 0.2s;
 }
-.profile-menu:hover .profile-dropdown { display: block; }
+.profile-menu:hover .profile-dropdown { display: block; opacity: 1; transform: translateY(0); }
 .dropdown-header { padding: 10px 15px; border-bottom: 1px solid var(--border-color); margin-bottom: 5px; }
 #dropdown-user-name { font-weight: 600; display: block; }
 #dropdown-user-email { font-size: 0.8em; color: var(--text-light); display: block; }
@@ -84,31 +101,88 @@ a { text-decoration: none; color: inherit; }
 .profile-dropdown li a { display: flex; align-items: center; gap: 10px; padding: 10px 15px; font-size: 0.9em; color: var(--text-color); }
 .profile-dropdown li a:hover { background-color: #f5f5f5; }
 .profile-dropdown .divider { height: 1px; background: var(--border-color); margin: 5px 0; }
-.logout-item a { color: #E53935; }
+.logout-item a { color: #E53935; font-weight: 500; }
 
 
-/* --- MAIN CONTENT (FULL-WIDTH) --- */
+/* --- 4. MAIN CONTENT (FULL-WIDTH) --- */
 .main-content-full {
-    padding-top: 40px;
+    padding: 40px 0;
     width: 100%;
 }
+/* Các section sẽ có khoảng cách với nhau */
+.main-content-full > .container > section {
+    margin-bottom: 60px;
+}
 
-/* Các sections giữ nguyên style cũ, chỉ cần chúng nằm trong .container */
-.featured-sections { /* ... style cũ của bạn ... */ }
-.popular-collection { /* ... style cũ của bạn ... */ }
-.application-hero { /* ... style cũ của bạn ... */ }
-
-/* Tinh chỉnh Product Card */
-.product-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-.product-card {
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+/* --- 5. CÁC SECTION KHÁC --- */
+.featured-sections { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.best-offers-card, .flash-sale-card {
+    border-radius: 16px; padding: 30px; border: 1px solid var(--border-color);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.btn { border-radius: 25px; padding: 12px 25px; font-weight: 600; }
+.primary-btn { background-color: var(--primary-color); color: white; }
+.primary-btn:hover { background-color: var(--primary-dark); }
+.secondary-btn { background-color: #FFB300; color: #333; }
+.secondary-btn:hover { background-color: #FFA000; }
+
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.section-header h2 { font-size: 1.8em; margin: 0; font-weight: 600; }
+
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.product-card {
+    background-color: var(--card-background); border-radius: 16px; padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+    display: flex; flex-direction: column; text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-.product-card img { object-fit: contain; }
+.product-card img { width: 100%; height: 180px; object-fit: contain; margin-bottom: 20px; }
+.product-card h4 { font-size: 1.1em; font-weight: 600; margin: 0 0 8px 0; }
+.product-card .size { color: var(--text-light); font-size: 0.9em; margin-bottom: 15px; }
+.product-card .price { font-size: 1.5em; font-weight: 700; color: var(--primary-dark); margin-bottom: 20px; }
+.product-card .add-to-cart-btn {
+    background-color: var(--primary-color); color: white; padding: 12px; border-radius: 12px;
+    border: none; font-size: 1em; font-weight: 600; margin-top: auto;
+    transition: background-color 0.2s;
+}
+.product-card .add-to-cart-btn:hover { background-color: var(--primary-dark); }
 
-/* Giỏ hàng và các style khác giữ nguyên */
-.cart-sidebar { /* ... style cũ của bạn ... */ }
-/* ... */
+.application-hero { background: #589f47; border-radius: 20px; padding: 50px 0; color: white; }
+.application-hero .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+/* ... (các style .app-tab... giữ nguyên) ... */
+
+
+/* --- 6. GIỎ HÀNG VÀ CÁC THÀNH PHẦN PHỤ --- */
+.cart-sidebar {
+    width: 380px; position: fixed; top: 0; right: 0; height: 100vh;
+    background-color: var(--card-background);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    z-index: 1001;
+    display: flex; flex-direction: column;
+}
+.cart-sidebar.visible { transform: translateX(0); }
+body.cart-open::after {
+    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); z-index: 1000;
+    opacity: 0; transition: opacity 0.4s; pointer-events: none;
+}
+body.cart-open::after { opacity: 1; pointer-events: auto; }
+/* ... (các style bên trong giỏ hàng giữ nguyên) ... */
+
+/* Responsive (Chỉ giữ lại phần cần thiết cho layout mới) */
+@media (max-width: 992px) {
+    .main-header-new .header-center { display: none; } /* Ẩn search bar trên tablet */
+    .container { padding: 0 20px; }
+}
+@media (max-width: 768px) {
+    body { padding-top: 60px; } /* Giảm padding cho header nhỏ hơn */
+    .main-header-new { height: 60px; padding: 0 20px; }
+    .header-left .logo-new { font-size: 1.2em; }
+    .header-right .header-actions { gap: 15px; }
+    .profile-menu .avatar { width: 35px; height: 35px; }
+    .main-content-full { padding-top: 30px; }
+    .product-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
