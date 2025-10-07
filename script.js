@@ -14,7 +14,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCartButton = document.getElementById('close-cart-button');
     const body = document.body;
     const searchInput = document.querySelector('.search-bar input');
+// ... các khai báo const popularProductsGrid, etc.
+    const searchInput = document.querySelector('.search-bar input');
 
+    // ===============================================================
+    // === CODE MỚI CHO LOGIC CHUYỂN TAB ỨNG DỤNG ===
+    // ===============================================================
+    function setupApplicationTabs() {
+        const tabContainer = document.querySelector('.app-tabs-container');
+        if (!tabContainer) return;
+
+        const tabLinks = tabContainer.querySelectorAll('.app-tab-link');
+        const tabPanes = document.querySelectorAll('.app-tab-pane');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Remove active class from all links and panes
+                tabLinks.forEach(item => item.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+
+                // Add active class to clicked link and corresponding pane
+                link.classList.add('active');
+                const targetPane = document.getElementById(link.dataset.tab);
+                if (targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        });
+    }
+    setupApplicationTabs();
+    // ===============================================================
+    
+    // --- Data & Config ---
+    let allProductsData = [];
+    // ...
     // --- Data & Config ---
     let allProductsData = [];
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
