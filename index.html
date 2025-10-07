@@ -64,25 +64,30 @@
                 </section>
 
                 <section class="application-hero">
-                    <div class="container">
-                        <div class="app-tabs-container">
-                            <button class="app-tab-link active" data-tab="nha-lap-ghep">Nhà lắp ghép</button>
-                            <button class="app-tab-link" data-tab="nha-tien-che">Nhà tiền chế</button>
-                            <button class="app-tab-link" data-tab="nha-dan-dung">Nhà dân dụng</button>
-                            <button class="app-tab-link" data-tab="nha-sang-tao">Loại nhà sáng tạo khác</button>
+            <!-- =============================================================== -->
+            <!-- === THÊM THẺ CONTAINER BỊ THIẾU VÀO ĐÂY === -->
+            <!-- =============================================================== -->
+            <div class="container">
+                <div class="app-tabs-container">
+                    <button class="app-tab-link active" data-tab="nha-lap-ghep">Nhà lắp ghép</button>
+                    <button class="app-tab-link" data-tab="nha-tien-che">Nhà tiền chế</button>
+                    <button class="app-tab-link" data-tab="nha-dan-dung">Nhà dân dụng</button>
+                    <button class="app-tab-link" data-tab="nha-sang-tao">Loại nhà sáng tạo khác</button>
+                </div>
+                <div class="app-tab-content">
+                    <!-- Tab 1: Nhà Lắp Ghép -->
+                    <div id="nha-lap-ghep" class="app-tab-pane active">
+                        <div class="pane-content">
+                            <!-- ... nội dung ... -->
                         </div>
-                        <div class="app-tab-content">
-                            <!-- Nội dung các tab (Nhà lắp ghép, ...) -->
-                            <div id="nha-lap-ghep" class="app-tab-pane active">
-                                <!-- ... nội dung tab 1 ... -->
-                            </div>
-                             <div id="nha-tien-che" class="app-tab-pane">
-                                <!-- ... nội dung tab 2 ... -->
-                            </div>
-                            <!-- ... các tab khác ... -->
+                        <div class="pane-image">
+                            <!-- ... hình ảnh ... -->
                         </div>
                     </div>
-                </section>
+                    <!-- ... các tab khác ... -->
+                </div>
+            </div> <!-- Đóng thẻ container -->
+        </section>
             </div>
 
             <!-- === CỘT PHỤ (BÊN PHẢI) === -->
