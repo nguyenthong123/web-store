@@ -1,6 +1,6 @@
-// PHIÊN BẢN SCRIPT.JS SẠCH - ĐÃ XÓA TẤT CẢ CÁC HÀM BỊ LẶP
+// PHIÊN BẢN SCRIPT.JS SẠCH - ĐÃ SỬA LỖI CÚ PHÁP VÀ DỌN DẸP
 
-function mainApp() {
+document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const popularProductsGrid = document.getElementById('popular-products-grid');
     const shippingInput = document.getElementById('shipping-input');
@@ -326,19 +326,8 @@ function mainApp() {
             searchTimeout = setTimeout(() => searchProducts(e.target.value), 300);
         });
     }
-
+    
+    // --- Chạy ứng dụng ---
+    // Không cần hàm waitForHeader nữa, DOMContentLoaded đã đảm bảo DOM sẵn sàng.
     initializeApp();
-});
-
-function waitForHeaderAndRun(callback) {
-    const checkInterval = setInterval(() => {
-        if (document.getElementById('notification-icon')) {
-            clearInterval(checkInterval);
-            callback();
-        }
-    }, 50);
-}
-
-waitForHeaderAndRun(() => {
-    // Không cần gọi mainApp() vì code đã nằm trong DOMContentLoaded
 });
