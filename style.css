@@ -186,3 +186,63 @@ body.cart-open::after { opacity: 1; pointer-events: auto; }
     .main-content-full { padding-top: 30px; }
     .product-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
+/* ========================================= */
+/*  STYLES FOR NEW HERO SLIDER (SWIPER)      */
+/* ========================================= */
+
+.hero-slider-section {
+    margin-bottom: 40px;
+}
+
+.hero-swiper {
+    width: 100%;
+    height: 400px; /* Chiều cao của slider, bạn có thể điều chỉnh */
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.hero-swiper .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-swiper .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Tùy chỉnh nút điều hướng và pagination */
+.hero-swiper .swiper-button-next,
+.hero-swiper .swiper-button-prev {
+    color: var(--primary-color); /* Dùng màu xanh chính */
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+.hero-swiper .swiper-button-next::after,
+.hero-swiper .swiper-button-prev::after {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+    background-color: white;
+    opacity: 0.8;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+    background-color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .hero-swiper {
+        height: 250px; /* Chiều cao slider nhỏ hơn trên mobile */
+    }
+}
