@@ -1,8 +1,7 @@
-// PHIÊN BẢN SCRIPT.JS SẠCH - ĐÃ XÓA TẤT CẢ CÁC HÀM BỊ LẶP
+// PHIÊN BẢN SCRIPT.JS HOÀN CHỈNH - TÍCH HỢP SLIDER VÀ DỌN DẸP
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
-    // Di chuyển các khai báo vào trong sau khi DOM đã sẵn sàng
     const popularProductsGrid = document.getElementById('popular-products-grid');
     const shippingInput = document.getElementById('shipping-input');
     const globalPriceSelectorContainer = document.getElementById('global-price-selector-container');
@@ -67,14 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dropdownMenuUl = document.getElementById('profile-dropdown-menu');
                 if (dropdownMenuUl) {
                     const divider = dropdownMenuUl.querySelector('.divider');
-
                     if (!dropdownMenuUl.querySelector('.report-link') && divider) {
                         const reportLi = document.createElement('li');
                         reportLi.classList.add('report-link');
                         reportLi.innerHTML = `<a href="report.html"><i class="ri-file-list-3-line"></i> Báo cáo Đơn hàng</a>`;
                         divider.insertAdjacentElement('afterend', reportLi);
                     }
-                    
                     if (!dropdownMenuUl.querySelector('.dashboard-link')) {
                         const dashboardLi = document.createElement('li');
                         dashboardLi.classList.add('dashboard-link');
@@ -271,6 +268,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initialization ---
     async function initializeApp() {
+        // Khởi tạo Swiper
+        const swiper = new Swiper('.hero-swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
         setupApplicationTabs();
         updateProfileDropdown();
         await fetchProducts();
@@ -278,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createGlobalPriceSelector();
         updateCartDisplay();
         updateNotificationBadge();
+        
         if (shippingInput) {
             shippingInput.addEventListener('input', () => {
                 let value = shippingInput.value.replace(/\./g, '');
