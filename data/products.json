@@ -59,8 +59,8 @@
       }
     ]
   },
-  "vit-dura-vis": {
-    "id": "vit-dura-vis",
+  "vit-chuyen-dung-duravis.png": {
+    "id": "vit-chuyen-dung-duravis.png",
     "name": "Vít chuyên dụng DURA vis",
     "category": "Phụ Kiện",
     "type": "vit",
@@ -84,36 +84,7 @@
       "doday": [],
       "mausac": []
     },
-    "specs": [
-      {
-        "title": "Hạng mục & Phân bố",
-        "headers": [
-          "Hạng mục thi công",
-          "Phân bố",
-          "số vít phân bổ trên tấm"
-        ],
-        "rows": [
-          [
-            "Vít 26mm",
-            "Vách ngăn",
-            "Trung bình 20 vít/tấm",
-            "",
-            "",
-            "",
-            ""
-          ],
-          [
-            "Vít 35mm",
-            "Sàn",
-            "Trung bình 20 vít/tấm",
-            "",
-            "",
-            "",
-            ""
-          ]
-        ]
-      }
-    ]
+    "specs": []
   },
   "tam-van-go-durawood": {
     "id": "tam-van-go-durawood",
