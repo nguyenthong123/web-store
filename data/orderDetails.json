@@ -7078,5 +7078,25 @@
       "image sản phẩm": "san_pham_Images/21fa34c0.imae sản phẩm.064910.jpg",
       "email phụ trách": "nbt1024@gmail.com"
     }
+  ],
+  "db1c8b42": [
+    {
+      "ngày lên đơn": "2025-10-10",
+      "id order chi tiết": "49f3f210",
+      "id order": "db1c8b42",
+      "tên nhóm ngành": "Tấm xi măng vân gỗ",
+      "tên khóa kết hợp sp": "Tấm dura wood 8mm vân sồi-200 x 2440",
+      "tên sản phẩm": "Tấm dura wood 8mm vân sồi",
+      "Kích Thước": "200 x 2440",
+      "giá tiền": 79324,
+      "Trọng Lượng Riêng": 1400,
+      "đơn vị tính": "Thanh",
+      "số lượng": 250,
+      "tổng tiền": 19831000,
+      "quy cách đóng kiện": 5,
+      "set kiện": 50,
+      "image sản phẩm": "san_pham_Images/ff5afc65.imae sản phẩm.070144.jpg",
+      "email phụ trách": "nbt1024@gmail.com"
+    }
   ]
 }
