@@ -1,89 +1,18 @@
 {
-  "tam-dura-low-carbon": {
-    "id": "tam-dura-low-carbon",
-    "name": "Tấm xi măng DURAflex",
+  "tam-xi-mang-duraflex": {
+    "id": "tam-xi-mang-duraflex",
+    "name": "Tấm xi măng DURAfex",
     "category": "Tấm Xi Măng",
     "type": "tam-xi-mang",
-    "images": [
-      "https://duraflex.com.vn/sites/default/files/2025-03/unnamed.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20l%C3%A0m%20t%C6%B0%E1%BB%9Dng_900x600px_3.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_Giai%20Phap%20chi%20tiet_S%C3%A0n%20n%E1%BB%99i%20th%E1%BA%A5t_Gaclung_900x600_3.png"
-    ],
-    "options": {
-      "quycach": [
-        "1220x2440",
-        "1000x2000"
-      ],
-      "doday": [
-        "6",
-        "8",
-        "12",
-        "15",
-        "16",
-        "18"
-      ],
-      "mausac": []
-    },
-    "specs": [
-      {
-        "title": "Kích thước & Trọng lượng",
-        "headers": [
-          "Thông số",
-          "6mm",
-          "8mm",
-          "12mm",
-          "15mm",
-          "16mm",
-          "18mm"
-        ],
-        "rows": [
-          [
-            "Trọng lượng ( kg/tấm )",
-            "29.24",
-            "38.18",
-            "60",
-            "73",
-            "78",
-            "89"
-          ],
-          [
-            "Quy cách kiện",
-            "100 tấm",
-            "80 tấm",
-            "50 tấm",
-            "40 tấm",
-            "40 tấm",
-            "35 tấm"
-          ]
-        ]
-      }
-    ]
+    "local_image_filename": "tam-xi-mang-duraflex.png",
+    "specs": []
   },
-  "vit-chuyen-dung-duravis.png": {
-    "id": "vit-chuyen-dung-duravis.png",
+  "vit-chuyen-dung-duravis": {
+    "id": "vit-chuyen-dung-duravis",
     "name": "Vít chuyên dụng DURA vis",
     "category": "Phụ Kiện",
     "type": "vit",
-    "images": [
-      "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-01%20%281%29.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet-1_1.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet_2_0.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/vit-tu-khoan-duravis-chi-tiet-1_1.png"
-    ],
-    "options": {
-      "quycach": [
-        {
-          "value": "26",
-          "text": "Vít bắn vách 26mm"
-        },
-        {
-          "value": "35",
-          "text": "Vít bắn sàn 35mm"
-        }
-      ],
-      "doday": [],
-      "mausac": []
-    },
+    "local_image_filename": "vit-chuyen-dung-duravis.png",
     "specs": []
   },
   "tam-van-go-durawood": {
@@ -91,23 +20,7 @@
     "name": "Tấm vân gỗ DURAwood",
     "category": "Trang Trí",
     "type": "tam-van-go",
-    "images": [
-      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20v%C3%A2n%20g%E1%BB%97%20DURAwood_900x600_3.png",
-      "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20v%C3%A2n%20g%E1%BB%97%20DURAwood_900x600_2.png"
-    ],
-    "options": {
-      "quycach": [
-        "200x2440",
-        "150x2440"
-      ],
-      "doday": [
-        "8.12"
-      ],
-      "mausac": [
-        "vân Gỗ Sồi",
-        "vân Gỗ Óc Chó"
-      ]
-    },
+    "local_image_filename": "tam-van-go-durawood.png",
     "specs": []
   }
 }
