@@ -2107,5 +2107,24 @@
     "số tiền còn lại trong đơn": 1472000,
     "email người phụ trách": "nbt1024@gmail.com",
     "mail khách hàng": "Thutamdaklak@gmail.com"
+  },
+  {
+    "thời gian lên đơn": "2025-10-10",
+    "id order": "db1c8b42",
+    "tên khách hàng": "Sắt thép đức thành",
+    "số điện thoại": "097 1035627",
+    "vị trí cửa hàng": "12.699459, 108.169340",
+    "địa chỉ": "Km 15 , xã đông hoà , krong pắc , đắk lắk",
+    "trạng thái": "Đơn Nháp",
+    "image khách hàng": "khach_hang_Images/b2307c22.image.040003.jpg",
+    "tổng phụ": 19831000,
+    "tên dịch vụ": "",
+    "số tiền dịch vụ": "",
+    "tổng khối lượng đơn hàng ": 1400,
+    "tổng kiện trong đơn": 50,
+    "ghi chú đơn hàng": "",
+    "số tiền còn lại trong đơn": 19831000,
+    "email người phụ trách": "nbt1024@gmail.com",
+    "mail khách hàng": ""
   }
 ]
