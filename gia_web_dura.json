@@ -250,5 +250,41 @@
     "Giá Thầu Thợ": 120000,
     "Giá chủ nhà": 150000,
     "image sản phẩm": "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-01%20%281%29.png"
+  },
+  {
+    "group_id": "tam-van-go-durawood",
+    "id_san_pham": "c6d1fccc",
+    "Tên sản phẩm": "Tấm dura wood 8mm vân sồi",
+    "kích thước": "200 mm x 2m44",
+    "số kg trên tấm": 6,
+    "số tấm /kiện": 5,
+    "gói  1 kiện": 79324,
+    "gói  2 kiện": 79324,
+    "gói  4 kiện": 79324,
+    "gói  5 kiện": 79324,
+    "gói  6 kiện": 79324,
+    "gói  10 kiện": 79324,
+    "giá niêm yết": 99156,
+    "Giá Thầu Thợ": 101139,
+    "Giá chủ nhà": 108080,
+    "image sản phẩm": "https://duraflex.com.vn/sites/default/files/2021-01/WEB%20DURA%20%28new%29_San%20pham%20chi%20tiet_T%E1%BA%A5m%20v%C3%A2n%20g%E1%BB%97%20DURAwood_900x600_3.png"
+  },
+  {
+    "group_id": "keo-xu-ly-mui-noi-durafiler",
+    "id_san_pham": "bda7e2aa",
+    "Tên sản phẩm": "keo xử lý mối nối DURAfiller",
+    "kích thước": "hộp 1 kg",
+    "số kg trên tấm": 1,
+    "số tấm /kiện": 24,
+    "gói  1 kiện": 68000,
+    "gói  2 kiện": 68000,
+    "gói  4 kiện": 68000,
+    "gói  5 kiện": 68000,
+    "gói  6 kiện": 68000,
+    "gói  10 kiện": 68000,
+    "giá niêm yết": 88000,
+    "Giá Thầu Thợ": 88000,
+    "Giá chủ nhà": 138000,
+    "image sản phẩm": "https://duraflex.com.vn/sites/default/files/2023-11/HINH%20SAN%20PHAM-02_1.png"
   }
 ]
