@@ -22,5 +22,13 @@
     "type": "tam-van-go",
     "local_image_filename": "tam-van-go-durawood.png",
     "specs": []
+  },
+  "keo-xu-ly-mui-noi-durafiler": {
+    "id": "keo-xu-ly-mui-noi-durafiler",
+    "name": "keo xử lý mối nối DURAfiller",
+    "category": "Phụ Kiện",
+    "type": "keo",
+    "local_image_filename": "keo-xu-ly-mui-noi-durafiler.png",
+    "specs": []
   }
 }
