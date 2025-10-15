@@ -114,6 +114,18 @@
     "mail": ""
   },
   {
+    "id_name": "5c089c00",
+    "name": "Vn home",
+    "phan_loai": "Thầu Thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "4418d4b8",
+    "name": "cửa sắt minh vương - nhân đạo",
+    "phan_loai": "Thầu Thợ",
+    "mail": ""
+  },
+  {
     "id_name": "f58c4fac",
     "name": "Cửa hàng thạch cao nguyễn kim",
     "phan_loai": "Cửa Hàng",
@@ -129,6 +141,12 @@
     "id_name": "b820fb55",
     "name": "thông nháp 2",
     "phan_loai": "cửa hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "be899d63",
+    "name": "thông33",
+    "phan_loai": "nhà máy tôn",
     "mail": ""
   },
   {
@@ -226,6 +244,12 @@
     "name": "Hoàng sa trụ sở chính",
     "phan_loai": "Nhà Máy Tôn",
     "mail": "hoangsadaklak@gmail.com"
+  },
+  {
+    "id_name": "5d54e3fc",
+    "name": "Kho tấm đại quang",
+    "phan_loai": "Đối Thủ",
+    "mail": ""
   },
   {
     "id_name": "29140e5f",
@@ -1788,6 +1812,12 @@
     "mail": ""
   },
   {
+    "id_name": "fa57b995",
+    "name": "Lý trường",
+    "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
     "id_name": "9df63d44",
     "name": "Sắt thép trúc quyên",
     "phan_loai": "Cửa Hàng",
@@ -1803,6 +1833,12 @@
     "id_name": "d40248a4",
     "name": "Nhà máy tôn nam nguyên",
     "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "3e7ca586",
+    "name": "Ván gỗ song chi đắk min",
+    "phan_loai": "Cửa Hàng",
     "mail": ""
   },
   {
@@ -2070,6 +2106,12 @@
     "mail": ""
   },
   {
+    "id_name": "6f45d486",
+    "name": "Kho mạnh thế huyện lăks",
+    "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
     "id_name": "9b2d102c",
     "name": "Mạnh thế chính",
     "phan_loai": "Cửa Hàng",
@@ -2220,6 +2262,12 @@
     "mail": "Thutamdaklak@gmail.com"
   },
   {
+    "id_name": "14c2d600",
+    "name": "Vlxd kiểm lài 2 (krong bông )",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
     "id_name": "90ed834e",
     "name": "Điện nước minh khang (buôn đôn)",
     "phan_loai": "Cửa Hàng",
@@ -2340,6 +2388,12 @@
     "mail": ""
   },
   {
+    "id_name": "5951f7df",
+    "name": "Nmt trâm an (ea bhok , cư kuin)",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
     "id_name": "8500e4b2",
     "name": "Vlxd xuân trường ( cư kuin )",
     "phan_loai": "Cửa Hàng",
@@ -2394,6 +2448,12 @@
     "mail": ""
   },
   {
+    "id_name": "de378c00",
+    "name": "Vlxd hà thu ( yangtao, huyện lăk)",
+    "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
     "id_name": "e2da9e6c",
     "name": "Hoàng sa ( krong jing , ma'dark)",
     "phan_loai": "Nhà Máy Tôn",
@@ -2403,6 +2463,12 @@
     "id_name": "509ab65b",
     "name": "Vlxd phúc tài",
     "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "9b44d5f7",
+    "name": "Hoàng sa ( buôn hồ )",
+    "phan_loai": "Nhà Máy Tôn",
     "mail": ""
   },
   {
@@ -2444,6 +2510,18 @@
   {
     "id_name": "a0524b1f",
     "name": "Nhà máy tôn liêm lan (ea bông )",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "7683f289",
+    "name": "Ba màn ( hoà khánh , ban mê thuật )",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "f082be37",
+    "name": "Hoàng phước trụ sở chính",
     "phan_loai": "Nhà Máy Tôn",
     "mail": ""
   },
@@ -2592,6 +2670,12 @@
     "mail": ""
   },
   {
+    "id_name": "f554a7cb",
+    "name": "Chú tùng",
+    "phan_loai": "Thầu Thợ",
+    "mail": ""
+  },
+  {
     "id_name": "2a2f1ac2",
     "name": "Thạch cao nhọc ánh",
     "phan_loai": "Cửa Hàng",
@@ -2619,6 +2703,12 @@
     "id_name": "cb003296",
     "name": "Kho vlxd việt anh",
     "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "d8f4befe",
+    "name": "thạch lợi phương",
+    "phan_loai": "Nhà Máy Tôn",
     "mail": ""
   },
   {
@@ -2772,6 +2862,12 @@
     "mail": ""
   },
   {
+    "id_name": "2020c762",
+    "name": "Sơn huệ - kho đăk dro",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
     "id_name": "3252883f",
     "name": "Điện nước crong nô",
     "phan_loai": "Cửa Hàng",
@@ -2781,6 +2877,12 @@
     "id_name": "086e2ada",
     "name": "Anh hà sắt",
     "phan_loai": "Thầu Thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "f1d3414c",
+    "name": "Trung kiên- đắk mâm",
+    "phan_loai": "Cửa Hàng",
     "mail": ""
   },
   {
@@ -2844,6 +2946,12 @@
     "mail": ""
   },
   {
+    "id_name": "b9853660",
+    "name": "Trường sa quảng khê",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
     "id_name": "b34545e2",
     "name": "Đại phú hùng",
     "phan_loai": "Thầu Thợ",
@@ -2868,6 +2976,12 @@
     "mail": ""
   },
   {
+    "id_name": "15e5f0ff",
+    "name": "Kho ngọc ánh",
+    "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
     "id_name": "491ecb66",
     "name": "Anh thản",
     "phan_loai": "Thầu Thợ",
@@ -2877,6 +2991,12 @@
     "id_name": "ff372703",
     "name": "Nội thất trần huy",
     "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "2e22bd01",
+    "name": "Kho sắt huy thành phát",
+    "phan_loai": "Nhà Máy Tôn",
     "mail": ""
   },
   {
@@ -2895,6 +3015,18 @@
     "id_name": "0a4a4216",
     "name": "Tuấn furniture",
     "phan_loai": "Cửa Hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "31b5bb41",
+    "name": "Kho thuỷ sang",
+    "phan_loai": "Nhà Máy Tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "55548a31",
+    "name": "Kho sơn huệ",
+    "phan_loai": "Nhà Máy Tôn",
     "mail": ""
   },
   {
@@ -3110,6 +3242,24 @@
   {
     "id_name": "4d6fba64",
     "name": "Công trình anh hoà ở quảng sơn",
+    "phan_loai": "thầu thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "88f7ea34",
+    "name": "kế toàn",
+    "phan_loai": "ad mind",
+    "mail": "tranketoan@gmail.com"
+  },
+  {
+    "id_name": "361d5a7f",
+    "name": "Tôn sơn trang",
+    "phan_loai": "nhà máy tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "b8dc63ad",
+    "name": "Anh thầu lấy bên thạch cao trang",
     "phan_loai": "thầu thợ",
     "mail": ""
   }
