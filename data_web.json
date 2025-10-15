@@ -3061,8 +3061,56 @@
   },
   {
     "id_name": "42aaa3a3",
-    "name": "người phụ trách",
+    "name": "thông",
     "phan_loai": "ad mind",
     "mail": "nbt1024@gmail.com"
+  },
+  {
+    "id_name": "eee45203",
+    "name": "Cô hà",
+    "phan_loai": "Chủ nhà",
+    "mail": ""
+  },
+  {
+    "id_name": "1cf928d9",
+    "name": "Cơ khí ngọc phương",
+    "phan_loai": "thầu thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "290bc4a3",
+    "name": "Cơ khí ngọc phương",
+    "phan_loai": "thầu thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "1ded303a",
+    "name": "Cửa sắt hai tự",
+    "phan_loai": "thầu thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "cdbec662",
+    "name": "Cơ khí cao nguyên",
+    "phan_loai": "cửa hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "dabf0639",
+    "name": "Cửa hàng phượng hồng",
+    "phan_loai": "cửa hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "3cad13ac",
+    "name": "Bảo đăng",
+    "phan_loai": "cửa hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "4d6fba64",
+    "name": "Công trình anh hoà ở quảng sơn",
+    "phan_loai": "thầu thợ",
+    "mail": ""
   }
 ]
