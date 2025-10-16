@@ -30,5 +30,37 @@
     "type": "keo",
     "local_image_filename": "keo-xu-ly-mui-noi-durafiler.png",
     "specs": []
+  },
+  "tam-op-pima": {
+    "id": "tam-op-pima",
+    "name": "TẤM ỐP PIMA",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-noi-that",
+    "local_image_filename": "tam-op-pima.png",
+    "specs": []
+  },
+  "lam-3-song": {
+    "id": "lam-3-song",
+    "name": "Lam 3 Sóng PIMA",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-tran-vach-trang-tri",
+    "local_image_filename": "lam-3-song.png",
+    "specs": []
+  },
+  "lam-4-song": {
+    "id": "lam-4-song",
+    "name": "Lam 4 Sóng PIMA",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-tran-vach-trang-tri",
+    "local_image_filename": "lam-4-song.png",
+    "specs": []
+  },
+  "lam4-song-cao": {
+    "id": "lam4-song-cao",
+    "name": "Lam 4 Sóng Cao PIMA",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-tran-vach-trang-tri",
+    "local_image_filename": "lam4-song-cao.png",
+    "specs": []
   }
 }
