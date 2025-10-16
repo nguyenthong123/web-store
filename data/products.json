@@ -62,5 +62,13 @@
     "type": "tam-op-nhua-tran-vach-trang-tri",
     "local_image_filename": "lam4-song-cao.png",
     "specs": []
+  },
+  "phu-kien-nano-lamsong": {
+    "id": "phu-kien-nano-lamsong",
+    "name": "phụ kiện nano lam sóng",
+    "category": "Trang Trí",
+    "type": "phu-kien-trang-tri",
+    "local_image_filename": "phu-kien-nano-lamsong.jpg",
+    "specs": []
   }
 }
