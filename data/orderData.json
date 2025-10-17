@@ -2164,5 +2164,24 @@
     "số tiền còn lại trong đơn": 101233280,
     "email người phụ trách": "nbt1024@gmail.com",
     "mail khách hàng": ""
+  },
+  {
+    "thời gian lên đơn": "2025-10-16",
+    "id order": "b70d8b1f",
+    "tên khách hàng": "thông nháp 2",
+    "số điện thoại": "1245566",
+    "vị trí cửa hàng": "11.984442, 107.571785",
+    "địa chỉ": "Nhân Cơ, Gia Nghĩa, Dak Nong, Vietnam",
+    "trạng thái": "Đơn Nháp",
+    "image khách hàng": "khach_hang_Images/b820fb55.image.062142.jpg",
+    "tổng phụ": 35810200,
+    "tên dịch vụ": "",
+    "số tiền dịch vụ": "",
+    "tổng khối lượng đơn hàng ": 6086,
+    "tổng kiện trong đơn": 2,
+    "ghi chú đơn hàng": "",
+    "số tiền còn lại trong đơn": 35810200,
+    "email người phụ trách": "nbt1024@gmail.com",
+    "mail khách hàng": ""
   }
 ]
