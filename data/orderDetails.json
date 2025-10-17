@@ -7282,5 +7282,43 @@
       "image sản phẩm": "san_pham_Images/7253452a.imae sản phẩm.061937.png",
       "email phụ trách": "nbt1024@gmail.com"
     }
+  ],
+  "b70d8b1f": [
+    {
+      "ngày lên đơn": "2025-10-16",
+      "id order chi tiết": "810586cc",
+      "id order": "b70d8b1f",
+      "tên nhóm ngành": "gói  2 kiện Tháng 10",
+      "tên khóa kết hợp sp": "DURAFlex  14mm-1m22x2m44",
+      "tên sản phẩm": "DURAFlex  14mm",
+      "Kích Thước": "1m22x2m44",
+      "giá tiền": 410700,
+      "Trọng Lượng Riêng": 6081,
+      "đơn vị tính": "tấm",
+      "số lượng": 86,
+      "tổng tiền": 35320200,
+      "quy cách đóng kiện": 40,
+      "set kiện": 2,
+      "image sản phẩm": "san_pham_Images/4ca37716.imae sản phẩm.082318.png",
+      "email phụ trách": "nbt1024@gmail.com"
+    },
+    {
+      "ngày lên đơn": "2025-10-16",
+      "id order chi tiết": "fe7bf8f7",
+      "id order": "b70d8b1f",
+      "tên nhóm ngành": "gói  4 kiện Tháng 10",
+      "tên khóa kết hợp sp": "DURA vis Bắn Sàn-35 mm",
+      "tên sản phẩm": "DURA vis Bắn Sàn",
+      "Kích Thước": "35 mm",
+      "giá tiền": 98000,
+      "Trọng Lượng Riêng": 5,
+      "đơn vị tính": "bọc",
+      "số lượng": 5,
+      "tổng tiền": 490000,
+      "quy cách đóng kiện": 0,
+      "set kiện": 0,
+      "image sản phẩm": "san_pham_Images/cbea184b.imae sản phẩm.061845.png",
+      "email phụ trách": "nbt1024@gmail.com"
+    }
   ]
 }
