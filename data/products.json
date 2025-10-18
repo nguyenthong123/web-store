@@ -33,10 +33,10 @@
   },
   "tam-op-pima": {
     "id": "tam-op-pima",
-    "name": "TẤM ỐP PIMA",
+    "name": "Tấm pvc PIMA",
     "category": "Trang Trí",
     "type": "tam-op-nhua-noi-that",
-    "local_image_filename": "tam-op-pima.png",
+    "local_image_filename": "pvc-pima-noithat.png",
     "specs": []
   },
   "lam-3-song": {
@@ -69,6 +69,14 @@
     "category": "Trang Trí",
     "type": "phu-kien-trang-tri",
     "local_image_filename": "phu-kien-nano-lamsong.jpg",
+    "specs": []
+  },
+  "Alu-noi-that": {
+    "id": "Alu-noi-that",
+    "name": "Tấm alu nội thất vietstar",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-noi-that",
+    "local_image_filename": "alu-noi-that-vietstar.png",
     "specs": []
   }
 }
