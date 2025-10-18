@@ -7320,5 +7320,61 @@
       "image sản phẩm": "san_pham_Images/cbea184b.imae sản phẩm.061845.png",
       "email phụ trách": "nbt1024@gmail.com"
     }
+  ],
+  "ba2fdd7c": [
+    {
+      "ngày lên đơn": "2025-10-17",
+      "id order chi tiết": "693e0b67",
+      "id order": "ba2fdd7c",
+      "tên nhóm ngành": "gói  6 kiện Tháng 10",
+      "tên khóa kết hợp sp": "DURAFlex  16mm-1m22x2m44",
+      "tên sản phẩm": "DURAFlex  16mm",
+      "Kích Thước": "1m22x2m44",
+      "giá tiền": 430517,
+      "Trọng Lượng Riêng": 6224,
+      "đơn vị tính": "tấm",
+      "số lượng": 80,
+      "tổng tiền": 34441360,
+      "quy cách đóng kiện": 40,
+      "set kiện": 2,
+      "image sản phẩm": "san_pham_Images/bda4b140.imae sản phẩm.064839.png",
+      "email phụ trách": "nbt1024@gmail.com"
+    },
+    {
+      "ngày lên đơn": "2025-10-17",
+      "id order chi tiết": "72b29899",
+      "id order": "ba2fdd7c",
+      "tên nhóm ngành": "gói  6 kiện Tháng 10",
+      "tên khóa kết hợp sp": "DURAFlex  18mm-1m22x2m44",
+      "tên sản phẩm": "DURAFlex  18mm",
+      "Kích Thước": "1m22x2m44",
+      "giá tiền": 509076,
+      "Trọng Lượng Riêng": 6167,
+      "đơn vị tính": "tấm",
+      "số lượng": 70,
+      "tổng tiền": 35635320,
+      "quy cách đóng kiện": 35,
+      "set kiện": 2,
+      "image sản phẩm": "san_pham_Images/d027b40e.imae sản phẩm.064915.png",
+      "email phụ trách": "nbt1024@gmail.com"
+    },
+    {
+      "ngày lên đơn": "2025-10-17",
+      "id order chi tiết": "2d29d79b",
+      "id order": "ba2fdd7c",
+      "tên nhóm ngành": "keo durafiler",
+      "tên khóa kết hợp sp": "keo xử lý múi nối 1kg-1kg",
+      "tên sản phẩm": "keo xử lý múi nối 1kg",
+      "Kích Thước": "1kg",
+      "giá tiền": 55000,
+      "Trọng Lượng Riêng": 10,
+      "đơn vị tính": "hộp",
+      "số lượng": 10,
+      "tổng tiền": 550000,
+      "quy cách đóng kiện": 0,
+      "set kiện": 0,
+      "image sản phẩm": "san_pham_Images/ce94c558.imae sản phẩm.042053.png",
+      "email phụ trách": "nbt1024@gmail.com"
+    }
   ]
 }
