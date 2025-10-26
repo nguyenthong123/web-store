@@ -78,5 +78,13 @@
     "type": "tam-op-nhua-noi-that",
     "local_image_filename": "alu-noi-that-vietstar.png",
     "specs": []
+  },
+  "san-nhua-chiu-luc": {
+    "id": "san-nhua-chiu-luc",
+    "name": "sàn nhựa chịu lực PIMA",
+    "category": "Trang Trí",
+    "type": "tam-op-nhua-tran-vach-trang-tri",
+    "local_image_filename": "San-gac-pima.jpg",
+    "specs": []
   }
 }
