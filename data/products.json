@@ -15,14 +15,6 @@
     "local_image_filename": "vit-chuyen-dung-duravis.png",
     "specs": []
   },
-  "tam-van-go-durawood": {
-    "id": "tam-van-go-durawood",
-    "name": "Tấm vân gỗ DURAwood",
-    "category": "Trang Trí",
-    "type": "tam-van-go",
-    "local_image_filename": "tam-van-go-durawood.png",
-    "specs": []
-  },
   "keo-xu-ly-mui-noi-durafiler": {
     "id": "keo-xu-ly-mui-noi-durafiler",
     "name": "keo xử lý mối nối DURAfiller",
@@ -85,6 +77,14 @@
     "category": "Trang Trí",
     "type": "tam-op-nhua-tran-vach-trang-tri",
     "local_image_filename": "San-gac-pima.jpg",
+    "specs": []
+  },
+  "tam-van-go-durawood": {
+    "id": "tam-van-go-durawood",
+    "name": "Tấm vân gỗ DURAwood",
+    "category": "Trang Trí",
+    "type": "tam-van-go",
+    "local_image_filename": "tam-van-go-durawood.png",
     "specs": []
   }
 }
