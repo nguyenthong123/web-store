@@ -1,12 +1,4 @@
 {
-  "tam-xi-mang-duraflex": {
-    "id": "tam-xi-mang-duraflex",
-    "name": "Tấm xi măng DURAfex",
-    "category": "Tấm Xi Măng",
-    "type": "tam-xi-mang",
-    "local_image_filename": "tam-xi-mang-duraflex.png",
-    "specs": []
-  },
   "vit-chuyen-dung-duravis": {
     "id": "vit-chuyen-dung-duravis",
     "name": "Vít chuyên dụng DURA vis",
@@ -85,6 +77,22 @@
     "category": "Trang Trí",
     "type": "tam-van-go",
     "local_image_filename": "tam-van-go-durawood.png",
+    "specs": []
+  },
+  "tam-xi-mang-duraflex": {
+    "id": "tam-xi-mang-duraflex",
+    "name": "Tấm xi măng DURAfex",
+    "category": "Tấm Xi Măng",
+    "type": "tam-xi-mang",
+    "local_image_filename": "tam-xi-mang-duraflex.png",
+    "specs": []
+  },
+  "phu_kien_nhua": {
+    "id": "phu_kien_nhua",
+    "name": "phụ kiện nhựa",
+    "category": "Trang Trí",
+    "type": "dài 3m",
+    "local_image_filename": "nep_goc_trong1.jpg",
     "specs": []
   }
 }
