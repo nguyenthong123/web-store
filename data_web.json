@@ -3550,5 +3550,23 @@
     "name": "Anh nhân",
     "phan_loai": "thầu thợ",
     "mail": ""
+  },
+  {
+    "id_name": "fc0db87b",
+    "name": "Anh bình",
+    "phan_loai": "Chủ nhà",
+    "mail": ""
+  },
+  {
+    "id_name": "1a0387b9",
+    "name": "Nhà máy tôn anh khoa",
+    "phan_loai": "nhà máy tôn",
+    "mail": ""
+  },
+  {
+    "id_name": "764926c4",
+    "name": "Anh hồng",
+    "phan_loai": "thầu thợ",
+    "mail": ""
   }
 ]
