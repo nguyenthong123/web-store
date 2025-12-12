@@ -3610,5 +3610,17 @@
     "name": "Thịnh hoàng nano thạch cao",
     "phan_loai": "thầu thợ",
     "mail": ""
+  },
+  {
+    "id_name": "2b792d80",
+    "name": "Cửa hàng tuyển phương",
+    "phan_loai": "cửa hàng",
+    "mail": ""
+  },
+  {
+    "id_name": "41caa0f3",
+    "name": "Thạch cao đức chiến",
+    "phan_loai": "cửa hàng",
+    "mail": ""
   }
 ]
