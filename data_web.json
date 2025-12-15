@@ -3628,5 +3628,17 @@
     "name": "Kho nhựa chị quyên",
     "phan_loai": "cửa hàng",
     "mail": ""
+  },
+  {
+    "id_name": "f589e40b",
+    "name": "Anh hiến",
+    "phan_loai": "thầu thợ",
+    "mail": ""
+  },
+  {
+    "id_name": "537c1e13",
+    "name": "Anh linh",
+    "phan_loai": "thầu thợ",
+    "mail": ""
   }
 ]
