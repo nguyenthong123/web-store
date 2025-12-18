@@ -3646,5 +3646,11 @@
     "name": "Hoàng sa bán ra",
     "phan_loai": "cửa hàng",
     "mail": ""
+  },
+  {
+    "id_name": "4fcfaea0",
+    "name": "Cty cp minh long",
+    "phan_loai": "thầu thợ",
+    "mail": ""
   }
 ]
