@@ -3766,5 +3766,23 @@
     "name": "Vật tư nông nghiệp thành đạt",
     "phan_loai": "Cửa hàng điện nước",
     "mail": ""
+  },
+  {
+    "id_name": "a556bf27",
+    "name": "Cửa hàng nhựa thành long",
+    "phan_loai": "cửa hàng nhựa",
+    "mail": ""
+  },
+  {
+    "id_name": "432aca54",
+    "name": "Nhôm kính phúc hưng",
+    "phan_loai": "thợ nhôm kính",
+    "mail": ""
+  },
+  {
+    "id_name": "6ff60816",
+    "name": "Thông sales",
+    "phan_loai": "Area Sales Representative",
+    "mail": "bathong2410@gmail.com"
   }
 ]
